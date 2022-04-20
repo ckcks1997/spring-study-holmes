@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+ 
+ 
+<mvc:annotation-driven/>
+<context:component-scan base-package="controller, service"/>
+<context:annotation-config/>
+  
+ <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
+ <mvc:resources mapping="/common/**" location="/WEB-INF/common/" />
+<mvc:view-controller path="/index" view-name="index"/>
+<mvc:view-controller path="/index.do" view-name="index"/> 
+
+    <bean id="formattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    </bean>
+    
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+          <!-- 인터셉터 적용 -->
+<!--          <mvc:interceptors> 
+	         <mvc:interceptor>
+		         <mvc:mapping path="/acl/**"/>
+		         <bean class="service.AdminInterceptor"/>
+	         </mvc:interceptor>
+	         
+	         <bean class="service.MeasuringIntercoptor"/> 전체 적용
+	         
+         	 <mvc:interceptor> 여러 path 적용
+		         <mvc:mapping path="/members/m2"/>
+		         <mvc:mapping path="/files/**"/>
+		         <bean class = "service.LoginInterceptor"/>
+	         </mvc:interceptor>
+         </mvc:interceptors>
+     -->
+         
+ 
+
+        <bean id="multipartResolver" 
+        	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        	<property name="defaultEncoding" value="utf-8"/>
+        </bean>
+ 
+        
+        
+</beans>
