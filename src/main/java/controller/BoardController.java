@@ -44,7 +44,7 @@ public class BoardController {
     request.setAttribute("slist", slist);
     
     
-    return "main";
+    return "view/main";
   }
   
   

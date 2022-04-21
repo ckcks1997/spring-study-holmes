@@ -68,7 +68,7 @@ public class StudyMemberController {
     }
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/view";
   }
   /*
    * 알림 상세
@@ -120,7 +120,7 @@ public class StudyMemberController {
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
     
-    return "/view/alert.jsp";
+    return "/view";
   }
   
   /*
@@ -160,7 +160,7 @@ public class StudyMemberController {
     }
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/alert.jsp";
   }
   /*
    * 로그인 페이지
@@ -168,7 +168,7 @@ public class StudyMemberController {
   @RequestMapping("loginForm")
   public String memberloginForm(HttpServletRequest request, HttpServletResponse response) {
 
-    return "/member/login";
+    return "view/member/login";
   }
   
   /*
@@ -182,7 +182,7 @@ public class StudyMemberController {
     
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/alert";
   }
 
   /*
@@ -220,7 +220,7 @@ public class StudyMemberController {
     } 
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "view/alert";
   }
   /*
    * 카카오 로그인
@@ -253,7 +253,7 @@ public class StudyMemberController {
     String msg = "";
     String url = request.getContextPath() + "/board/main"; 
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/view";
   }
   
   /*
@@ -266,7 +266,7 @@ public class StudyMemberController {
     session.invalidate();
     request.setAttribute("msg", "");
     request.setAttribute("url", request.getContextPath() + "/studymember/loginForm");
-    return "/view/alert.jsp";
+    return "view/main";
   }
   
   
@@ -290,7 +290,7 @@ public class StudyMemberController {
     
     String msg = "";
     String url = request.getContextPath() + "/board/main"; 
-    return "/view/alert.jsp";
+    return "/view";
   }
 
   /*
@@ -316,7 +316,7 @@ public class StudyMemberController {
     
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/view";
   }
   /*
    * id중복체크
@@ -457,7 +457,7 @@ public class StudyMemberController {
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
      
-    return "/view/alert.jsp";
+    return "/view";
   }
   
   /*
@@ -483,7 +483,7 @@ public class StudyMemberController {
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
      
-    return "/view/alert.jsp";
+    return "/view";
   }
   
   /*
@@ -507,7 +507,7 @@ public class StudyMemberController {
 
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/view";
   }
   
   
@@ -526,7 +526,7 @@ public class StudyMemberController {
     
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/view";
 
   }
   
@@ -552,7 +552,7 @@ public class StudyMemberController {
     
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
-    return "/view/alert.jsp";
+    return "/view";
 
   }
   
@@ -578,7 +578,7 @@ public class StudyMemberController {
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
  
-    return "/view/alert.jsp"; 
+    return "/view"; 
   }
   
   /*
@@ -620,7 +620,7 @@ public class StudyMemberController {
     request.setAttribute("msg", msg);
     request.setAttribute("url", url);
  
-    return "/view/alert.jsp"; 
+    return "/view"; 
   }
   
   @RequestMapping("mywrite_study")
