@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.Community;
 import model.Notice;
@@ -49,20 +50,19 @@ public class BoardController {
   
   
   //ajax(head 알림상태 가져오기)
+  @ResponseBody
   @RequestMapping("notice")
   public String notice(HttpServletRequest request, HttpServletResponse response) {
  
     HttpSession s = request.getSession();
     String nick_id = (String) s.getAttribute("memberNickname"); 
-    
+    int newNoticeCount = 0;
     if(nick_id != null) {
       NoticeDao nd = new NoticeDao();
-      int newNoticeCount = nd.noticeNew(nick_id); //알림이 없으면 0, 있으면 1~
-      request.setAttribute("noticeCount", newNoticeCount); 
+      newNoticeCount = nd.noticeNew(nick_id); //알림이 없으면 0, 있으면 1~
     }
-    
- 
-    return "/single/alert_ajax.jsp";
+
+    return Integer.toString(newNoticeCount);
   }
   
   

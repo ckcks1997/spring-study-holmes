@@ -3,63 +3,51 @@ package service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.StudyMember;
 import util.MybatisConnection;
  
+@Component
 public class StudyMemberDao {
 
   private static final String NS = "studymember.";
   private Map<String, Object> map = new HashMap<>();
 
-   
+  @Autowired
+  MySqlSessionFactory sqlSessionFactory;
+  SqlSession sqlSession;
+  
+  @PostConstruct
+  public void setSqlSession() {
+	  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
+  }
 
   public StudyMember studyMemberOne(String id) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    try {
-      return sqlSession.selectOne(NS + "studyMemberOne", id);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
 
-    return null;
+      return sqlSession.selectOne(NS + "studyMemberOne", id);
+
   }
    
   public StudyMember studyMemberOneByNick(String id) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    try {
+	  
       return sqlSession.selectOne(NS + "studyMemberOneByNick", id);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
-
-    return null;
   }
   
   public StudyMember studyMembeByNickname(String id) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    try {
+	  
       return sqlSession.selectOne(NS + "studyMembeByNickname", id);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
-
-    return null;
+    
   }
   
    
   public int insertStudyMember(HttpServletRequest req) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-     
+
     try {
 
       StudyMember m = new StudyMember();
@@ -76,40 +64,25 @@ public class StudyMemberDao {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      MybatisConnection.close(sqlSession);
+    	sqlSession.commit();
     }
     return 0;
     
   }
   public int studyMemberIdExist(String id) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    try {
-      return sqlSession.selectOne(NS + "studyMemberIdExist", id);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
-
-    return 1;
+    
+	  return sqlSession.selectOne(NS + "studyMemberIdExist", id);
+    
   }
   
   public int studyMemberNicknameExist(String nickname) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    try {
+	  
       return sqlSession.selectOne(NS + "studyMemberNicknameExist", nickname);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
-
-    return 1;
+    
   }
   
   public int studyMemberIntroUpdate(String email, String intro) {
     
-    SqlSession sqlSession = MybatisConnection.getConnection();
     try {
       map.clear();
       map.put("email", email);
@@ -118,7 +91,7 @@ public class StudyMemberDao {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      MybatisConnection.close(sqlSession);
+    	sqlSession.commit();
     }
 
     return 0;
@@ -126,13 +99,12 @@ public class StudyMemberDao {
   
   public int studyMemberDelete(String email) {
     
-    SqlSession sqlSession = MybatisConnection.getConnection();
     try {
       return sqlSession.update(NS + "studyMemberDelete", email);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      MybatisConnection.close(sqlSession);
+    	sqlSession.commit();
     }
 
     return 0;
@@ -140,7 +112,6 @@ public class StudyMemberDao {
   
   public int changePassword(String email, String newPass) {
     
-    SqlSession sqlSession = MybatisConnection.getConnection();
     try {
       map.clear();
       map.put("email", email);
@@ -149,7 +120,7 @@ public class StudyMemberDao {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      MybatisConnection.close(sqlSession);
+    	sqlSession.commit();
     }
 
     return 0;
@@ -158,7 +129,6 @@ public class StudyMemberDao {
   
   public int changePoint(int point, String nickname) {
     
-    SqlSession sqlSession = MybatisConnection.getConnection();
     try { 
       map.clear();
       map.put("point", point);
@@ -167,21 +137,20 @@ public class StudyMemberDao {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      MybatisConnection.close(sqlSession);
+    	sqlSession.commit();
     }
 
     return 0;
   }
   
  public StudyMember getPoint(String nickname) {
-    
-    SqlSession sqlSession = MybatisConnection.getConnection();
+     
     try {  
       return sqlSession.selectOne(NS + "getPoint", nickname); 
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      MybatisConnection.close(sqlSession);
+    	sqlSession.commit();
     }
 
     return null;

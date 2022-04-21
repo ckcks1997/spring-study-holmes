@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +41,9 @@ public class StudyMemberController {
 	HttpServletRequest request;
 	Model m;
 	HttpSession session;
+	
+	@Autowired
+	StudyMemberDao md;
 	
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
@@ -201,8 +205,7 @@ public class StudyMemberController {
     }
     String id = request.getParameter("id"); // email
     String pass = request.getParameter("password"); 
-    
-    StudyMemberDao md = new StudyMemberDao();
+     
     StudyMember mem = md.studyMemberOne(id);
     String msg = "아이디를 확인하세요";
     String url = request.getContextPath() + "/studymember/loginForm";
@@ -236,10 +239,9 @@ public class StudyMemberController {
     }
     
     String kakaoemail = request.getParameter("kakaoemail"); // email
-    System.out.println(kakaoemail+"==");
-    StudyMemberDao sd = new StudyMemberDao();
+    System.out.println(kakaoemail+"=="); 
     
-    StudyMember member = sd.studyMemberOne(kakaoemail);
+    StudyMember member = md.studyMemberOne(kakaoemail);
     System.out.println(member+"===");
     if(member == null) {
       request.setAttribute("kakaoemail", kakaoemail);
@@ -306,7 +308,6 @@ public class StudyMemberController {
       e.printStackTrace();
     }
     
-    StudyMemberDao md = new StudyMemberDao();
     int result = md.insertStudyMember(request);
     
     String msg = "가입 실패";
@@ -330,8 +331,7 @@ public class StudyMemberController {
       e.printStackTrace();
     }
     String id = request.getParameter("id");  
-    System.out.println("id="+id);
-    StudyMemberDao md = new StudyMemberDao();
+    System.out.println("id="+id); 
     int mem = md.studyMemberIdExist(id); 
     System.out.println("result="+mem);
     request.setAttribute("chk", mem); 
@@ -350,8 +350,7 @@ public class StudyMemberController {
       e.printStackTrace();
     }
     String nickname = request.getParameter("nickname");  
-    System.out.println("nicknameExist="+nickname);
-    StudyMemberDao md = new StudyMemberDao();
+    System.out.println("nicknameExist="+nickname); 
     int mem = md.studyMemberNicknameExist(nickname); 
     System.out.println("result="+mem);
     request.setAttribute("chk", mem); 
@@ -412,8 +411,7 @@ public class StudyMemberController {
     String url="studymember/loginForm";
     
     if(session.getAttribute("memberID") != null) {
-      String memberID = (String) session.getAttribute("memberID");
-      StudyMemberDao md = new StudyMemberDao();
+      String memberID = (String) session.getAttribute("memberID"); 
       StudyMember mem = md.studyMemberOne(memberID);
       request.setAttribute("memberInfo", mem);
     //유저 평판
@@ -439,8 +437,7 @@ public class StudyMemberController {
     String url="studymember/loginForm";
     
     if(session.getAttribute("memberID") != null) {
-      String memberID = (String) session.getAttribute("memberID");
-      StudyMemberDao md = new StudyMemberDao();
+      String memberID = (String) session.getAttribute("memberID"); 
       MemberTagDao td = new MemberTagDao();
       
       StudyMember mem = md.studyMemberOne(memberID);
@@ -471,8 +468,7 @@ public class StudyMemberController {
     if(session.getAttribute("memberID") != null) {
       String s_id = (String)request.getSession().getAttribute("memberID");
       String profile_intro = (String) request.getParameter("profile_intro");
-
-      StudyMemberDao md = new StudyMemberDao();
+ 
       int result = md.studyMemberIntroUpdate(s_id, profile_intro);
 
       if(result == 1) {
@@ -544,7 +540,7 @@ public class StudyMemberController {
     
     if(session.getAttribute("memberID") != null && !newPass.isEmpty()) {
       String s_id = (String)request.getSession().getAttribute("memberID");
-      StudyMemberDao md = new StudyMemberDao();
+       
       int result = md.changePassword(s_id, newPass); 
       msg="비밀번호가 변경 되었습니다.";
       url="studymember/myprofile";
@@ -567,7 +563,7 @@ public class StudyMemberController {
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");
-      StudyMemberDao md = new StudyMemberDao();
+       
       StudyMember mem = md.studyMemberOne(memberID);
        
       request.setAttribute("memberInfo", mem);
@@ -593,8 +589,7 @@ public class StudyMemberController {
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");
       String pw = request.getParameter("password");
-      
-      StudyMemberDao md = new StudyMemberDao();
+       
       StudyMember mem = md.studyMemberOne(memberID);
       
       if(mem.getPassword().equals(pw)) {
@@ -640,7 +635,7 @@ public class StudyMemberController {
     
     //유저정보
       String usernick = request.getParameter("usernick");
-      StudyMemberDao md = new StudyMemberDao();
+       
       StudyMember mem = md.studyMemberOneByNick(usernick);
       request.setAttribute("memberInfo", mem);
       //유저 평판

@@ -146,7 +146,7 @@
 									<div class="dropdown">
 										<button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${memberNickname} 님</button>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-											<img class="profile" src="<%=request.getContextPath()%>/WEB-INF/upload/${memberPicture}" width="200" height="200" id="pic" onerror1="this.src='<%=request.getContextPath()%>/WEB-INF/img/profile_empty.jpg'" />
+											<img class="profile" src="<%=request.getContextPath()%>/WEB-INF/upload/${memberPicture}" width="200" height="200" id="pic" onerror="this.onerror=null; this.src='<%=request.getContextPath()%>/img/profile_empty.jpg'" />
 											<li class="nav-item"><a class="dropdown-item" href="<%=request.getContextPath()%>/studymember/logout">로그아웃</a></li> 
 											<a class="dropdown-item"
 												href="<%=request.getContextPath()%>/studymember/mypage">마이페이지</a>
@@ -164,6 +164,7 @@
 	</nav>
 	
 	<script>
+	console.log("/upload/ 관련 404에러는 프로필 사진 미지정시 발생하는 error이며, 이때 대체 이미지(책 사진)가 나오므로 오류가 아닙니다!")
 	$(function () {
 		  $('[data-toggle="popover"]').popover()
 		})
