@@ -14,5 +14,14 @@
     <p class="my-0 jumbo-p">©2JO. ALL RIGHTS RESERVED</p>
 </div>
 </div>
+<script>
+
+<%-- msg내용이 없으면 alert를 하지 않음 --%>
+if("${param.msg}" != ""){
+    alert("${param.msg}"); 
+} 
+ 
+
+</script>
 
 </body>
