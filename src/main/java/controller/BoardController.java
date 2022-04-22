@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,23 +27,24 @@ public class BoardController {
    * 메인 화면입니다.
    * */
   @RequestMapping("main")
-  public String main(HttpServletRequest request, HttpServletResponse response) {
+  public String main(HttpServletRequest request, Model model) {
  
     HttpSession s = request.getSession();
     String nick_id = (String) s.getAttribute("memberNickname");
   
 //    커뮤니티 리스트 가져오기
+    /*
     CommunityBoardDao cbd = new CommunityBoardDao();
     List<Community> list1 = cbd.comMainBoardList("4");
     List<Community> list2 = cbd.comMainBoardList("1");
     List<Community> list3 = cbd.comMainBoardList("2");
-    request.setAttribute("list1", list1);
-    request.setAttribute("list2", list2);
-    request.setAttribute("list3", list3);
-    
+    model.addAttribute("list1", list1);
+    model.addAttribute("list2", list2);
+    model.addAttribute("list3", list3);
     StudyMenuDao sd = new StudyMenuDao();
     List<StudyMenu> slist = sd.mainNewStudy3();
-    request.setAttribute("slist", slist);
+    model.addAttribute("slist", slist);
+     */
     
     
     return "view/main";
@@ -52,10 +54,10 @@ public class BoardController {
   //ajax(head 알림상태 가져오기)
   @ResponseBody
   @RequestMapping("notice")
-  public String notice(HttpServletRequest request, HttpServletResponse response) {
+  public String notice(HttpServletRequest request) {
  
     HttpSession s = request.getSession();
-    String nick_id = (String) s.getAttribute("memberNickname"); 
+    String nick_id = (String) s.getAttribute("memberNickname"); //세션에서 닉네임 가져옴
     int newNoticeCount = 0;
     if(nick_id != null) {
       NoticeDao nd = new NoticeDao();

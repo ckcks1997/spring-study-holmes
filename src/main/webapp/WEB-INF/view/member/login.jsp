@@ -170,12 +170,12 @@ input[type=text]:placeholder {
 			</div>
 
 			<!-- Login Form -->
-			<form action="<%=request.getContextPath()%>/studymember/loginPro">
+			<form action="<%=request.getContextPath()%>/studymember/loginPro" method="post">
 				<input type="text" id="id" class=" " name="id" placeholder="email id"> 
 				<input type="password" id="password" class="mb-3 " name="password" placeholder="password"> 
 				<input	type="submit" class=" login-btn my-2" value="로그인"> <br> 
 				<a class="btn" href="join">회원가입</a>
-				<a class="btn" href="#">비밀번호 찾기</a>
+				<a class="btn" href="findPassword">비밀번호 찾기</a>
 				<br> <br>
 			</form>
 
