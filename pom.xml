@@ -8,6 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-study-homles Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
 	<properties>
 		<project.build.sourceEncoding> utf-8</project.build.sourceEncoding>
 		<spring.version>5.2.19.RELEASE</spring.version>

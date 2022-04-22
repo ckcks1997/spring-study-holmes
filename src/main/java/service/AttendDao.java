@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import model.Attend;
-import util.MybatisConnection;
 
 public class AttendDao {
 
@@ -15,28 +17,29 @@ public class AttendDao {
 	  private Map<String, Object> map = new HashMap<>();
 	 
 	  
+	  @Autowired
+		MySqlSessionFactory sqlSessionFactory;
+		SqlSession sqlSession;
+	  
+		 @PostConstruct
+		  public void setSqlSession() {
+			  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
+		  }
+	  
 	   public List<Attend> attendGet(String id) {
-	        
-         SqlSession sqlSession = MybatisConnection.getConnection();
-           try {
+         
            return sqlSession.selectList(NS+"attendGet", id);
-           } catch (Exception e) {
-               e.printStackTrace();
-           } finally {
-               MybatisConnection.close(sqlSession);
-           } 
-           return null;
+        
      }
 	  
 	  public int attendInsert(Attend at) {
 		
-		  SqlSession sqlSession = MybatisConnection.getConnection();
 			try {
-			return sqlSession.insert(NS+"attendInsert",at);
+		return sqlSession.insert(NS+"attendInsert",at);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				MybatisConnection.close(sqlSession);
+				sqlSession.commit();
 			} 
 			return 0;
 	  }
