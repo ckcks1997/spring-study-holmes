@@ -88,7 +88,7 @@ a:hover {
             <div class="row pt-5">
                 
                 <%--aside부분 --%>
-                <%@include file="/common/myinfo_menu.jsp" %>
+                <%@include file="/WEB-INF/common/myinfo_menu.jsp" %>
                 
                 <br>
                 <br>

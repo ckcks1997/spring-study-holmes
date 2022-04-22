@@ -54,7 +54,7 @@ public class ReplyController {
 		m.addAttribute("reply_num", reply_num);
 		
 		//어떤 jsp로 보내든 상관없음
-		return "/single/num.jsp";	
+		return "single/num";	
 	}
 	
 	@RequestMapping("deleteReply")
@@ -66,7 +66,7 @@ public class ReplyController {
 		m.addAttribute("reply", reply);
 		rd.deleteReply(reply_num);
 	
-		return "/view/alert.jsp";
+		return "view/alert";
 	}
 	
 	

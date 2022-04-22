@@ -87,7 +87,7 @@ h2, h3, h5 {
 	<div class="container">
 		<div class="row pt-5">
 		
-            <%@include file="/common/myinfo_menu.jsp" %>
+            <%@include file="/WEB-INF/common/myinfo_menu.jsp" %>
             
 			<br> <br>
 			<div class="col-lg-9">

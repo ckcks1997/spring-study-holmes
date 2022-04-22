@@ -103,7 +103,7 @@ public class ReportController {
 			cbd.comBoardDelete(board_num); //삭제하기
 		} 
 		
-	return "/single/num.jsp";
+	return "single/num";
 	}
 
 } //end class

@@ -135,7 +135,7 @@ a:hover {
 		<div class="row pt-5">
 <!------------------------- 왼쪽 사이드메뉴 -----------------					---------------------------------------------------->
 			<%--aside부분 --%>
-           <%@include file="/common/myinfo_menu.jsp" %>
+           <%@include file="/WEB-INF/common/myinfo_menu.jsp" %>
 
 			<div class="col-lg-9">
 				<h2>커뮤니티 게시글</h2>

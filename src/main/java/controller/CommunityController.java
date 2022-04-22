@@ -105,7 +105,7 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	// 최신순 나열
@@ -177,7 +177,7 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	// 댓글순 나열
@@ -247,7 +247,7 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	@RequestMapping("comBoardRead")
@@ -316,7 +316,7 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	@RequestMapping("comBoardmyList1")
@@ -371,7 +371,7 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/myList1.jsp";
+		return "view/community/myList1";
 	}
 
 	// 글쓰기 페이지
@@ -383,13 +383,13 @@ public class CommunityController {
 		String url = request.getContextPath() + "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
-			return "/view/community/comWriteForm.jsp";
+			return "view/community/comWriteForm";
 		}
 
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
 
-		return "/view/alert.jsp";
+		return "view/alert";
 	}
 
 	// 글쓰기
@@ -469,7 +469,7 @@ public class CommunityController {
 		*/
 		// -----------------------------------------------------------------------
 
-		return "/view/alert.jsp";
+		return "view/alert";
 	}
 
 	// 게시글 상세보기
@@ -517,7 +517,7 @@ public class CommunityController {
 
 				m.addAttribute("reply_list", reply_list);
 				m.addAttribute("reply_count", reply_count);
-				return "/view/community/comBoardInfo.jsp"; // 게시글 상세보기 jsp로 보내기
+				return "view/community/comBoardInfo"; // 게시글 상세보기 jsp로 보내기
 
 			} else { //로그인은 되어있는데 글 작성자가 아닐 경우 
 				msg = "글 작성자만 열람가능합니다"; 
@@ -542,12 +542,12 @@ public class CommunityController {
 
 			m.addAttribute("reply_list", reply_list);
 			m.addAttribute("reply_count", reply_count);
-			return "/view/community/comBoardInfo.jsp"; // 바로 jsp로 보내주기
+			return "view/community/comBoardInfo"; // 바로 jsp로 보내주기
 
 		}
 		//System.out.println(msg); //확인
 		//System.out.println(url); //확인
-		return "/view/alert.jsp";
+		return "view/alert";
 
 	}
 
@@ -560,7 +560,7 @@ public class CommunityController {
 		Community com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 
-		return "/view/community/comBoardUpdateForm.jsp";
+		return "view/community/comBoardUpdateForm";
 	}
 
 	// 게시글 수정
@@ -594,7 +594,7 @@ public class CommunityController {
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
 
-		return "/view/alert.jsp";
+		return "view/alert";
 
 	}
 
@@ -620,7 +620,7 @@ public class CommunityController {
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
 
-		return "/view/alert.jsp";
+		return "view/alert";
 
 	}
 
@@ -710,7 +710,7 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comSearchList.jsp";
+		return "view/community/comSearchList";
 	}
 
 	// 이미지 업로드 ajax가 보내는 url 받는 메서드
@@ -733,7 +733,7 @@ public class CommunityController {
 		filename = multi.getFilesystemName("file"); // ajax에서 FormData로 보낸 file 값 찾기
 		System.out.println("------controller확인 filename=" + filename);
 		m.addAttribute("filename", filename);
-		return "/single/comBoardPicture.jsp";
+		return "single/comBoardPicture";
 
 	}
 
@@ -741,7 +741,7 @@ public class CommunityController {
 	@RequestMapping("main")
 	public String main() {
 
-		return "/view/main.jsp";
+		return "view/main";
 	}
 
 }
