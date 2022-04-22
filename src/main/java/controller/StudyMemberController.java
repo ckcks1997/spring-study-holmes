@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
  
 
@@ -57,33 +58,32 @@ public class StudyMemberController {
    * 알림 페이지
    * */
   @RequestMapping("notice")
-  public String memberNotice(HttpServletRequest request, HttpServletResponse response) {
+  public String memberNotice(Model model) {
 
     String id = (String) request.getSession().getAttribute("memberNickname");
     String msg = "로그인이 필요합니다";
-    String url = request.getContextPath()+"/studymember/loginForm";
+    String url = "/studymember/loginForm";
     if(id != null) {
       NoticeDao nd = new NoticeDao();
       List<Notice> noticeList = nd.noticeGet(id); //알림 리스트 가져옴
-      System.out.println(nd.noticeRead(id)); //전부 읽음처리
-      request.setAttribute("noticeList", noticeList);
-      request.getSession().setAttribute("noticeCount", 0);
-      return "/view/member/memberNotice.jsp";      
+      model.addAttribute("noticeList", noticeList);
+      session.setAttribute("noticeCount", 0);
+      return "/view/member/memberNotice";      
     }
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    model.addAttribute("msg", msg);  
+    return "redirect:"+url;
   }
+  
   /*
    * 알림 상세
    * */
   @RequestMapping("noticeInfo")
-  public String noticeInfo(HttpServletRequest request, HttpServletResponse response) {
+  public String noticeInfo(Model model) {
 
 	  System.out.println("================");
     String id = (String) request.getSession().getAttribute("memberNickname");
     String msg = "로그인이 필요합니다";
-    String url = request.getContextPath()+"/studymember/loginForm";
+    String url = "/studymember/loginForm";
     
     if(id != null) { //현재 로그인 된 유저라면
       NoticeDao nd = new NoticeDao();
@@ -97,47 +97,41 @@ public class StudyMemberController {
     		  StudyMenuDao md = new StudyMenuDao(); 
     		  StudyMenu menu = md.menuBoardOne(Integer.parseInt(n.getInfo2()));
     		  String title = menu.getTitle();  
-    		  request.setAttribute("title", title);
+    		  model.addAttribute("title", title);
          
     	  }  else { //Info가 있으면
     		  //신고사유 가져오기
     		  ReportDao rd = new ReportDao();
     		  int board_num = Integer.parseInt(n.getInfo2());
     		  List<String> reportReason = rd.reportReason(board_num);
-    		  request.setAttribute("reportReason", reportReason);
+    		  model.addAttribute("reportReason", reportReason);
     		  
     		  //report테이블에서 원 글 정보가져오기 
     		  Report report = rd.reportOne(board_num);
-    		  request.setAttribute("report", report);
-    		
-    	
-    		  
-    		 
-    		  
+    		  model.addAttribute("report", report);
+
     	  }
       // notice 보내기
      
-     request.setAttribute("notice", n);  
-     return "/view/member/memberNoticeInfo.jsp";
+    	  model.addAttribute("notice", n);  
+    	  return "/view/member/memberNoticeInfo";
       }      
     }
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    
-    return "/view";
+    model.addAttribute("msg", msg);  
+    return "redirect:"+url;
   }
   
   /*
    * 알림-그룹초대 수락
    * */
   @RequestMapping("groupAccept")
-  public String groupAccept(HttpServletRequest request, HttpServletResponse response) {
+  public String groupAccept(Model model) {
 
     String id = (String) request.getSession().getAttribute("memberNickname");
  
    
     String msg = "로그인이 필요합니다";
-    String url = request.getContextPath()+"/studymember/loginForm";
+    String url = "/studymember/loginForm";
     if(id != null) {
       NoticeDao nd = new NoticeDao();
       StudyMenuDao md = new StudyMenuDao(); 
@@ -158,19 +152,19 @@ public class StudyMemberController {
         
         
         msg = "등록되었습니다";
-        url = request.getContextPath()+"/studymember/notice";
+        url = "/studymember/notice";
          
       }      
     }
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/alert.jsp";
+
+    model.addAttribute("msg", msg);  
+    return "redirect:"+url;
   }
   /*
    * 로그인 페이지
    * */
   @RequestMapping("loginForm")
-  public String memberloginForm(HttpServletRequest request, HttpServletResponse response) {
+  public String memberloginForm() {
 
     return "view/member/login";
   }
@@ -179,14 +173,13 @@ public class StudyMemberController {
    * 비밀번호 찾기
    * */
   @RequestMapping("findPassword")
-  public String memberfindPassword(HttpServletRequest request, HttpServletResponse response) {
+  public String memberfindPassword(Model model) {
     
     String msg = "기능개발진행중..";
-    String url = request.getContextPath() + "/studymember/loginForm";
+    String url = "/studymember/loginForm";
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/alert";
+    model.addAttribute("msg", msg);  
+    return "redirect:"+url;
   }
 
   /*
@@ -195,8 +188,8 @@ public class StudyMemberController {
    * 로그인 성공시에는 memberID(이메일)와 memberNickname(닉네임, 이름x!!),memberPicture 3가지 세션이 생성됩니다.
    * */
   
-  @RequestMapping("loginPro")
-  public String memberloginPro(HttpServletRequest request, HttpServletResponse response) {
+  @PostMapping("loginPro")
+  public String memberloginPro(Model model) {
 
     try {
       request.setCharacterEncoding("utf-8");
@@ -208,28 +201,28 @@ public class StudyMemberController {
      
     StudyMember mem = md.studyMemberOne(id);
     String msg = "아이디를 확인하세요";
-    String url = request.getContextPath() + "/studymember/loginForm";
+    String url = "/studymember/loginForm";
     if (mem != null) {
       if (pass.equals(mem.getPassword())) {
         request.getSession().setAttribute("memberID", mem.getEmail());
         request.getSession().setAttribute("memberNickname", mem.getNickname());
         request.getSession().setAttribute("memberPicture", mem.getPicture());
         msg = "";
-        url = request.getContextPath() + "/board/main";
+        url = "/board/main";
       } else {
         System.out.println(mem);
         msg = "비밀번호 확인하세요";
       }
     } 
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "view/alert";
+    model.addAttribute("msg", msg);  
+    return "redirect:"+url;
   }
+  
   /*
    * 카카오 로그인
    * */
   @RequestMapping("kakaologin")
-  public String kakaoLogin(HttpServletRequest request, HttpServletResponse response) {
+  public String kakaoLogin(Model model) {
 
      
     try {
@@ -245,7 +238,7 @@ public class StudyMemberController {
     System.out.println(member+"===");
     if(member == null) {
       request.setAttribute("kakaoemail", kakaoemail);
-      return "/view/member/join.jsp";
+      return "/view/member/join";
     }
     
     request.getSession().setAttribute("memberID", member.getEmail());
@@ -253,22 +246,24 @@ public class StudyMemberController {
     request.getSession().setAttribute("memberPicture", member.getPicture());
      
     String msg = "";
-    String url = request.getContextPath() + "/board/main"; 
-    request.setAttribute("url", url);
-    return "/view";
+    String url =  "/board/main"; 
+    model.addAttribute("msg", msg);  
+    return "redirect:"+url;
   }
   
   /*
    * 로그아웃-세션 삭제
    * */
   @RequestMapping("logout")
-  public String logout(HttpServletRequest request, HttpServletResponse response) {
+  public String logout() {
+	  
     HttpSession session = request.getSession();
     String login = (String) session.getAttribute("memberNickname");
     session.invalidate();
     request.setAttribute("msg", "");
-    request.setAttribute("url", request.getContextPath() + "/studymember/loginForm");
-    return "view/main";
+    String url = "/board/main";
+    
+    return "redirect:"+url;
   }
   
   
@@ -287,12 +282,12 @@ public class StudyMemberController {
       e.printStackTrace();
     } 
     if(request.getSession().getAttribute("memerNickname") == null) {      
-      return "/view/member/join.jsp";
+      return "/view/member/join";
     }
-    
-    String msg = "";
-    String url = request.getContextPath() + "/board/main"; 
-    return "/view";
+     
+    String url ="/board/main"; 
+
+    return "redirect:"+url;
   }
 
   /*
