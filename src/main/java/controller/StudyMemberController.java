@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
- 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.Community;
 import model.GroupMember;
@@ -38,17 +42,12 @@ import service.StudyMenuDao;
 @RequestMapping("/studymember/")
 public class StudyMemberController {
 
-	HttpServletRequest request;
-	Model m;
-	HttpSession session;
-	
 	@Autowired
 	StudyMemberDao md;
 	@Autowired
 	StudyMenuDao mud;
 	@Autowired
 	CommunityBoardDao cbd;
-
 	@Autowired
 	GroupMemberDao gmd;
 	@Autowired
@@ -57,6 +56,11 @@ public class StudyMemberController {
 	ReportDao rd;
 	@Autowired
 	ReputationEstimateDao red;
+
+	HttpServletRequest request;
+	Model m;
+	HttpSession session;
+	
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;
@@ -71,7 +75,7 @@ public class StudyMemberController {
   @RequestMapping("notice")
   public String memberNotice(Model model) {
 
-    String id = (String) request.getSession().getAttribute("memberNickname");
+    String id = (String) session.getAttribute("memberNickname");
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
     if(id != null) {
@@ -91,7 +95,7 @@ public class StudyMemberController {
   public String noticeInfo(Model model) {
 
 	  System.out.println("================");
-    String id = (String) request.getSession().getAttribute("memberNickname");
+    String id = (String) session.getAttribute("memberNickname");
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
     
@@ -135,7 +139,7 @@ public class StudyMemberController {
   @RequestMapping("groupAccept")
   public String groupAccept(Model model) {
 
-    String id = (String) request.getSession().getAttribute("memberNickname");
+    String id = (String) session.getAttribute("memberNickname");
  
    
     String msg = "로그인이 필요합니다";
@@ -197,11 +201,6 @@ public class StudyMemberController {
   @PostMapping("loginPro")
   public String memberloginPro(Model model) {
 
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
     String id = request.getParameter("id"); // email
     String pass = request.getParameter("password"); 
      
@@ -229,14 +228,7 @@ public class StudyMemberController {
    * */
   @RequestMapping("kakaologin")
   public String kakaoLogin(Model model) {
-
      
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    
     String kakaoemail = request.getParameter("kakaoemail"); // email
     System.out.println(kakaoemail+"=="); 
     
@@ -275,18 +267,12 @@ public class StudyMemberController {
   
     /*회원가입*/
   
-  
   /*
    * 회원가입 페이지
    * */
   @RequestMapping("join")
-  public String memberJoin(HttpServletRequest request, HttpServletResponse response) {
-    
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    } 
+  public String memberJoin() {
+
     if(request.getSession().getAttribute("memerNickname") == null) {      
       return "/view/member/join";
     }
@@ -301,67 +287,50 @@ public class StudyMemberController {
    * 
    * */
   @RequestMapping("joinPro")
-  public String memberJoinPro(HttpServletRequest request, HttpServletResponse response) {
-    
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    
+  public String memberJoinPro(Model model) {
+
     int result = md.insertStudyMember(request);
     
     String msg = "가입 실패";
-    String url = request.getContextPath() + "/studymember/loginForm";
+    String url = "/studymember/loginForm";
     
     if(result == 1) msg="가입 성공";
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    model.addAttribute("msg", msg); 
+    return "redirect:"+url;
   }
   /*
    * id중복체크
    * */
+  @ResponseBody
   @RequestMapping("idexist")
-  public String idExist(HttpServletRequest request, HttpServletResponse response) {
+  public int idExist() {
 
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
     String id = request.getParameter("id");  
     System.out.println("id="+id); 
     int mem = md.studyMemberIdExist(id); 
     System.out.println("result="+mem);
     request.setAttribute("chk", mem); 
-    return "/single/readId.jsp";
+    return mem;
   }
   
   /*
    * 닉네임 중복확인
    * */
-  @RequestMapping("nicknameExist")
-  public String nicknameExist(HttpServletRequest request, HttpServletResponse response) {
-
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    String nickname = request.getParameter("nickname");  
-    System.out.println("nicknameExist="+nickname); 
+  @ResponseBody
+  @RequestMapping(value="nicknameExist") //@RequestParam: GET방식에서 파라미터 값 가져옴.
+  										//@RequestBody: POST방식에서 가져옴
+  public String nicknameExist(@RequestBody String nickname) {  
     int mem = md.studyMemberNicknameExist(nickname); 
-    System.out.println("result="+mem);
-    request.setAttribute("chk", mem); 
-    return "/single/readId.jsp";
+    System.out.println("result="+mem); 
+      
+    return Integer.toString(mem);
   }
   /*
    * 회원가입 내 사진등록 창
    * */
   @RequestMapping("pictureForm")
-  public String pictureForm(HttpServletRequest request, HttpServletResponse response) {
+  public String pictureForm() {
 
     return "/single/pictureForm.jsp";
   }
@@ -372,7 +341,7 @@ public class StudyMemberController {
   @RequestMapping("picturePro")
   public String picturePro(HttpServletRequest request, HttpServletResponse response) {
     
-    String path = getServletContext().getRealPath("/")+"upload";
+    String path = request.getServletContext().getRealPath("/")+"upload";
     
     //폴더가 없으면 에러남, 검사 후 폴더생성
     File file=new File(path);

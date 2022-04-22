@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<script   src="<%=request.getContextPath()%>/js/ajax.js"></script>
 <title>회원가입</title>
 <style>
 
@@ -277,6 +276,7 @@ function win_upload(){
 			    }  
 			    else{
 			        ajax("<%=request.getContextPath()%>/studymember/idexist", param, callback_mail, 'get');
+			        
 			    }
 			}
 		 
@@ -308,6 +308,7 @@ function win_upload(){
          
          function nicknameChk() {
              const nickname = document.querySelector("#nickname").value; 
+             console.log(nickname);
              const param = "nickname="+nickname; 
                 if(nickname.length<2){ 
                      result3.style.display="block";
@@ -317,8 +318,21 @@ function win_upload(){
                     nickchk.value=0;
                 }  
                 else{
-                    ajax("<%=request.getContextPath()%>/studymember/nicknameExist", param, callback_nickname, 'get');
-                }
+                	 $.ajax({
+                         type : "POST",           
+                         url : "<%=request.getContextPath()%>/studymember/nicknameExist", 
+                         contentType: 'text/plain', /* text -> text/plain으로 고쳐야 스프링에서 인식됨 */
+                         data : nickname, 
+                         success : function(res){  
+                             callback_nickname(res);
+                         },
+                         error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                             alert("통신 실패.")
+                         }
+                     });
+                	
+
+                 }
             }
          
 		function callback_mail(){ 
@@ -343,10 +357,10 @@ function win_upload(){
 		    }  
 		}
 		
-        function callback_nickname(){ 
-            if (this.readyState == 4 && this.status == 200) {
-                 
-                let chk = this.responseText.trim();
+        function callback_nickname(data){ 
+            
+                 console.log(data)
+                let chk = data.trim();
                 console.log(chk);
                 if(chk=='0'){ 
                      result3.style.display="block"; 
@@ -362,7 +376,7 @@ function win_upload(){
                      result3.innerHTML = '이미 사용된 닉네임입니다'; 
                      nickchk.value=0;
                 } 
-            }  
+             
         }
  
         function inputChk(f){
