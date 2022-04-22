@@ -33,6 +33,7 @@ public class BoardController {
     String nick_id = (String) s.getAttribute("memberNickname");
   
 //    커뮤니티 리스트 가져오기
+    /*
     CommunityBoardDao cbd = new CommunityBoardDao();
     List<Community> list1 = cbd.comMainBoardList("4");
     List<Community> list2 = cbd.comMainBoardList("1");
@@ -40,10 +41,10 @@ public class BoardController {
     model.addAttribute("list1", list1);
     model.addAttribute("list2", list2);
     model.addAttribute("list3", list3);
-     
     StudyMenuDao sd = new StudyMenuDao();
     List<StudyMenu> slist = sd.mainNewStudy3();
     model.addAttribute("slist", slist);
+     */
     
     
     return "view/main";
