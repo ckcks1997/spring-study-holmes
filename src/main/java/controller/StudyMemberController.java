@@ -27,7 +27,6 @@ import model.StudyMember;
 import model.StudyMenu;
 import service.CommunityBoardDao;
 import service.GroupMemberDao;
-import service.MemberTagDao;
 import service.NoticeDao;
 import service.ReportDao;
 import service.ReputationEstimateDao;
@@ -45,7 +44,19 @@ public class StudyMemberController {
 	
 	@Autowired
 	StudyMemberDao md;
-	
+	@Autowired
+	StudyMenuDao mud;
+	@Autowired
+	CommunityBoardDao cbd;
+
+	@Autowired
+	GroupMemberDao gmd;
+	@Autowired
+	NoticeDao nd;
+	@Autowired
+	ReportDao rd;
+	@Autowired
+	ReputationEstimateDao red;
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;
@@ -64,7 +75,6 @@ public class StudyMemberController {
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
     if(id != null) {
-      NoticeDao nd = new NoticeDao();
       List<Notice> noticeList = nd.noticeGet(id); //알림 리스트 가져옴
       model.addAttribute("noticeList", noticeList);
       session.setAttribute("noticeCount", 0);
@@ -85,8 +95,7 @@ public class StudyMemberController {
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
     
-    if(id != null) { //현재 로그인 된 유저라면
-      NoticeDao nd = new NoticeDao();
+    if(id != null) { //현재 로그인 된 유저라면 
       int noticeNum = Integer.parseInt(request.getParameter("noticeNum"));
       
       //noticeNum에 해당하는 notice정보 가져오기
@@ -94,14 +103,13 @@ public class StudyMemberController {
       if(n.getNickname_to().equals(id)) { //알림의 수신자와 현재 닉네임이 같으면
       
     	  if(n.getInfo() == null) {//Info이 없으면 Info2 이용해서 title 채워보내기
-    		  StudyMenuDao md = new StudyMenuDao(); 
-    		  StudyMenu menu = md.menuBoardOne(Integer.parseInt(n.getInfo2()));
+    		   
+    		  StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2()));
     		  String title = menu.getTitle();  
     		  model.addAttribute("title", title);
          
     	  }  else { //Info가 있으면
     		  //신고사유 가져오기
-    		  ReportDao rd = new ReportDao();
     		  int board_num = Integer.parseInt(n.getInfo2());
     		  List<String> reportReason = rd.reportReason(board_num);
     		  model.addAttribute("reportReason", reportReason);
@@ -132,16 +140,14 @@ public class StudyMemberController {
    
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
-    if(id != null) {
-      NoticeDao nd = new NoticeDao();
-      StudyMenuDao md = new StudyMenuDao(); 
+    if(id != null) { 
       
       int noticeNum = Integer.parseInt(request.getParameter("notice_num")); //알림번호 가져옴
       Notice n = nd.noticeGetByNoticeNum(noticeNum); //알림정보 조회
-      StudyMenu menu = md.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
+      StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
  
       if(n.getNickname_to().equals(id)) { //세션과 알림 받은사람 비교, 본인확인
-        GroupMemberDao gmd = new GroupMemberDao(); //group에 초대하는 과정
+        //group에 초대하는 과정
         GroupMember gm = new GroupMember();
         gm.setBoardnum(menu.getBoard_num());
         gm.setNickname(n.getNickname_from()); 
@@ -410,8 +416,7 @@ public class StudyMemberController {
       StudyMember mem = md.studyMemberOne(memberID);
       request.setAttribute("memberInfo", mem);
     //유저 평판
-      ReputationEstimateDao rd = new ReputationEstimateDao();
-      List<ReputationEstimate> repList = rd.getReputation(mem.getNickname());
+      List<ReputationEstimate> repList = red.getReputation(mem.getNickname());
       request.setAttribute("repList", repList);
     }
 
@@ -433,15 +438,11 @@ public class StudyMemberController {
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID"); 
-      MemberTagDao td = new MemberTagDao();
+      
       
       StudyMember mem = md.studyMemberOne(memberID);
-      List<MemberTag> mem_tag = td.getMemberTag(memberID);
-      
-    
-      
+     
       request.setAttribute("memberInfo", mem);
-      request.setAttribute("tagInfo", mem_tag);
       
       return "/view/member/myprofile.jsp";
     }
@@ -477,29 +478,7 @@ public class StudyMemberController {
     return "/view";
   }
   
-  /*
-   * 내 프로필 정보-두번째 수정칸(태그추가)
-   * */
-  @RequestMapping("myprofileEdit2")
-  public String myprofileEdit2(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession();
-    
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
-    String tag = (String) request.getParameter("tag");
-    
-    if(session.getAttribute("memberID") != null && !tag.isEmpty()) {
-      String s_id = (String)request.getSession().getAttribute("memberID");
-      MemberTagDao td = new MemberTagDao();
-      int result = td.addMemberTag(s_id, tag); 
-      msg="추가 되었습니다.";
-      url="studymember/myprofile";
-    } 
-
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
-  }
+ 
   
   
   /*
@@ -634,8 +613,7 @@ public class StudyMemberController {
       StudyMember mem = md.studyMemberOneByNick(usernick);
       request.setAttribute("memberInfo", mem);
       //유저 평판
-      ReputationEstimateDao rd = new ReputationEstimateDao();
-      List<ReputationEstimate> repList = rd.getReputation(usernick);
+      List<ReputationEstimate> repList = red.getReputation(usernick);
       request.setAttribute("repList", repList);
       
     return "/view/member/userinfo.jsp";
