@@ -18,6 +18,7 @@
   
  <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
  <mvc:resources mapping="/common/**" location="/WEB-INF/common/" />
+ <mvc:resources mapping="/upload/**" location="/upload/" />
 <mvc:view-controller path="/index" view-name="index"/>
 <mvc:view-controller path="/index.do" view-name="index"/> 
 
