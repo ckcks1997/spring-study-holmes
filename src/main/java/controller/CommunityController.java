@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.Community;
 import model.Reply;
@@ -374,7 +377,7 @@ public class CommunityController {
 	public String comWriteForm() {
 
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "view/community/comWriteForm";
@@ -389,22 +392,6 @@ public class CommunityController {
 	// 글쓰기
 	@RequestMapping("comWritePro")
 	public String comWritePro(Community com) {
-		
-		String path = request.getServletContext().getRealPath("/") + "/comboardupload/";
-
-		// 폴더가 없으면 에러가 발생합니다. 디렉토리 확인 후 폴더를 생성하는 코드입니다.
-		File file = new File(path);
-		if (!file.exists()) {
-			file.mkdir();
-		}
-
-		int size = 10 * 10 * 1024 * 10 * 10; 
-		MultipartRequest multi = null;
-		try {
-			multi = new MultipartRequest(request, path, size, "utf-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		// 세션에 저장된 닉네임 가져와서 커뮤니티 닉네임으로 저장하기
 		com.setNickname((String)session.getAttribute("memberNickname"));
@@ -424,7 +411,7 @@ public class CommunityController {
 		if (boardid == null) {
 			boardid = "1";
 		}
-		//com.setBoardid(boardid);
+		com.setBoardid(boardid);
 
 		com.setBoard_num(cbd.comNextNum());
 		
@@ -468,9 +455,9 @@ public class CommunityController {
 
 	// 게시글 상세보기
 	@RequestMapping("comBoardInfo")
-	public String comBoardInfo(int board_num) {
+	public String comBoardInfo(Community com, int board_num) {
 
-		Community com = cbd.comBoardOne(board_num);
+		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 	
 		String msg;
@@ -548,9 +535,9 @@ public class CommunityController {
 	
 	// 게시글 수정페이지
 	@RequestMapping("comBoardUpdateForm")
-	public String comBoardUpdateForm(int board_num) {
+	public String comBoardUpdateForm(Community com, int board_num) {
 	
-		Community com = cbd.comBoardOne(board_num);
+		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 
 		return "view/community/comBoardUpdateForm";
@@ -559,18 +546,7 @@ public class CommunityController {
 	// 게시글 수정
 	@RequestMapping("comBoardUpdatePro")
 	public String comBoardUpdatePro(Community com) {
-		System.out.println("==================");
-		String path = request.getServletContext().getRealPath("/") + "/comboardupload/";
-
-		int size = 10 * 10 * 1024 * 10 * 10;
-		MultipartRequest multi = null;
-		try {
-			multi = new MultipartRequest(request, path, size, "utf-8");
-		} catch (Exception e) {
-			System.out.println("error   ============");
-			e.printStackTrace();
-		}
-		
+		//System.out.println("---컨트롤러 Update확인--");
 		String msg = "";
 		String url = "";
 
@@ -593,9 +569,9 @@ public class CommunityController {
 
 	// 게시글 삭제
 	@RequestMapping("comBoardDelete")
-	public String comBoardDelete(int board_num) {
+	public String comBoardDelete(Community com, int board_num) {
 
-		Community com = cbd.comBoardOne(board_num);
+		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 
 		String msg = "";
@@ -707,24 +683,31 @@ public class CommunityController {
 	}
 
 	// 이미지 업로드 ajax가 보내는 url 받는 메서드
+	//@ResponseBody //
 	@RequestMapping("comImageUpload")
-	public String comImageUpload() {
+	public String comImageUpload(@RequestParam("file") MultipartFile file ) { //("file")은 jsp에서 form-data의 key명과 동일하게 적어야합니다
 		
 		String path = request.getServletContext().getRealPath("/") + "comboardupload";
-		File file = new File(path);
-		if (!file.exists()) {
-			file.mkdir();
+																//System.out.println(path); //확인
+		File comBoardFile = new File(path); // comBoardFile은 path경로로 만들어지는 File객체입니다 
+		if (!comBoardFile.exists()) { //comBoardFile이 아예 없으면 
+			comBoardFile.mkdir(); // 새로 폴더를 생성합니다.
 		}
-		String filename = null;
-		MultipartRequest multi = null;
-		try {
-			multi = new MultipartRequest(request, path, 10 * 1024 * 1024, "utf-8");
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		String filename = file.getOriginalFilename(); //filename은 param으로 받은 file의 이름을 받습니다 
+		
+		if(!file.isEmpty()) { //param으로 받은 file이 있으면
+			File comBoardFile2 = new File(path, filename); // comBoardFile2로 File객체를 생성합니다.
+			try {
+				file.transferTo(comBoardFile2); // param으로 받은 file을 comBoardFile2로 
+																//System.out.println("이미지 경로---"+comBoardFile2.getPath()); //확인
+			} catch(IllegalStateException e) {
+				e.printStackTrace();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
-
-		filename = multi.getFilesystemName("file"); // ajax에서 FormData로 보낸 file 값 찾기
+	
 		System.out.println("------controller확인 filename=" + filename);
 		m.addAttribute("filename", filename);
 		return "single/comBoardPicture";

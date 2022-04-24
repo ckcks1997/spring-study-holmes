@@ -68,6 +68,12 @@ a:hover {
 	color: #f55555;
 	text-decoration: none;
 }
+
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}
 </style>
 <title>스터디 홈즈</title>
 </head>
@@ -132,6 +138,7 @@ a:hover {
 					<a href="<%=request.getContextPath()%>/community/comBoardList">최신순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp;
 
+					<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
 					<c:choose>
 						<c:when test="${boardid == 5}">
 							<%--문의게시판은 내 글 보기 활성화 --%>
@@ -200,23 +207,7 @@ a:hover {
 										<div class="col-sm-9">
 											<input type="hidden" name="board_num"
 												value="${com.board_num}">
-												
-											<c:choose>
-											<c:when test="${boardid =='5' }"><%--문의 게시판 comBoardMyAsk에서 boardid =5 가 넘어왔으면--%>
-											<a
-												href="<%=request.getContextPath() %>/community/comBoardInfo?boardid=${boardid }&board_num=${com.board_num}"
-												style="color: black">
-												<p style="font-size: 17px; font-weight: bold;">
-													${com.title}</p>
-												<p style="font-size: 17px; font-weight: bold;">
-													${preContent}</p> <br />
-												<h6 style="color: gray;">
-													<small>${com.nickname} · ${com.regdate} </small>
-												</h6>
-											</a>
-											
-											</c:when>
-											<c:otherwise><%--문의게시판 외의 게시판들 --%>
+											<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
 											<a
 												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}"
 												style="color: black">
@@ -225,11 +216,19 @@ a:hover {
 												<p style="font-size: 17px; font-weight: bold;">
 													${preContent}</p> <br />
 												<h6 style="color: gray;">
-													<small>${com.nickname} · ${com.regdate} </small>
+													<c:if test="${com.picture eq null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+													</c:if>
+													<c:if test="${com.picture ne null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/upload/${com.picture}">
+													</c:if>
+													<small> ${com.nickname} · ${com.regdate} </small>
 												</h6>
 											</a>
-											</c:otherwise>
-											</c:choose>
+
+
 										</div>
 										<div class="col-sm-3 reaction">
 											<div class="circle">
@@ -249,18 +248,18 @@ a:hover {
 													</c:if>
 
 													<c:if test="${boardid != 5}">
-													<%--문의 외의 게시판에 조회수 출력 | 문의 게시판 조회수 X --%>
-													<div class="readcnt">
-														<span> <svg xmlns="http://www.w3.org/2000/svg"
-																width="16" height="16" fill="currentColor"
-																class="bi bi-eye" viewBox="0 0 16 16">
+														<%--문의 외의 게시판에 조회수 출력 | 문의 게시판 조회수 X --%>
+														<div class="readcnt">
+															<span> <svg xmlns="http://www.w3.org/2000/svg"
+																	width="16" height="16" fill="currentColor"
+																	class="bi bi-eye" viewBox="0 0 16 16">
   													<path
-																	d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+																		d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
   													<path
-																	d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+																		d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
 													</svg>
-														</span>${com.readcnt }읽음
-													</div>
+															</span>${com.readcnt }읽음
+														</div>
 													</c:if>
 
 													<div class="comment">
