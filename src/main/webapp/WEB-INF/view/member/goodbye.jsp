@@ -168,7 +168,7 @@ input[type=text]:placeholder {
 			</div>
 
 			<!-- Login Form -->
-			<form action="<%=request.getContextPath()%>/studymember/goodbyePro">
+			<form action="<%=request.getContextPath()%>/studymember/goodbyePro" method="post">
 			     아이디 <br>
 				<input type="text" id="id" class=" " name="id" placeholder="email id" value="${memberID}" disabled> 
 				<br>비밀번호 <br>

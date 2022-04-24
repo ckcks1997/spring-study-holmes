@@ -112,7 +112,7 @@ h2, h3, h5 {
 						</div>
 					</form>
 					<br>
-					<form action="<%=request.getContextPath()%>/studymember/myprofileEdit1">
+					<form action="<%=request.getContextPath()%>/studymember/myprofileEdit1" method="post">
 						<div class="d-flex row pl-3">
 							<h5>자기소개</h5>
 							<span>&nbsp;(2000자 이내로 작성하세요)</span>

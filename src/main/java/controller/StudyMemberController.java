@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
- 
 import model.Community;
 import model.GroupMember;
 import model.MemberTag;
@@ -65,13 +65,11 @@ public class StudyMemberController {
 	ReputationEstimateDao red;
 
 	HttpServletRequest request;
-	Model m;
 	HttpSession session;
 	
 	@ModelAttribute
-	void init(HttpServletRequest request, Model m) {
+	void init(HttpServletRequest request) {
 		this.request = request;
-		this.m = m;
 		this.session = request.getSession();
 	}
 	
@@ -323,9 +321,8 @@ public class StudyMemberController {
   /*
    * 닉네임 중복확인0
    * */
-  @ResponseBody
-  @RequestMapping(value="nicknameExist") //@RequestParam: GET방식에서 파라미터 값 가져옴.
-  										//@RequestBody: POST방식에서 가져옴
+  @ResponseBody //Ajax 통신
+  @RequestMapping(value="nicknameExist") 
   public String nicknameExist(@RequestBody String nickname) {  
     int mem = md.studyMemberNicknameExist(nickname); 
     System.out.println("result="+mem); 
@@ -345,7 +342,7 @@ public class StudyMemberController {
    * 회원가입 내 사진등록 진행
    * */
   @RequestMapping("picturePro")
-  public String picturePro(@RequestParam("picture") MultipartFile file) {
+  public String picturePro(@RequestParam("picture") MultipartFile file, Model model) {
     
     String path = request.getServletContext().getRealPath("/")+"upload";
     System.out.println(path);
@@ -366,7 +363,7 @@ public class StudyMemberController {
 		}
     }
 
-    request.setAttribute("filename", filename);
+    model.addAttribute("filename", filename);
     return "/single/picturePro";
   }
   
@@ -376,24 +373,23 @@ public class StudyMemberController {
    * 마이페이지
    * */
   @RequestMapping("mypage")
-  public String mypage(HttpServletRequest request, HttpServletResponse response) {
+  public String mypage(Model model) {
     
-    HttpSession session = request.getSession();
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+    String msg="로그인이 필요합니다"; 
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID"); 
       StudyMember mem = md.studyMemberOne(memberID);
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
     //유저 평판
       List<ReputationEstimate> repList = red.getReputation(mem.getNickname());
-      request.setAttribute("repList", repList);
+      model.addAttribute("repList", repList);
+
+      return "/view/member/mypage";
     }
 
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view/member/mypage.jsp";
+    model.addAttribute("msg", msg); 
+    return "/view/member/login";
   }
   
     /*내  프로필 정보*/
@@ -402,98 +398,89 @@ public class StudyMemberController {
    * 내 프로필 정보
    * */
   @RequestMapping("myprofile")
-  public String myprofile(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession();
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+  public String myprofile(Model model) {
+	  
+    String msg="로그인이 필요합니다"; 
     
     if(session.getAttribute("memberID") != null) {
-      String memberID = (String) session.getAttribute("memberID"); 
-      
-      
+      String memberID = (String) session.getAttribute("memberID");   
       StudyMember mem = md.studyMemberOne(memberID);
-     
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
       
-      return "/view/member/myprofile.jsp";
+      return "/view/member/myprofile";
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-     
-    return "/view";
+    request.setAttribute("msg", msg); 
+    return "/view/member/login";
   }
   
   /*
    * 내 프로필 정보-자기소개 수정칸
    * */
-  @RequestMapping("myprofileEdit1")
-  public String myprofileEdit1(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession();
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+  @PostMapping("myprofileEdit1")
+  public String myprofileEdit1(Model model, RedirectAttributes redirect) { 
+    String msg="로그인이 필요합니다"; 
+    String url = "/view/member/login";
     if(session.getAttribute("memberID") != null) {
-      String s_id = (String)request.getSession().getAttribute("memberID");
+      String s_id = (String)session.getAttribute("memberID");
       String profile_intro = (String) request.getParameter("profile_intro");
  
       int result = md.studyMemberIntroUpdate(s_id, profile_intro);
-
+      System.out.println(result);
       if(result == 1) {
         msg="수정되었습니다";
-        url="studymember/myprofile";
+        url= "redirect:/studymember/myprofile";
       }
-    }
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-     
-    return "/view";
+    } //메세지 값을 post방식으로 보냅니다.
+    redirect.addFlashAttribute("msg", msg); //redirect후 뒤로가기 하면 컨트롤러로 요청이 들어오지는 않는데
+    										//브라우져에는 msg값이 남아있는지 alert가 뜨네요..
+    return url;
   }
-  
- 
   
   
   /*
    * 비밀번호 변경
    * */
   @RequestMapping("passwordChange")
-  public String passwordChange(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+  public String passwordChange(Model model) {
+    String msg="로그인이 필요합니다"; 
     
     if(session.getAttribute("memberID") != null) {
-      return "/view/member/passwordChange.jsp"; 
+      return "/view/member/passwordChange"; 
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    model.addAttribute("msg", msg); 
+    return "redirect:/studymember/loginForm";
 
   }
   
   /*
    * 비밀번호 변경 진행
    * */
-  @RequestMapping("passwordChangePro")
-  public String passwordChangePro(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
+  @PostMapping("passwordChangePro")
+  public String passwordChangePro(
+		  @RequestParam("password") String password,
+		  @RequestParam("newpassword") String newpassword, 
+		  RedirectAttributes redirect ) {
+
+	System.out.println(password+"====");
+	System.out.println(newpassword+"====");
+	
+    String msg="로그인이 필요합니다.";
+    String url="redirect:/studymember/loginForm";
     
-    String newPass = request.getParameter("password");
-    
-    String msg="오류가 발생했습니다.";
-    String url="studymember/loginForm";
-    
-    if(session.getAttribute("memberID") != null && !newPass.isEmpty()) {
+    if(session.getAttribute("memberID") != null && !password.isEmpty()) {
+    	msg="비밀번호가 다릅니다.";
       String s_id = (String)request.getSession().getAttribute("memberID");
-       
-      int result = md.changePassword(s_id, newPass); 
-      msg="비밀번호가 변경 되었습니다.";
-      url="studymember/myprofile";
+      StudyMember sm = md.studyMemberOne(s_id);
+      if(sm.getPassword().equals(password)){
+	      int result = md.changePassword(s_id, newpassword); 
+	      msg="비밀번호가 변경 되었습니다.";
+      }
+      url="redirect:/studymember/myprofile";
     }  
-    
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    redirect.addFlashAttribute("msg", msg); 
+    return url;
 
   }
   
@@ -501,35 +488,32 @@ public class StudyMemberController {
    * 회원탈퇴
    * */
   @RequestMapping("goodbye")
-  public String goodBye(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
+  public String goodBye(Model model, RedirectAttributes redirect ) { 
     String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+    String url="redirect:/studymember/loginForm";
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");
        
       StudyMember mem = md.studyMemberOne(memberID);
        
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
        
-      return "/view/member/goodbye.jsp";
+      return "/view/member/goodbye";
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
+    redirect.addFlashAttribute("msg", msg); 
  
-    return "/view"; 
+    return url; 
   }
   
   /*
    * 회원탈퇴 진행
    * */
-  @RequestMapping("goodbyePro")
-  public String goodbyePro(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
+  @PostMapping("goodbyePro")
+  public String goodbyePro(RedirectAttributes redirect ) {
     String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+    String url="redirect:/studymember/loginForm";
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");
@@ -543,51 +527,43 @@ public class StudyMemberController {
         if(deleted == 1) {
           session.invalidate();
           msg="회원탈퇴가 완료되었습니다.";
-          url="main";
+          url="redirect:/board/main";
         } else {
           
           msg="알 수 없는 오류";
-          url="main";
+          url="redirect:/board/main";
         }
       }else {
         
         msg="비밀번호가 다릅니다";
-        url="studymember/goodbye";
+        url="redirect:/studymember/goodbye";
       }
         
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
+    redirect.addFlashAttribute("msg", msg); 
  
-    return "/view"; 
+    return url; 
   }
   
-  @RequestMapping("mywrite_study")
-  public String mywrite_study(HttpServletRequest request, HttpServletResponse response) {
  
  
-    return "/view/member/mywrite_study.jsp"; 
-  }
-  
   /*
    * 마이페이지
    * */
   @RequestMapping("userinfo")
-  public String userinfo(HttpServletRequest request, HttpServletResponse response) {
-    
-    HttpSession session = request.getSession();
-    
+  public String userinfo(Model model) {
+
     //유저정보
       String usernick = request.getParameter("usernick");
        
       StudyMember mem = md.studyMemberOneByNick(usernick);
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
       //유저 평판
       List<ReputationEstimate> repList = red.getReputation(usernick);
-      request.setAttribute("repList", repList);
+      model.addAttribute("repList", repList);
       
-    return "/view/member/userinfo.jsp";
+    return "/view/member/userinfo";
   }
   
 }

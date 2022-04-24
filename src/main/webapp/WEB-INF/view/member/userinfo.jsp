@@ -129,6 +129,17 @@ a:hover {
                          </div>
                      </div>
                      <br>
+                     
+                      <div class="container shadow-sm container-css p-5">
+                      <h5>자기소개</h5> <br>
+                      ${memberInfo.profile_intro}
+                      <c:if test="${memberInfo.profile_intro == null}">
+                      자기소개가 없습니다.
+                      </c:if>
+                      </div>
+                      
+                      <br>
+                     
                      <div class="container shadow-sm container-css p-5">
                          
                          <div class="d-md-flex justify-content-center">
