@@ -3,6 +3,10 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+ 
 import model.Community;
 import model.GroupMember;
 import model.MemberTag;
@@ -39,7 +46,7 @@ import service.StudyMenuDao;
 
 
 @Controller  
-@RequestMapping("/studymember/")
+@RequestMapping("/studymember/") 
 public class StudyMemberController {
 
 	@Autowired
@@ -302,20 +309,19 @@ public class StudyMemberController {
   /*
    * id중복체크
    * */
+  
   @ResponseBody
   @RequestMapping("idexist")
-  public int idExist() {
-
-    String id = request.getParameter("id");  
+  public String idExist(@RequestBody String id) {
+  
     System.out.println("id="+id); 
     int mem = md.studyMemberIdExist(id); 
-    System.out.println("result="+mem);
-    request.setAttribute("chk", mem); 
-    return mem;
+      
+    return Integer.toString(mem);
   }
   
   /*
-   * 닉네임 중복확인
+   * 닉네임 중복확인0
    * */
   @ResponseBody
   @RequestMapping(value="nicknameExist") //@RequestParam: GET방식에서 파라미터 값 가져옴.
@@ -332,41 +338,37 @@ public class StudyMemberController {
   @RequestMapping("pictureForm")
   public String pictureForm() {
 
-    return "/single/pictureForm.jsp";
+    return "/single/pictureForm";
   }
   
   /*
    * 회원가입 내 사진등록 진행
    * */
   @RequestMapping("picturePro")
-  public String picturePro(HttpServletRequest request, HttpServletResponse response) {
+  public String picturePro(@RequestParam("picture") MultipartFile file) {
     
     String path = request.getServletContext().getRealPath("/")+"upload";
-    
-    //폴더가 없으면 에러남, 검사 후 폴더생성
-    File file=new File(path);
-    if(!file.exists()) { 
-      file.mkdir();
+    System.out.println(path);
+    File file111=new File(path);
+    if(!file111.exists()) { 
+      file111.mkdir();
     }
-    
-    String filename = null;
-    MultipartRequest multi = null;
-    try {
-      multi = new MultipartRequest(request, path, 10*1024*1024, "utf-8");
-      System.out.println("asdasd===1");
-    } catch (IOException e) { 
-      e.printStackTrace();
+    String filename = file.getOriginalFilename();
+
+    if(!file.isEmpty()) {
+    	File file2 = new File(path, file.getOriginalFilename());
+    	try {
+    		file.transferTo(file2); 
+		} catch (IllegalStateException e) { 
+			e.printStackTrace();
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}
     }
-    filename = multi.getFilesystemName("picture");
+
     request.setAttribute("filename", filename);
-    return "/single/picturePro.jsp";
+    return "/single/picturePro";
   }
-  
-  
- 
-  
-  
-  
   
   
   
