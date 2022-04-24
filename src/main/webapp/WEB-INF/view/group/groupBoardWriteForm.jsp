@@ -52,22 +52,18 @@ body {
 					enctype="multipart/form-data" method="post">
 					<br /> <br />
 					
-					<input type = "hidden" name= "nickname" value = '${com.nickname}'>
+					<input type = "hidden" name= "nickname" value='${com.nickname}'>
 					<div class="form-group">
-						<label>제목</label> <input type="text" class="form-control"
-							name="title" placeholder="제목을 입력해주세요" />
+						<label>제목</label> 
+						<input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요" />
 					</div>
 
 
 					<div class="form-group">
 						<label>내용 :</label>
-						<textarea class="summernote" name="content"
-							placeholder="Leave a comment here" id="content"></textarea>
-
+						<textarea class="summernote" name="content" id="content"></textarea>
 					</div>
-
-
-					
+	
 					<div class="d-grid gap-2 " style="float: right;">
 						<button class="btn btn-dark" type="button" onclick="location.href = '<%=request.getContextPath()%>/group/groupBoardList'">취소</button>
 						<button class="btn btn-dark" type="submit">저장</button>

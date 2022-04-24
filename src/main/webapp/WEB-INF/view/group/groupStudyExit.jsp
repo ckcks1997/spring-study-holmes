@@ -166,7 +166,8 @@ h1, h3, h5 {
 	 let str = {
 			 "nickname" : nickname,
 			 "score_value" : score_value,
-			 "info_value" : info_value
+			 "info_value" : info_value,
+			 "boardnum" : ${param.boardnum}
 	 }
 	 $.ajax({ 
 	        type: "post",
@@ -174,9 +175,12 @@ h1, h3, h5 {
 	        data: str,
 	        dataType: 'text',
 	        success : function(result){
+	        	if(result==1){
 	            alert("평가되었습니다");
 	            document.querySelector('#btn_'+nickname).disabled=true;
 	            document.querySelector('#btn_'+nickname).innerHTML="평가완료";
+	        	}
+	        	else alert("에러발생");
 	        },
 	        error: function (result){
 	            console.log(result)
