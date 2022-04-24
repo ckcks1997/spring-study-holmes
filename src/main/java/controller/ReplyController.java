@@ -37,7 +37,6 @@ public class ReplyController {
 	
 	@RequestMapping("writeReply")
 	public String writeReply(String board_num, String reply_content, Reply reply) {
-		HttpSession session = request.getSession();
 		
 		String nickname = (String) session.getAttribute("memberNickname");
 		reply.setNickname(nickname);

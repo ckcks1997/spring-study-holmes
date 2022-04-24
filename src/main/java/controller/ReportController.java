@@ -61,7 +61,6 @@ public class ReportController {
 	//---------------------------------
 	
 	
-	HttpSession session = request.getSession();	
 	String memberNickname = (String) session.getAttribute("memberNickname");
 	
 	report.setNickname(memberNickname);

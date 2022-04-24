@@ -52,8 +52,6 @@ public class CommunityController {
 	@RequestMapping("comBoardMyAsk")
 	public String comBoardMyAsk() {
 
-		HttpSession session = request.getSession();
-
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;
@@ -112,7 +110,6 @@ public class CommunityController {
 	@RequestMapping("comBoardList")
 	public String comBoardList() {
 
-		HttpSession session = request.getSession();
 
 		String boardid = "";
 		int pageInt = 1;
@@ -184,7 +181,6 @@ public class CommunityController {
 	@RequestMapping("comBoardReply")
 	public String comBoardReply() {
 
-		HttpSession session = request.getSession();
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;
@@ -253,7 +249,6 @@ public class CommunityController {
 	@RequestMapping("comBoardRead")
 	public String comBoardRead() {
 
-		HttpSession session = request.getSession();
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;
@@ -321,7 +316,7 @@ public class CommunityController {
 
 	@RequestMapping("comBoardmyList1")
 	public String comBoardmyList1() {
-		HttpSession session = request.getSession();
+		
 		String nickname = (String) session.getAttribute("memberNickname");
 		String boardid = "";
 		int pageInt = 1;
@@ -378,7 +373,6 @@ public class CommunityController {
 	@RequestMapping("comWriteForm")
 	public String comWriteForm() {
 
-		HttpSession session = request.getSession();
 		String msg = "로그인이 필요합니다";
 		String url = request.getContextPath() + "/studymember/loginForm";
 
@@ -395,6 +389,7 @@ public class CommunityController {
 	// 글쓰기
 	@RequestMapping("comWritePro")
 	public String comWritePro(Community com) {
+		
 		String path = request.getServletContext().getRealPath("/") + "/comboardupload/";
 
 		// 폴더가 없으면 에러가 발생합니다. 디렉토리 확인 후 폴더를 생성하는 코드입니다.
@@ -412,7 +407,6 @@ public class CommunityController {
 		}
 
 		// 세션에 저장된 닉네임 가져와서 커뮤니티 닉네임으로 저장하기
-		HttpSession session = request.getSession();
 		com.setNickname((String)session.getAttribute("memberNickname"));
 		
 		//com.setTitle(multi.getParameter("title"));
@@ -476,7 +470,6 @@ public class CommunityController {
 	@RequestMapping("comBoardInfo")
 	public String comBoardInfo(int board_num) {
 
-		HttpSession session = request.getSession();
 		Community com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 	
@@ -645,7 +638,7 @@ public class CommunityController {
 	// 검색한 페이지
 	@RequestMapping("comSearchList")
 	public String comSearchList(String part, String searchData) {
-		HttpSession session = request.getSession();
+		
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;		
@@ -716,6 +709,7 @@ public class CommunityController {
 	// 이미지 업로드 ajax가 보내는 url 받는 메서드
 	@RequestMapping("comImageUpload")
 	public String comImageUpload() {
+		
 		String path = request.getServletContext().getRealPath("/") + "comboardupload";
 		File file = new File(path);
 		if (!file.exists()) {
