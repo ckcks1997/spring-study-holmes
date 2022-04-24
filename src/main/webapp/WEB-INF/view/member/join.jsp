@@ -278,7 +278,7 @@ input[type=text]:placeholder {
                	 $.ajax({
                      type : "POST",           
                      url : "<%=request.getContextPath()%>/studymember/idexist", 
-                     contentType: 'text/plain', /* text -> text/plain으로 고쳐야 스프링에서 인식됨 */
+                     contentType: 'text/plain', /* text -> text/plain으로 고쳐야 컨트롤러에서 String으로 인식됨 */
                      data : id, 
                      success : function(res){  
                     	 callback_mail(res);

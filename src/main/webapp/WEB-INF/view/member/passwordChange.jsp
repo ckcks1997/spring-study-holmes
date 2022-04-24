@@ -168,11 +168,13 @@ input[type=text]:placeholder {
 			</div>
 
 			<!-- Login Form -->
-			<form action="<%=request.getContextPath()%>/studymember/passwordChangePro">
+			<form action="<%=request.getContextPath()%>/studymember/passwordChangePro" method="post">
 			     아이디 <br>
 				<input type="text" id="id" class=" " name="id" placeholder="email id" value="${memberID}" disabled> 
-				<br>비밀번호 <br>
-				<input type="password" id="password" class=" " name="password" placeholder="password"> 
+				<br>기존 비밀번호 <br>
+				<input type="password" id="password" class=" " name="password" placeholder="기존 비밀번호"> 
+				 <br>새 비밀번호 <br>
+				<input type="password" id="newpassword" class=" " name="newpassword" placeholder="새 비밀번호"> 
 				<input	type="submit" class="my-1" value="변경하기"> <br>
 				<br> <br>
 			</form>
