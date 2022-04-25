@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.Community;
 import model.Reply;
@@ -35,6 +36,7 @@ public class ReplyController {
 		this.session = request.getSession();
 	}
 	
+	@ResponseBody
 	@RequestMapping("writeReply")
 	public String writeReply(String board_num, String reply_content, Reply reply) {
 		
@@ -52,7 +54,7 @@ public class ReplyController {
 		//reply_num은 댓글의 번호
 		m.addAttribute("reply_num", reply_num);
 		
-		//어떤 jsp로 보내든 상관없음
+		
 		return "single/num";	
 	}
 	

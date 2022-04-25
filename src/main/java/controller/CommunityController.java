@@ -385,6 +385,7 @@ public class CommunityController {
 
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
+		
 
 		return "view/alert";
 	}
@@ -428,27 +429,7 @@ public class CommunityController {
 		}
 
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
-
-		/*
-		// 글 일부만 보여주기----수정해야함 --------------------------------------------------
-		// 글자수 길이 조건 걸기 추가해야함
-
-		// p태그 자체를 공백으로 , content3 == 모든 <p></p>태그를 공백으로 만든 내용
-		String content2 = content.replaceAll("<p>", " ");
-		String content3 = content2.replaceAll("</p>", " ");
-
-		System.out.println(content3);
-
-		if (content3.length() > 20) {
-			content3 = content3.substring(0, 10);
-			System.out.println("--" + content3 + "...");
-		} else {
-			// m.addAttribute("preContent", preContent);
-			System.out.println(content3 + "...");
-		}
-		*/
-		// -----------------------------------------------------------------------
+		m.addAttribute("url",url);
 
 		return "view/alert";
 	}
@@ -562,6 +543,7 @@ public class CommunityController {
 
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
+	
 
 		return "view/alert";
 
