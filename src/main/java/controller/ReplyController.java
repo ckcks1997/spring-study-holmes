@@ -39,7 +39,7 @@ public class ReplyController {
 	
 	@ResponseBody
 	@RequestMapping("writeReply")
-	public String writeReply(RequestBody Reply reply) {
+	public String writeReply(@RequestBody Reply reply) {
 		
 		String nickname = (String) session.getAttribute("memberNickname");
 		reply.setNickname(nickname);
