@@ -1,7 +1,6 @@
 package service;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Attend;
-import util.MybatisConnection;
+
 @Component
 public class AttendDao {
 
@@ -28,20 +27,26 @@ public class AttendDao {
 		  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
 	  }
 	  
+	 
+	  
 	   public List<Attend> attendGet(String id) {
-	   
+
            return sqlSession.selectList(NS+"attendGet", id);
-           
+        
      }
 	  
-	  public int attendInsert(Attend at) {
-		
+	   
+	  public int attendInsert(Attend attend) {
+	
+
 			try {
-			return sqlSession.insert(NS+"attendInsert",at);
+		return sqlSession.insert(NS+"attendInsert",attend);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-		    	sqlSession.commit();
+
+    	sqlSession.commit();
+
 			} 
 			return 0;
 	  }
