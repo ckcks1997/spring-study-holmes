@@ -45,6 +45,12 @@ a {
 a:hover {
 	color: black;
 }
+
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}
 </style>
 <body>
 
@@ -62,7 +68,7 @@ a:hover {
 		<div class="row pt-5">
 			<!----------------왼쪽 사이드 메뉴 ------------------------------------------------------------------------>
 			<%--aside부분 --%>
-			<%@include file="/common/community_menu.jsp"%>
+			<%@include file="/WEB-INF/common/community_menu.jsp"%>
 
 
 			<!---------------------    메인      ------------------------------------------------------------------ -->
@@ -94,6 +100,15 @@ a:hover {
 						<div class="postInfo">
 
 							<p>
+								<c:if test="${com.picture eq null }">
+									<img class="pic_mini"
+										src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+								</c:if>
+								<c:if test="${com.picture ne null }">
+									<img class="pic_mini"
+										src="<%=request.getContextPath()%>/upload/${com.picture}">
+								</c:if>
+
 								${com.nickname} · ${com.regdate}
 
 
@@ -110,19 +125,6 @@ a:hover {
 
 					<div class="col-sm-2">
 
-						<c:if test="${boardid != 5 && boardid != 4}">
-							<%--공지와 문의 외의 게시판에 좋아요 출력 --%>
-							<div class="likes">
-								<span> <svg xmlns="http://www.w3.org/2000/svg" width="16"
-										height="16" fill="#de2a2a" class="bi bi-suit-heart"
-										viewBox="0 0 16 16">
-  													<path
-											d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z" />
-													</svg>
-								</span> 좋아요
-							</div>
-
-						</c:if>
 						<div class="readcnt">
 							<span> <svg xmlns="http://www.w3.org/2000/svg" width="16"
 									height="16" fill="currentColor" class="bi bi-eye"
@@ -162,7 +164,8 @@ a:hover {
 				<!-- ------------------댓글 ------------------------------------------------------------------------ -->
 
 				<div class="col-md-10">
-					<c:if test="${boardid != 4 }"> <%-- 댓글은 공지 게시판 외에서만 사용가능 || 공지게시판 댓글 사용불가 --%>
+					<c:if test="${com.boardid != 4 }">
+						<%-- 댓글은 공지 게시판 외에서만 사용가능 || 공지게시판 댓글 사용불가 --%>
 						<h5 style="font-weight: bold">댓글 ${reply_count}</h5>
 						<hr align="left" style="background-color: #c47100; height: 0.7px;" />
 						<div id="replyList">
@@ -173,7 +176,8 @@ a:hover {
 										<div class="col-md-10" id="replyInfo">
 											<input type="hidden" id="reply_num" name="reply_num"
 												value="${reply.reply_num}">
-											<p>${reply.nickname}· ${reply.regdate2}</p>
+
+											<p>${reply.nickname} · ${reply.regdate2}</p>
 										</div>
 
 										<c:if test="${memberNickname eq reply.nickname}">
@@ -197,14 +201,14 @@ a:hover {
 						</div>
 
 						<!-- 로그인이 되어있으면 댓글 이용 가능 -->
-						<c:if test="${sessionScope.memberNickname != null}">
+						<c:if test="${memberNickname != null}">
 
 							<div class="row">
 								<div class="col-md-10">
 									<input type="hidden" id="board_num" name="board_num"
 										value="${com.board_num}"> <input type="hidden"
 										name="reply_nickname" id="reply_nickname"
-										value="${sessionScope.memberNickname}">
+										value="${memberNickname}">
 
 									<textarea class="col-md-12" rows="5" cols="80"
 										name="reply_content" placeholder="댓글을 달아주세요"
@@ -220,20 +224,22 @@ a:hover {
 
 
 						<!-- 로그인이 안되어있으면 댓글 이용불가 -->
-						<c:if test="${sessionScope.memberNickname == null}">
+						<c:if test="${memberNickname == null}">
 							<div class="row">
 								<div class="col-md-10">
 									<p style="font-weight: bold;">로그인 후 댓글 이용이 가능합니다</p>
 								</div>
 							</div>
 						</c:if>
-					</c:if> <%--공지게시판은 댓글 사용불가로 막아놓음 --%>
+					</c:if>
+					<%--공지게시판은 댓글 사용불가로 막아놓음 --%>
 
 
 					<button type="button" class="btn btn-dark mt-3"
 						onclick="location.href ='comBoardList'">목록으로</button>
 
-					<c:if test="${boardid != 4 && boardid != 5}"><%--공지, 문의게시판 외에서만 사용가능 || 공지, 문의게시판은 신고 불가--%>
+					<c:if test="${com.boardid != 4 && com.boardid != 5}">
+						<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
 						<!-- 1)로그인 된 회원이고 2)글 작성자와 다른 회원만 신고버튼 활성화 -->
 						<c:if
 							test="${memberNickname != null && memberNickname != com.nickname}">
@@ -252,7 +258,8 @@ a:hover {
 										class="btn btn-danger mt-3">신고</button>
 								</c:otherwise>
 							</c:choose>
-						</c:if><%--공지, 문의게시판은 신고 불가로 막아놓음 --%>
+						</c:if>
+						<%--공지, 문의게시판은 신고 불가로 막아놓음 --%>
 
 					</c:if>
 
@@ -391,49 +398,15 @@ a:hover {
 						data-dismiss="modal">취소</button>
 					<button type="button" id="sendReport" class="btn btn-primary"
 						data-dismiss="modal">신고하기</button>
-					<!-- <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#confirmReport">신고하기</button> -->
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- -------------------------------신고확인 모달창------------------------------------------ -->
-
-	<div class="modal fade" id="confirmReport" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">신고</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p>신고되었습니다</p>
-					<p>신고된 게시물은 누적신고수에 따라 게시글이 삭제됩니다.</p>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">확인</button>
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-
-
-
-
-
-
+	
 	<!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
-//댓글입력
+//댓글달기
 $("#writeReply").on("click", function(){
 	var reply_content = document.querySelector("#reply_content")
 	
@@ -539,12 +512,13 @@ function deleteReply(num){
 			})
 
 		}
-		$('#deleteReply').on("click", function() {
-			var reply_num = document.querySelector("#reply_num")
+		
+$('#deleteReply').on("click", function() {
+		var reply_num = document.querySelector("#reply_num")
 
-		})
+	})
 		
-		
+	
 //신고 전달 --------------------------------------------------------------------------
 //자바스크립트 질문 ㅠㅠ 
 function reasonOption(){
@@ -566,8 +540,7 @@ $("#sendReport").on("click",function(){
 	
 	$.ajax({
 		type: "post",
-		url: "<%=request.getContextPath()%>
-		/report/sendReport",
+		url: "<%=request.getContextPath()%>/report/sendReport",
 				data : report,
 				dataType : 'text',
 				success : function(result) {

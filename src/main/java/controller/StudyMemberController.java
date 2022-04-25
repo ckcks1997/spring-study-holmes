@@ -3,6 +3,11 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
- 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Community;
 import model.GroupMember;
@@ -27,7 +38,6 @@ import model.StudyMember;
 import model.StudyMenu;
 import service.CommunityBoardDao;
 import service.GroupMemberDao;
-import service.MemberTagDao;
 import service.NoticeDao;
 import service.ReportDao;
 import service.ReputationEstimateDao;
@@ -36,20 +46,30 @@ import service.StudyMenuDao;
 
 
 @Controller  
-@RequestMapping("/studymember/")
+@RequestMapping("/studymember/") 
 public class StudyMemberController {
 
-	HttpServletRequest request;
-	Model m;
-	HttpSession session;
-	
 	@Autowired
 	StudyMemberDao md;
+	@Autowired
+	StudyMenuDao mud;
+	@Autowired
+	CommunityBoardDao cbd;
+	@Autowired
+	GroupMemberDao gmd;
+	@Autowired
+	NoticeDao nd;
+	@Autowired
+	ReportDao rd;
+	@Autowired
+	ReputationEstimateDao red;
+
+	HttpServletRequest request;
+	HttpSession session;
 	
 	@ModelAttribute
-	void init(HttpServletRequest request, Model m) {
+	void init(HttpServletRequest request) {
 		this.request = request;
-		this.m = m;
 		this.session = request.getSession();
 	}
 	
@@ -60,11 +80,10 @@ public class StudyMemberController {
   @RequestMapping("notice")
   public String memberNotice(Model model) {
 
-    String id = (String) request.getSession().getAttribute("memberNickname");
+    String id = (String) session.getAttribute("memberNickname");
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
     if(id != null) {
-      NoticeDao nd = new NoticeDao();
       List<Notice> noticeList = nd.noticeGet(id); //알림 리스트 가져옴
       model.addAttribute("noticeList", noticeList);
       session.setAttribute("noticeCount", 0);
@@ -81,12 +100,11 @@ public class StudyMemberController {
   public String noticeInfo(Model model) {
 
 	  System.out.println("================");
-    String id = (String) request.getSession().getAttribute("memberNickname");
+    String id = (String) session.getAttribute("memberNickname");
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
     
-    if(id != null) { //현재 로그인 된 유저라면
-      NoticeDao nd = new NoticeDao();
+    if(id != null) { //현재 로그인 된 유저라면 
       int noticeNum = Integer.parseInt(request.getParameter("noticeNum"));
       
       //noticeNum에 해당하는 notice정보 가져오기
@@ -94,14 +112,13 @@ public class StudyMemberController {
       if(n.getNickname_to().equals(id)) { //알림의 수신자와 현재 닉네임이 같으면
       
     	  if(n.getInfo() == null) {//Info이 없으면 Info2 이용해서 title 채워보내기
-    		  StudyMenuDao md = new StudyMenuDao(); 
-    		  StudyMenu menu = md.menuBoardOne(Integer.parseInt(n.getInfo2()));
+    		   
+    		  StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2()));
     		  String title = menu.getTitle();  
     		  model.addAttribute("title", title);
          
     	  }  else { //Info가 있으면
     		  //신고사유 가져오기
-    		  ReportDao rd = new ReportDao();
     		  int board_num = Integer.parseInt(n.getInfo2());
     		  List<String> reportReason = rd.reportReason(board_num);
     		  model.addAttribute("reportReason", reportReason);
@@ -127,21 +144,19 @@ public class StudyMemberController {
   @RequestMapping("groupAccept")
   public String groupAccept(Model model) {
 
-    String id = (String) request.getSession().getAttribute("memberNickname");
+    String id = (String) session.getAttribute("memberNickname");
  
    
     String msg = "로그인이 필요합니다";
     String url = "/studymember/loginForm";
-    if(id != null) {
-      NoticeDao nd = new NoticeDao();
-      StudyMenuDao md = new StudyMenuDao(); 
+    if(id != null) { 
       
       int noticeNum = Integer.parseInt(request.getParameter("notice_num")); //알림번호 가져옴
       Notice n = nd.noticeGetByNoticeNum(noticeNum); //알림정보 조회
-      StudyMenu menu = md.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
+      StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
  
       if(n.getNickname_to().equals(id)) { //세션과 알림 받은사람 비교, 본인확인
-        GroupMemberDao gmd = new GroupMemberDao(); //group에 초대하는 과정
+        //group에 초대하는 과정
         GroupMember gm = new GroupMember();
         gm.setBoardnum(menu.getBoard_num());
         gm.setNickname(n.getNickname_from()); 
@@ -191,11 +206,6 @@ public class StudyMemberController {
   @PostMapping("loginPro")
   public String memberloginPro(Model model) {
 
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
     String id = request.getParameter("id"); // email
     String pass = request.getParameter("password"); 
      
@@ -223,14 +233,7 @@ public class StudyMemberController {
    * */
   @RequestMapping("kakaologin")
   public String kakaoLogin(Model model) {
-
      
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    
     String kakaoemail = request.getParameter("kakaoemail"); // email
     System.out.println(kakaoemail+"=="); 
     
@@ -269,18 +272,12 @@ public class StudyMemberController {
   
     /*회원가입*/
   
-  
   /*
    * 회원가입 페이지
    * */
   @RequestMapping("join")
-  public String memberJoin(HttpServletRequest request, HttpServletResponse response) {
-    
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    } 
+  public String memberJoin() {
+
     if(request.getSession().getAttribute("memerNickname") == null) {      
       return "/view/member/join";
     }
@@ -295,103 +292,80 @@ public class StudyMemberController {
    * 
    * */
   @RequestMapping("joinPro")
-  public String memberJoinPro(HttpServletRequest request, HttpServletResponse response) {
-    
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    
+  public String memberJoinPro(Model model) {
+
     int result = md.insertStudyMember(request);
     
     String msg = "가입 실패";
-    String url = request.getContextPath() + "/studymember/loginForm";
+    String url = "/studymember/loginForm";
     
     if(result == 1) msg="가입 성공";
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    model.addAttribute("msg", msg); 
+    return "redirect:"+url;
   }
   /*
    * id중복체크
    * */
+  
+  @ResponseBody
   @RequestMapping("idexist")
-  public String idExist(HttpServletRequest request, HttpServletResponse response) {
-
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    String id = request.getParameter("id");  
+  public String idExist(@RequestBody String id) {
+  
     System.out.println("id="+id); 
     int mem = md.studyMemberIdExist(id); 
-    System.out.println("result="+mem);
-    request.setAttribute("chk", mem); 
-    return "/single/readId.jsp";
+      
+    return Integer.toString(mem);
   }
   
   /*
-   * 닉네임 중복확인
+   * 닉네임 중복확인0
    * */
-  @RequestMapping("nicknameExist")
-  public String nicknameExist(HttpServletRequest request, HttpServletResponse response) {
-
-    try {
-      request.setCharacterEncoding("utf-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-    String nickname = request.getParameter("nickname");  
-    System.out.println("nicknameExist="+nickname); 
+  @ResponseBody //Ajax 통신
+  @RequestMapping(value="nicknameExist") 
+  public String nicknameExist(@RequestBody String nickname) {  
     int mem = md.studyMemberNicknameExist(nickname); 
-    System.out.println("result="+mem);
-    request.setAttribute("chk", mem); 
-    return "/single/readId.jsp";
+    System.out.println("result="+mem); 
+      
+    return Integer.toString(mem);
   }
   /*
    * 회원가입 내 사진등록 창
    * */
   @RequestMapping("pictureForm")
-  public String pictureForm(HttpServletRequest request, HttpServletResponse response) {
+  public String pictureForm() {
 
-    return "/single/pictureForm.jsp";
+    return "/single/pictureForm";
   }
   
   /*
    * 회원가입 내 사진등록 진행
    * */
   @RequestMapping("picturePro")
-  public String picturePro(HttpServletRequest request, HttpServletResponse response) {
+  public String picturePro(@RequestParam("picture") MultipartFile file, Model model) {
     
-    String path = getServletContext().getRealPath("/")+"upload";
-    
-    //폴더가 없으면 에러남, 검사 후 폴더생성
-    File file=new File(path);
-    if(!file.exists()) { 
-      file.mkdir();
+    String path = request.getServletContext().getRealPath("/")+"upload";
+    System.out.println(path);
+    File file111=new File(path);
+    if(!file111.exists()) { 
+      file111.mkdir();
     }
-    
-    String filename = null;
-    MultipartRequest multi = null;
-    try {
-      multi = new MultipartRequest(request, path, 10*1024*1024, "utf-8");
-      System.out.println("asdasd===1");
-    } catch (IOException e) { 
-      e.printStackTrace();
+    String filename = file.getOriginalFilename();
+
+    if(!file.isEmpty()) {
+    	File file2 = new File(path, file.getOriginalFilename());
+    	try {
+    		file.transferTo(file2); 
+		} catch (IllegalStateException e) { 
+			e.printStackTrace();
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}
     }
-    filename = multi.getFilesystemName("picture");
-    request.setAttribute("filename", filename);
-    return "/single/picturePro.jsp";
+
+    model.addAttribute("filename", filename);
+    return "/single/picturePro";
   }
-  
-  
- 
-  
-  
-  
   
   
   
@@ -399,25 +373,23 @@ public class StudyMemberController {
    * 마이페이지
    * */
   @RequestMapping("mypage")
-  public String mypage(HttpServletRequest request, HttpServletResponse response) {
+  public String mypage(Model model) {
     
-    HttpSession session = request.getSession();
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+    String msg="로그인이 필요합니다"; 
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID"); 
       StudyMember mem = md.studyMemberOne(memberID);
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
     //유저 평판
-      ReputationEstimateDao rd = new ReputationEstimateDao();
-      List<ReputationEstimate> repList = rd.getReputation(mem.getNickname());
-      request.setAttribute("repList", repList);
+      List<ReputationEstimate> repList = red.getReputation(mem.getNickname());
+      model.addAttribute("repList", repList);
+
+      return "/view/member/mypage";
     }
 
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view/member/mypage.jsp";
+    model.addAttribute("msg", msg); 
+    return "/view/member/login";
   }
   
     /*내  프로필 정보*/
@@ -426,79 +398,43 @@ public class StudyMemberController {
    * 내 프로필 정보
    * */
   @RequestMapping("myprofile")
-  public String myprofile(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession();
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+  public String myprofile(Model model) {
+	  
+    String msg="로그인이 필요합니다"; 
     
     if(session.getAttribute("memberID") != null) {
-      String memberID = (String) session.getAttribute("memberID"); 
-      MemberTagDao td = new MemberTagDao();
-      
+      String memberID = (String) session.getAttribute("memberID");   
       StudyMember mem = md.studyMemberOne(memberID);
-      List<MemberTag> mem_tag = td.getMemberTag(memberID);
+      model.addAttribute("memberInfo", mem);
       
-    
-      
-      request.setAttribute("memberInfo", mem);
-      request.setAttribute("tagInfo", mem_tag);
-      
-      return "/view/member/myprofile.jsp";
+      return "/view/member/myprofile";
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-     
-    return "/view";
+    request.setAttribute("msg", msg); 
+    return "/view/member/login";
   }
   
   /*
    * 내 프로필 정보-자기소개 수정칸
    * */
-  @RequestMapping("myprofileEdit1")
-  public String myprofileEdit1(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession();
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+  @PostMapping("myprofileEdit1")
+  public String myprofileEdit1(Model model, RedirectAttributes redirect) { 
+    String msg="로그인이 필요합니다"; 
+    String url = "/view/member/login";
     if(session.getAttribute("memberID") != null) {
-      String s_id = (String)request.getSession().getAttribute("memberID");
+      String s_id = (String)session.getAttribute("memberID");
       String profile_intro = (String) request.getParameter("profile_intro");
  
       int result = md.studyMemberIntroUpdate(s_id, profile_intro);
-
+      System.out.println(result);
       if(result == 1) {
         msg="수정되었습니다";
-        url="studymember/myprofile";
+        url= "redirect:/studymember/myprofile";
       }
-    }
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-     
-    return "/view";
-  }
-  
-  /*
-   * 내 프로필 정보-두번째 수정칸(태그추가)
-   * */
-  @RequestMapping("myprofileEdit2")
-  public String myprofileEdit2(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession();
-    
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
-    String tag = (String) request.getParameter("tag");
-    
-    if(session.getAttribute("memberID") != null && !tag.isEmpty()) {
-      String s_id = (String)request.getSession().getAttribute("memberID");
-      MemberTagDao td = new MemberTagDao();
-      int result = td.addMemberTag(s_id, tag); 
-      msg="추가 되었습니다.";
-      url="studymember/myprofile";
-    } 
-
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    } //메세지 값을 post방식으로 보냅니다.
+    redirect.addFlashAttribute("msg", msg); //redirect후 뒤로가기 하면 컨트롤러로 요청이 들어오지는 않는데
+    										//브라우져에는 msg값이 남아있는지 alert가 뜨네요..
+    return url;
   }
   
   
@@ -506,44 +442,45 @@ public class StudyMemberController {
    * 비밀번호 변경
    * */
   @RequestMapping("passwordChange")
-  public String passwordChange(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
-    String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+  public String passwordChange(Model model) {
+    String msg="로그인이 필요합니다"; 
     
     if(session.getAttribute("memberID") != null) {
-      return "/view/member/passwordChange.jsp"; 
+      return "/view/member/passwordChange"; 
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    model.addAttribute("msg", msg); 
+    return "redirect:/studymember/loginForm";
 
   }
   
   /*
    * 비밀번호 변경 진행
    * */
-  @RequestMapping("passwordChangePro")
-  public String passwordChangePro(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
+  @PostMapping("passwordChangePro")
+  public String passwordChangePro(
+		  @RequestParam("password") String password,
+		  @RequestParam("newpassword") String newpassword, 
+		  RedirectAttributes redirect ) {
+
+	System.out.println(password+"====");
+	System.out.println(newpassword+"====");
+	
+    String msg="로그인이 필요합니다.";
+    String url="redirect:/studymember/loginForm";
     
-    String newPass = request.getParameter("password");
-    
-    String msg="오류가 발생했습니다.";
-    String url="studymember/loginForm";
-    
-    if(session.getAttribute("memberID") != null && !newPass.isEmpty()) {
+    if(session.getAttribute("memberID") != null && !password.isEmpty()) {
+    	msg="비밀번호가 다릅니다.";
       String s_id = (String)request.getSession().getAttribute("memberID");
-       
-      int result = md.changePassword(s_id, newPass); 
-      msg="비밀번호가 변경 되었습니다.";
-      url="studymember/myprofile";
+      StudyMember sm = md.studyMemberOne(s_id);
+      if(sm.getPassword().equals(password)){
+	      int result = md.changePassword(s_id, newpassword); 
+	      msg="비밀번호가 변경 되었습니다.";
+      }
+      url="redirect:/studymember/myprofile";
     }  
-    
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
-    return "/view";
+    redirect.addFlashAttribute("msg", msg); 
+    return url;
 
   }
   
@@ -551,35 +488,32 @@ public class StudyMemberController {
    * 회원탈퇴
    * */
   @RequestMapping("goodbye")
-  public String goodBye(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
+  public String goodBye(Model model, RedirectAttributes redirect ) { 
     String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+    String url="redirect:/studymember/loginForm";
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");
        
       StudyMember mem = md.studyMemberOne(memberID);
        
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
        
-      return "/view/member/goodbye.jsp";
+      return "/view/member/goodbye";
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
+    redirect.addFlashAttribute("msg", msg); 
  
-    return "/view"; 
+    return url; 
   }
   
   /*
    * 회원탈퇴 진행
    * */
-  @RequestMapping("goodbyePro")
-  public String goodbyePro(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(); 
+  @PostMapping("goodbyePro")
+  public String goodbyePro(RedirectAttributes redirect ) {
     String msg="로그인이 필요합니다";
-    String url="studymember/loginForm";
+    String url="redirect:/studymember/loginForm";
     
     if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");
@@ -593,52 +527,43 @@ public class StudyMemberController {
         if(deleted == 1) {
           session.invalidate();
           msg="회원탈퇴가 완료되었습니다.";
-          url="main";
+          url="redirect:/board/main";
         } else {
           
           msg="알 수 없는 오류";
-          url="main";
+          url="redirect:/board/main";
         }
       }else {
         
         msg="비밀번호가 다릅니다";
-        url="studymember/goodbye";
+        url="redirect:/studymember/goodbye";
       }
         
     }
     
-    request.setAttribute("msg", msg);
-    request.setAttribute("url", url);
+    redirect.addFlashAttribute("msg", msg); 
  
-    return "/view"; 
+    return url; 
   }
   
-  @RequestMapping("mywrite_study")
-  public String mywrite_study(HttpServletRequest request, HttpServletResponse response) {
  
  
-    return "/view/member/mywrite_study.jsp"; 
-  }
-  
   /*
    * 마이페이지
    * */
   @RequestMapping("userinfo")
-  public String userinfo(HttpServletRequest request, HttpServletResponse response) {
-    
-    HttpSession session = request.getSession();
-    
+  public String userinfo(Model model) {
+
     //유저정보
       String usernick = request.getParameter("usernick");
        
       StudyMember mem = md.studyMemberOneByNick(usernick);
-      request.setAttribute("memberInfo", mem);
+      model.addAttribute("memberInfo", mem);
       //유저 평판
-      ReputationEstimateDao rd = new ReputationEstimateDao();
-      List<ReputationEstimate> repList = rd.getReputation(usernick);
-      request.setAttribute("repList", repList);
+      List<ReputationEstimate> repList = red.getReputation(usernick);
+      model.addAttribute("repList", repList);
       
-    return "/view/member/userinfo.jsp";
+    return "/view/member/userinfo";
   }
   
 }

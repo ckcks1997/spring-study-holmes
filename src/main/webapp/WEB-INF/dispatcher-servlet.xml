@@ -18,6 +18,8 @@
   
  <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
  <mvc:resources mapping="/common/**" location="/WEB-INF/common/" />
+ <mvc:resources mapping="/upload/**" location="/upload/" />
+ <mvc:resources mapping="/comboardupload/**" location="/comboardupload/" />
 <mvc:view-controller path="/index" view-name="index"/>
 <mvc:view-controller path="/index.do" view-name="index"/> 
 
@@ -57,6 +59,7 @@
         	<property name="defaultEncoding" value="utf-8"/>
         </bean>
  
+
         
         
 </beans>

@@ -68,6 +68,12 @@ a:hover {
 	color: #f55555;
 	text-decoration: none;
 }
+
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}
 </style>
 <title>스터디 홈즈</title>
 </head>
@@ -88,7 +94,7 @@ a:hover {
 		<div class="row pt-5">
 			<!------------------------- 왼쪽 사이드메뉴 -----------------					---------------------------------------------------->
 			<%--aside부분 --%>
-			<%@include file="/common/community_menu.jsp"%>
+			<%@include file="/WEB-INF/common/community_menu.jsp"%>
 
 
 			<!-- ---------------------------메인검색-------------------------------------------------------- -->
@@ -129,26 +135,15 @@ a:hover {
 				<!-- ------------------------------------------------------------------------------------ -->
 
 				<div class="row col-sm-9 divide" style="float: left">
+				<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
+					<c:if test="${boardid != 4 && boardid != 5}"><%--공지와 문의게시판이 아닌 곳에만 적용 --%>
 					<a href="<%=request.getContextPath()%>/community/comBoardList">최신순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp;
-
-					<c:choose>
-						<c:when test="${boardid == 5}">
-							<%--문의게시판은 내 글 보기 활성화 --%>
-							<a href="<%=request.getContextPath()%>/community/comBoardMyAsk">나의
-								문의글 보기</a>
-						</c:when>
-						<c:when test="${boardid == 4 }">
-							<%--공지게시판은 조회수순 활성화 --%>
-							<a href="<%=request.getContextPath()%>/community/comBoardRead">조회수순</a>
-						</c:when>
-						<c:otherwise>
-							<%--그 외 게시판은 댓글순, 조회수순 활성화 --%>
 							<a href="<%=request.getContextPath()%>/community/comBoardReply">댓글순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp; <a
 								href="<%=request.getContextPath()%>/community/comBoardRead">조회수순</a>
-						</c:otherwise>
-					</c:choose>
+					</c:if>
+					
 				</div>
 
 
@@ -167,7 +162,7 @@ a:hover {
 					</c:when>
 
 					<c:otherwise>
-						<%--아니면 유저가 관리자이고 --%>
+						<%--관리자이고 --%>
 						<c:if test="${boardid == 4 }">
 							<%--공지게시판이면 --%>
 							<%--글쓰기 버튼을 띄운다 --%>
@@ -200,23 +195,7 @@ a:hover {
 										<div class="col-sm-9">
 											<input type="hidden" name="board_num"
 												value="${com.board_num}">
-												
-											<c:choose>
-											<c:when test="${boardid =='5' }"><%--문의 게시판 comBoardMyAsk에서 boardid =5 가 넘어왔으면--%>
-											<a
-												href="<%=request.getContextPath() %>/community/comBoardInfo?boardid=${boardid }&board_num=${com.board_num}"
-												style="color: black">
-												<p style="font-size: 17px; font-weight: bold;">
-													${com.title}</p>
-												<p style="font-size: 17px; font-weight: bold;">
-													${preContent}</p> <br />
-												<h6 style="color: gray;">
-													<small>${com.nickname} · ${com.regdate} </small>
-												</h6>
-											</a>
-											
-											</c:when>
-											<c:otherwise><%--문의게시판 외의 게시판들 --%>
+										
 											<a
 												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}"
 												style="color: black">
@@ -225,42 +204,37 @@ a:hover {
 												<p style="font-size: 17px; font-weight: bold;">
 													${preContent}</p> <br />
 												<h6 style="color: gray;">
-													<small>${com.nickname} · ${com.regdate} </small>
+													<c:if test="${com.picture eq null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+													</c:if>
+													<c:if test="${com.picture ne null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/upload/${com.picture}">
+													</c:if>
+													<small> ${com.nickname} · ${com.regdate} </small>
 												</h6>
 											</a>
-											</c:otherwise>
-											</c:choose>
+
+
 										</div>
 										<div class="col-sm-3 reaction">
 											<div class="circle">
 												<div class="reactions">
 
-													<c:if test="${boardid != 5 && boardid != 4}">
-														<%--공지와 문의 외의 게시판에 좋아요 출력 | 공지, 문의 게시판 좋아요 X--%>
-														<div class="likes">
-															<span> <svg xmlns="http://www.w3.org/2000/svg"
-																	width="16" height="16" fill="#de2a2a"
-																	class="bi bi-suit-heart" viewBox="0 0 16 16">
-  													<path
-																		d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z" />
-													</svg>
-															</span> 좋아요
-														</div>
-													</c:if>
-
 													<c:if test="${boardid != 5}">
-													<%--문의 외의 게시판에 조회수 출력 | 문의 게시판 조회수 X --%>
-													<div class="readcnt">
-														<span> <svg xmlns="http://www.w3.org/2000/svg"
-																width="16" height="16" fill="currentColor"
-																class="bi bi-eye" viewBox="0 0 16 16">
+														<%--문의 외의 게시판에 조회수 출력 | 문의 게시판 조회수 X --%>
+														<div class="readcnt">
+															<span> <svg xmlns="http://www.w3.org/2000/svg"
+																	width="16" height="16" fill="currentColor"
+																	class="bi bi-eye" viewBox="0 0 16 16">
   													<path
-																	d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+																		d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
   													<path
-																	d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+																		d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
 													</svg>
-														</span>${com.readcnt }읽음
-													</div>
+															</span>${com.readcnt }읽음
+														</div>
 													</c:if>
 
 													<div class="comment">

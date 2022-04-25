@@ -16,9 +16,9 @@
 </div>
 <script>
 
-<%-- msg내용이 없으면 alert를 하지 않음 --%>
-if("${param.msg}" != ""){
-    alert("${param.msg}"); 
+<%-- 파라미터값이나 Model값에 msg가 있으면 출력합니다 --%>
+if("${param.msg}" != "" || "${msg}" != ""){
+    alert("${param.msg}" + "${msg}"); 
 } 
  
 

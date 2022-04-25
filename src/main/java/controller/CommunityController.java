@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.Community;
 import model.Reply;
@@ -48,71 +51,11 @@ public class CommunityController {
 		this.session = request.getSession();
 	}
 	
-	// 문의게시판에서 내가 쓴 문의글 보기
-	@RequestMapping("comBoardMyAsk")
-	public String comBoardMyAsk() {
-
-		HttpSession session = request.getSession();
-
-		String boardid = "";
-		int pageInt = 1;
-		int limit = 4;
-
-		if (request.getParameter("boardid") != null) {
-			session.setAttribute("boardid", "5");
-			session.setAttribute("pageNum", "1");
-		}
-
-		boardid = (String) session.getAttribute("boardid");
-		if (boardid == null) {
-			boardid = "5";
-		}
-
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
-		}
-
-		String pageNum = (String) session.getAttribute("pageNum");
-		if (pageNum == null) {
-			pageNum = "1";
-		}
-
-		pageInt = Integer.parseInt(pageNum);
-
-		int boardcount = cbd.comBoardCount(boardid);
-		String nickname = (String) session.getAttribute("memberNickname");
-		List<Community> list = cbd.comBoardMyAsk(pageInt, limit, boardcount, nickname);
-
-		System.out.println("boardid: " + boardid + "---" + nickname); // 값 확인
-		int boardnum = boardcount - limit * (pageInt - 1);
-		int bottomLine = 3;
-		int startPage = (pageInt - 1) / bottomLine * bottomLine + 1;
-		int endPage = startPage + bottomLine - 1;
-		int maxPage = (boardcount / limit) + (boardcount % limit == 0 ? 0 : 1);
-		if (endPage > maxPage)
-			endPage = maxPage;
-
-		String boardName = "문의사항";
-
-		m.addAttribute("boardName", boardName);
-		m.addAttribute("pageInt", pageInt);
-		m.addAttribute("boardid", boardid);
-		m.addAttribute("boardcount", boardcount);
-		m.addAttribute("list", list);
-		m.addAttribute("boardnum", boardnum);
-		m.addAttribute("startPage", startPage);
-		m.addAttribute("bottomLine", bottomLine);
-		m.addAttribute("endPage", endPage);
-		m.addAttribute("maxPage", maxPage);
-
-		return "/view/community/comBoardList.jsp";
-	}
 
 	// 최신순 나열
 	@RequestMapping("comBoardList")
 	public String comBoardList() {
 
-		HttpSession session = request.getSession();
 
 		String boardid = "";
 		int pageInt = 1;
@@ -176,15 +119,15 @@ public class CommunityController {
 		m.addAttribute("bottomLine", bottomLine);
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
+		
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	// 댓글순 나열
 	@RequestMapping("comBoardReply")
 	public String comBoardReply() {
 
-		HttpSession session = request.getSession();
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;
@@ -247,13 +190,12 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	@RequestMapping("comBoardRead")
 	public String comBoardRead() {
 
-		HttpSession session = request.getSession();
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;
@@ -316,12 +258,12 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comBoardList.jsp";
+		return "view/community/comBoardList";
 	}
 
 	@RequestMapping("comBoardmyList1")
 	public String comBoardmyList1() {
-		HttpSession session = request.getSession();
+		
 		String nickname = (String) session.getAttribute("memberNickname");
 		String boardid = "";
 		int pageInt = 1;
@@ -371,48 +313,32 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/myList1.jsp";
+		return "view/community/myList1";
 	}
 
 	// 글쓰기 페이지
 	@RequestMapping("comWriteForm")
 	public String comWriteForm() {
 
-		HttpSession session = request.getSession();
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
-			return "/view/community/comWriteForm.jsp";
+			return "view/community/comWriteForm";
 		}
 
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
+		
 
-		return "/view/alert.jsp";
+		return "view/alert";
 	}
 
 	// 글쓰기
 	@RequestMapping("comWritePro")
 	public String comWritePro(Community com) {
-		String path = request.getServletContext().getRealPath("/") + "/comboardupload/";
-
-		// 폴더가 없으면 에러가 발생합니다. 디렉토리 확인 후 폴더를 생성하는 코드입니다.
-		File file = new File(path);
-		if (!file.exists()) {
-			file.mkdir();
-		}
-
-		int size = 10 * 10 * 1024 * 10 * 10; 
-		MultipartRequest multi = null;
-		try {
-			multi = new MultipartRequest(request, path, size, "utf-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		// 세션에 저장된 닉네임 가져와서 커뮤니티 닉네임으로 저장하기
-		HttpSession session = request.getSession();
 		com.setNickname((String)session.getAttribute("memberNickname"));
 		
 		//com.setTitle(multi.getParameter("title"));
@@ -430,7 +356,7 @@ public class CommunityController {
 		if (boardid == null) {
 			boardid = "1";
 		}
-		//com.setBoardid(boardid);
+		com.setBoardid(boardid);
 
 		com.setBoard_num(cbd.comNextNum());
 		
@@ -447,37 +373,16 @@ public class CommunityController {
 		}
 
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+		m.addAttribute("url",url);
 
-		/*
-		// 글 일부만 보여주기----수정해야함 --------------------------------------------------
-		// 글자수 길이 조건 걸기 추가해야함
-
-		// p태그 자체를 공백으로 , content3 == 모든 <p></p>태그를 공백으로 만든 내용
-		String content2 = content.replaceAll("<p>", " ");
-		String content3 = content2.replaceAll("</p>", " ");
-
-		System.out.println(content3);
-
-		if (content3.length() > 20) {
-			content3 = content3.substring(0, 10);
-			System.out.println("--" + content3 + "...");
-		} else {
-			// m.addAttribute("preContent", preContent);
-			System.out.println(content3 + "...");
-		}
-		*/
-		// -----------------------------------------------------------------------
-
-		return "/view/alert.jsp";
+		return "view/alert";
 	}
 
 	// 게시글 상세보기
 	@RequestMapping("comBoardInfo")
-	public String comBoardInfo(int board_num) {
+	public String comBoardInfo(Community com, int board_num) {
 
-		HttpSession session = request.getSession();
-		Community com = cbd.comBoardOne(board_num);
+		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 	
 		String msg;
@@ -517,7 +422,7 @@ public class CommunityController {
 
 				m.addAttribute("reply_list", reply_list);
 				m.addAttribute("reply_count", reply_count);
-				return "/view/community/comBoardInfo.jsp"; // 게시글 상세보기 jsp로 보내기
+				return "view/community/comBoardInfo"; // 게시글 상세보기 jsp로 보내기
 
 			} else { //로그인은 되어있는데 글 작성자가 아닐 경우 
 				msg = "글 작성자만 열람가능합니다"; 
@@ -542,12 +447,12 @@ public class CommunityController {
 
 			m.addAttribute("reply_list", reply_list);
 			m.addAttribute("reply_count", reply_count);
-			return "/view/community/comBoardInfo.jsp"; // 바로 jsp로 보내주기
+			return "view/community/comBoardInfo"; // 바로 jsp로 보내주기
 
 		}
 		//System.out.println(msg); //확인
 		//System.out.println(url); //확인
-		return "/view/alert.jsp";
+		return "view/alert";
 
 	}
 
@@ -555,29 +460,18 @@ public class CommunityController {
 	
 	// 게시글 수정페이지
 	@RequestMapping("comBoardUpdateForm")
-	public String comBoardUpdateForm(int board_num) {
+	public String comBoardUpdateForm(Community com, int board_num) {
 	
-		Community com = cbd.comBoardOne(board_num);
+		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 
-		return "/view/community/comBoardUpdateForm.jsp";
+		return "view/community/comBoardUpdateForm";
 	}
 
 	// 게시글 수정
 	@RequestMapping("comBoardUpdatePro")
 	public String comBoardUpdatePro(Community com) {
-		System.out.println("==================");
-		String path = request.getServletContext().getRealPath("/") + "/comboardupload/";
-
-		int size = 10 * 10 * 1024 * 10 * 10;
-		MultipartRequest multi = null;
-		try {
-			multi = new MultipartRequest(request, path, size, "utf-8");
-		} catch (Exception e) {
-			System.out.println("error   ============");
-			e.printStackTrace();
-		}
-		
+		//System.out.println("---컨트롤러 Update확인--");
 		String msg = "";
 		String url = "";
 
@@ -593,16 +487,17 @@ public class CommunityController {
 
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
+	
 
-		return "/view/alert.jsp";
+		return "view/alert";
 
 	}
 
 	// 게시글 삭제
 	@RequestMapping("comBoardDelete")
-	public String comBoardDelete(int board_num) {
+	public String comBoardDelete(Community com, int board_num) {
 
-		Community com = cbd.comBoardOne(board_num);
+		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
 
 		String msg = "";
@@ -620,7 +515,7 @@ public class CommunityController {
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
 
-		return "/view/alert.jsp";
+		return "view/alert";
 
 	}
 
@@ -645,7 +540,7 @@ public class CommunityController {
 	// 검색한 페이지
 	@RequestMapping("comSearchList")
 	public String comSearchList(String part, String searchData) {
-		HttpSession session = request.getSession();
+		
 		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;		
@@ -710,30 +605,38 @@ public class CommunityController {
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
 
-		return "/view/community/comSearchList.jsp";
+		return "view/community/comSearchList";
 	}
 
 	// 이미지 업로드 ajax가 보내는 url 받는 메서드
+	//@ResponseBody //
 	@RequestMapping("comImageUpload")
-	public String comImageUpload() {
+	public String comImageUpload(@RequestParam("file") MultipartFile file ) { //("file")은 jsp에서 form-data의 key명과 동일하게 적어야합니다
+		
 		String path = request.getServletContext().getRealPath("/") + "comboardupload";
-		File file = new File(path);
-		if (!file.exists()) {
-			file.mkdir();
+																//System.out.println(path); //확인
+		File comBoardFile = new File(path); // comBoardFile은 path경로로 만들어지는 File객체입니다 
+		if (!comBoardFile.exists()) { //comBoardFile이 아예 없으면 
+			comBoardFile.mkdir(); // 새로 폴더를 생성합니다.
 		}
-		String filename = null;
-		MultipartRequest multi = null;
-		try {
-			multi = new MultipartRequest(request, path, 10 * 1024 * 1024, "utf-8");
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		String filename = file.getOriginalFilename(); //filename은 param으로 받은 file의 이름을 받습니다 
+		
+		if(!file.isEmpty()) { //param으로 받은 file이 있으면
+			File comBoardFile2 = new File(path, filename); // comBoardFile2로 File객체를 생성합니다.
+			try {
+				file.transferTo(comBoardFile2); // param으로 받은 file을 comBoardFile2로 
+																//System.out.println("이미지 경로---"+comBoardFile2.getPath()); //확인
+			} catch(IllegalStateException e) {
+				e.printStackTrace();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
-
-		filename = multi.getFilesystemName("file"); // ajax에서 FormData로 보낸 file 값 찾기
+	
 		System.out.println("------controller확인 filename=" + filename);
 		m.addAttribute("filename", filename);
-		return "/single/comBoardPicture.jsp";
+		return "single/comBoardPicture";
 
 	}
 
@@ -741,7 +644,7 @@ public class CommunityController {
 	@RequestMapping("main")
 	public String main() {
 
-		return "/view/main.jsp";
+		return "view/main";
 	}
 
 }

@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Date;
 
+
 public class StudyMenu {
 	
 	private int board_num;	

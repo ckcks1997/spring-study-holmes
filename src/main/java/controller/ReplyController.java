@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.Community;
 import model.Reply;
@@ -35,9 +37,9 @@ public class ReplyController {
 		this.session = request.getSession();
 	}
 	
+	@ResponseBody
 	@RequestMapping("writeReply")
-	public String writeReply(String board_num, String reply_content, Reply reply) {
-		HttpSession session = request.getSession();
+	public String writeReply(RequestBody Reply reply) {
 		
 		String nickname = (String) session.getAttribute("memberNickname");
 		reply.setNickname(nickname);
@@ -53,8 +55,8 @@ public class ReplyController {
 		//reply_num은 댓글의 번호
 		m.addAttribute("reply_num", reply_num);
 		
-		//어떤 jsp로 보내든 상관없음
-		return "/single/num.jsp";	
+		
+		return "single/num";	
 	}
 	
 	@RequestMapping("deleteReply")
@@ -66,7 +68,7 @@ public class ReplyController {
 		m.addAttribute("reply", reply);
 		rd.deleteReply(reply_num);
 	
-		return "/view/alert.jsp";
+		return "view/alert";
 	}
 	
 	

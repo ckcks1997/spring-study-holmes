@@ -93,7 +93,7 @@ a:hover {
 		<div class="row pt-5">
 <!------------------------- 왼쪽 사이드메뉴 -----------------					---------------------------------------------------->
 			<%--aside부분 --%>
-                <%@include file="/common/groupboard_menu.jsp" %>
+                <%@include file="/WEB-INF/common/groupboard_menu.jsp" %>
                 
                  
 			<div class="main col-lg-9">

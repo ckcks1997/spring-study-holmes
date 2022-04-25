@@ -39,7 +39,7 @@ body {
 		<div class="row pt-5">
 <!------- 왼쪽 사이드 메뉴------------------------------------------------------------------------------------------ -->
 			<%--aside부분 --%>
-                <%@include file="/common/community_menu.jsp" %>
+               <%@include file="/WEB-INF/common/community_menu.jsp"%>
 <!-- -----------메인-------------------------------------------------------------------------------------------- -->
 			<div class="main col-lg-9">
 				<h1>글쓰기</h1>
@@ -110,7 +110,11 @@ body {
 						$image.css('width',"40%");
 						
 					})
-				}
+				},
+				 error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                     alert("통신 실패")
+                 }
+				
 			})
 		}
 		

@@ -18,30 +18,35 @@ public class AttendDao {
 	private static final String NS = "attend.";
 	  private Map<String, Object> map = new HashMap<>();
 	 
-	  
 	  @Autowired
-		MySqlSessionFactory sqlSessionFactory;
-		SqlSession sqlSession;
+	  MySqlSessionFactory sqlSessionFactory;
+	  SqlSession sqlSession;
 	  
-		 @PostConstruct
-		  public void setSqlSession() {
-			  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-		  }
+	  @PostConstruct
+	  public void setSqlSession() {
+		  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
+	  }
+	  
+	 
 	  
 	   public List<Attend> attendGet(String id) {
-         
+
            return sqlSession.selectList(NS+"attendGet", id);
         
      }
 	  
+	   
 	  public int attendInsert(Attend attend) {
 	
+
 			try {
 		return sqlSession.insert(NS+"attendInsert",attend);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				sqlSession.commit();
+
+    	sqlSession.commit();
+
 			} 
 			return 0;
 	  }

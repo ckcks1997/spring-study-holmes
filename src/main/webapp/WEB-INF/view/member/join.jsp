@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<script   src="<%=request.getContextPath()%>/js/ajax.js"></script>
 <title>회원가입</title>
 <style>
 
@@ -179,13 +178,7 @@ input[type=text]:placeholder {
     display:none;
 }
 </style>
-<script>
-function win_upload(){
-    const op = "width=500, height=150, left=150, top=150";
-    open('<%=request.getContextPath()%>/studymember/pictureForm', "",op);
-}
 
-</script>
 </head>
 <body>
 
@@ -232,7 +225,7 @@ function win_upload(){
 				<input type="text" 	placeholder="전화번호" name="tel" class="m-2">
 					<p class="nameholder">프로필 사진</p>
 				<div class="col-4 mx-auto my-2 bg-none">
-					<img src="" width="100" height="100" id="pic" onerror="this.src='<%=request.getContextPath()%>/img/profile_empty.jpg'"> <br>
+					<img src="" width="100" height="100" id="pic" onerror="this.onerror=null; this.src='<%=request.getContextPath()%>/img/profile_empty.jpg'" /> <br>
 					<button type="button" class="btn btn-sm m-2 btn-color1" onclick="win_upload()">프로필 사진등록</button>
 				</div>
 
@@ -256,8 +249,13 @@ function win_upload(){
 	<br />
 	<br />
  
- <script>
-	   
+ <script> 
+ 
+ function win_upload(){
+     const op = "width=500, height=150, left=150, top=150";
+     open('<%=request.getContextPath()%>/studymember/pictureForm', "",op);
+ }
+ 
 	    
 			 const result = document.querySelector("#validation-view");
 			 const result2 = document.querySelector("#validation-view2");
@@ -276,7 +274,19 @@ function win_upload(){
 			        idchk.value=0;
 			    }  
 			    else{
-			        ajax("<%=request.getContextPath()%>/studymember/idexist", param, callback_mail, 'get');
+			        
+               	 $.ajax({
+                     type : "POST",           
+                     url : "<%=request.getContextPath()%>/studymember/idexist", 
+                     contentType: 'text/plain', /* text -> text/plain으로 고쳐야 컨트롤러에서 String으로 인식됨 */
+                     data : id, 
+                     success : function(res){  
+                    	 callback_mail(res);
+                     },
+                     error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                         alert("통신 실패.")
+                     }
+                 });
 			    }
 			}
 		 
@@ -308,6 +318,7 @@ function win_upload(){
          
          function nicknameChk() {
              const nickname = document.querySelector("#nickname").value; 
+             console.log(nickname);
              const param = "nickname="+nickname; 
                 if(nickname.length<2){ 
                      result3.style.display="block";
@@ -317,14 +328,26 @@ function win_upload(){
                     nickchk.value=0;
                 }  
                 else{
-                    ajax("<%=request.getContextPath()%>/studymember/nicknameExist", param, callback_nickname, 'get');
-                }
+                	 $.ajax({
+                         type : "POST",           
+                         url : "<%=request.getContextPath()%>/studymember/nicknameExist", 
+                         contentType: 'text/plain', /* text -> text/plain으로 고쳐야 스프링에서 인식됨 */
+                         data : nickname, 
+                         success : function(res){  
+                             callback_nickname(res);
+                         },
+                         error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                             alert("통신 실패.")
+                         }
+                     });
+                	
+
+                 }
             }
          
-		function callback_mail(){ 
-		    if (this.readyState == 4 && this.status == 200) {
-		         
-		        let chk = this.responseText.trim();
+		function callback_mail(data){ 
+			console.log(data)
+			let chk = data.trim();
 		        console.log(chk);
 		        if(chk=='0'){ 
 		        	 result.style.display="block"; 
@@ -340,14 +363,11 @@ function win_upload(){
 		             result.innerHTML = '이미 가입된 메일입니다'; 
 		             idchk.value=0;
 		        } 
-		    }  
+  
 		}
 		
-        function callback_nickname(){ 
-            if (this.readyState == 4 && this.status == 200) {
-                 
-                let chk = this.responseText.trim();
-                console.log(chk);
+        function callback_nickname(data){ 
+                let chk = data.trim(); 
                 if(chk=='0'){ 
                      result3.style.display="block"; 
                      result3.classList.remove("alert-danger");
@@ -362,7 +382,7 @@ function win_upload(){
                      result3.innerHTML = '이미 사용된 닉네임입니다'; 
                      nickchk.value=0;
                 } 
-            }  
+             
         }
  
         function inputChk(f){
