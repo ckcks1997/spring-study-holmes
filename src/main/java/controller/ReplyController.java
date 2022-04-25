@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +39,7 @@ public class ReplyController {
 	
 	@ResponseBody
 	@RequestMapping("writeReply")
-	public String writeReply(String board_num, String reply_content, Reply reply) {
+	public String writeReply(RequestBody Reply reply) {
 		
 		String nickname = (String) session.getAttribute("memberNickname");
 		reply.setNickname(nickname);

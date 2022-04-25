@@ -135,27 +135,15 @@ a:hover {
 				<!-- ------------------------------------------------------------------------------------ -->
 
 				<div class="row col-sm-9 divide" style="float: left">
+				<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
+					<c:if test="${boardid != 4 && boardid != 5}"><%--공지와 문의게시판이 아닌 곳에만 적용 --%>
 					<a href="<%=request.getContextPath()%>/community/comBoardList">최신순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp;
-
-					<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
-					<c:choose>
-						<c:when test="${boardid == 5}">
-							<%--문의게시판은 내 글 보기 활성화 --%>
-							<a href="<%=request.getContextPath()%>/community/comBoardMyAsk">나의
-								문의글 보기</a>
-						</c:when>
-						<c:when test="${boardid == 4 }">
-							<%--공지게시판은 조회수순 활성화 --%>
-							<a href="<%=request.getContextPath()%>/community/comBoardRead">조회수순</a>
-						</c:when>
-						<c:otherwise>
-							<%--그 외 게시판은 댓글순, 조회수순 활성화 --%>
 							<a href="<%=request.getContextPath()%>/community/comBoardReply">댓글순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp; <a
 								href="<%=request.getContextPath()%>/community/comBoardRead">조회수순</a>
-						</c:otherwise>
-					</c:choose>
+					</c:if>
+					
 				</div>
 
 
@@ -174,7 +162,7 @@ a:hover {
 					</c:when>
 
 					<c:otherwise>
-						<%--아니면 유저가 관리자이고 --%>
+						<%--관리자이고 --%>
 						<c:if test="${boardid == 4 }">
 							<%--공지게시판이면 --%>
 							<%--글쓰기 버튼을 띄운다 --%>
@@ -207,7 +195,7 @@ a:hover {
 										<div class="col-sm-9">
 											<input type="hidden" name="board_num"
 												value="${com.board_num}">
-											<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
+										
 											<a
 												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}"
 												style="color: black">

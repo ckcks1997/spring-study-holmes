@@ -51,63 +51,6 @@ public class CommunityController {
 		this.session = request.getSession();
 	}
 	
-	// 문의게시판에서 내가 쓴 문의글 보기
-	@RequestMapping("comBoardMyAsk")
-	public String comBoardMyAsk() {
-
-		String boardid = "";
-		int pageInt = 1;
-		int limit = 4;
-
-		if (request.getParameter("boardid") != null) {
-			session.setAttribute("boardid", "5");
-			session.setAttribute("pageNum", "1");
-		}
-
-		boardid = (String) session.getAttribute("boardid");
-		if (boardid == null) {
-			boardid = "5";
-		}
-
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
-		}
-
-		String pageNum = (String) session.getAttribute("pageNum");
-		if (pageNum == null) {
-			pageNum = "1";
-		}
-
-		pageInt = Integer.parseInt(pageNum);
-
-		int boardcount = cbd.comBoardCount(boardid);
-		String nickname = (String) session.getAttribute("memberNickname");
-		List<Community> list = cbd.comBoardMyAsk(pageInt, limit, boardcount, nickname);
-
-		System.out.println("boardid: " + boardid + "---" + nickname); // 값 확인
-		int boardnum = boardcount - limit * (pageInt - 1);
-		int bottomLine = 3;
-		int startPage = (pageInt - 1) / bottomLine * bottomLine + 1;
-		int endPage = startPage + bottomLine - 1;
-		int maxPage = (boardcount / limit) + (boardcount % limit == 0 ? 0 : 1);
-		if (endPage > maxPage)
-			endPage = maxPage;
-
-		String boardName = "문의사항";
-
-		m.addAttribute("boardName", boardName);
-		m.addAttribute("pageInt", pageInt);
-		m.addAttribute("boardid", boardid);
-		m.addAttribute("boardcount", boardcount);
-		m.addAttribute("list", list);
-		m.addAttribute("boardnum", boardnum);
-		m.addAttribute("startPage", startPage);
-		m.addAttribute("bottomLine", bottomLine);
-		m.addAttribute("endPage", endPage);
-		m.addAttribute("maxPage", maxPage);
-
-		return "view/community/comBoardList";
-	}
 
 	// 최신순 나열
 	@RequestMapping("comBoardList")
@@ -176,6 +119,7 @@ public class CommunityController {
 		m.addAttribute("bottomLine", bottomLine);
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
+		
 
 		return "view/community/comBoardList";
 	}
