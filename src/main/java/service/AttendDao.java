@@ -8,9 +8,11 @@ import javax.annotation.PostConstruct;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.Attend;
 
+@Component
 public class AttendDao {
 
 	private static final String NS = "attend.";
@@ -32,10 +34,10 @@ public class AttendDao {
         
      }
 	  
-	  public int attendInsert(Attend at) {
-		
+	  public int attendInsert(Attend attend) {
+	
 			try {
-		return sqlSession.insert(NS+"attendInsert",at);
+		return sqlSession.insert(NS+"attendInsert",attend);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {

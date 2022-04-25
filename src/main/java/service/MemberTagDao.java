@@ -3,7 +3,12 @@ package service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import model.MemberTag;
 import util.MybatisConnection;
 
@@ -13,9 +18,17 @@ public class MemberTagDao {
   private Map map = new HashMap();
 
    
+  @Autowired
+  MySqlSessionFactory sqlSessionFactory;
+  SqlSession sqlSession;
+  
+  @PostConstruct
+  public void setSqlSession() {
+	  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
+  }
 
   public List<MemberTag> getMemberTag(String id) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
+   
     try {
  
       return sqlSession.selectList(NS + "getMemberTag", id);

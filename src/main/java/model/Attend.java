@@ -7,6 +7,7 @@ public class Attend {
   private String gift;
   
   
+  public Attend() {}
 
 public String getId() {
 	return id;

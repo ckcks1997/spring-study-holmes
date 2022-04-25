@@ -30,6 +30,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+	<mvc:resources mapping="/image/**"  location="/image/" cache-period="60"/>
+ 	<mvc:resources mapping="/boardupload/**"  location="/boardupload/" cache-period="60"/>
+	
           <!-- 인터셉터 적용 -->
 <!--          <mvc:interceptors> 
 	         <mvc:interceptor>

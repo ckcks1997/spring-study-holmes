@@ -35,7 +35,7 @@ public class AttendCheckController  {
 		}
 	
   @RequestMapping("check")
-  public String ckeck() {
+  public String ckeck(HttpServletRequest request) {
     
     String id = (String) request.getSession().getAttribute("memberID");
     
@@ -43,7 +43,7 @@ public class AttendCheckController  {
     String url= "main"; //main으로 보내기, alert.jsp파일 참고
     
     if(id != null) {
-      AttendDao ad = new AttendDao();
+      
       List<Attend> result = ad.attendGet(id);
       m.addAttribute("result", result);
       return "/view/check/event";
@@ -56,7 +56,7 @@ public class AttendCheckController  {
   }
  
   @RequestMapping("sendGift")
-  public String sendGood() {
+  public String sendGood(HttpServletRequest request) {
     
     String id = (String) request.getSession().getAttribute("memberID");
     String gift = request.getParameter("gift");
