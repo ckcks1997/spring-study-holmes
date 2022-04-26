@@ -8,20 +8,22 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class LoginInterceptor extends HandlerInterceptorAdapter  {
-
-	@Override
+public class LoginInterceptor extends HandlerInterceptorAdapter{
+	
+	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	throws Exception{
+		//TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		String login = (String)session.getAttribute("memberNickname");
+		String login = (String) session.getAttribute("memberId");
+		
+		
 		if(login == null) {
-			String msg = URLEncoder.encode("로그인이 필요합니다", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/studymember/loginForm"
-					+ "?msg="+msg);
-			return false;
+			String msg = URLEncoder.encode("로그인이 필요합니다.","UTF-8");
+			response.sendRedirect(request.getContextPath()+"/member/loginForm?msg="+msg);
+		return false;
 		}
+		
 		return true;
 	}
-
 }
