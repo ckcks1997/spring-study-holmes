@@ -51,27 +51,7 @@
 		         <mvc:mapping path="/studymember/passwordChangePro"/>
 		         <mvc:mapping path="/studymember/goodbye"/>
 		         <mvc:mapping path="/studymember/goodbyePro"/>
-		         
-		         <!--offStudy-->
-		         <mvc:mapping path="/studymenu/myList2"/>
-		         <mvc:mapping path="/studymenu/offSearchList"/>
-		         <mvc:mapping path="/studymenu/offStudyMenuInfo"/>
-		         <mvc:mapping path="/studymenu/offStudyMenuList"/>
-		         <mvc:mapping path="/studymenu/offStudyUpdateForm"/>
-		         <mvc:mapping path="/studymenu/offStudyWriteForm"/>
-		         <!--onoffStudy-->
-		        <mvc:mapping path="/studymenu/onoffSearchList"/>
-		         <mvc:mapping path="/studymenu/onoffStudyMenuInfo"/>
-		         <mvc:mapping path="/studymenu/onoffStudyMenuList"/>
-		         <mvc:mapping path="/studymenu/onoffStudyUpdateForm"/>
-		         <mvc:mapping path="/studymenu/onoffStudyWriteForm"/>
-				 <!--onStudy-->
-				 <mvc:mapping path="/studymenu/onSearchList"/>
-		         <mvc:mapping path="/studymenu/onStudyMenuInfo"/>
-		         <mvc:mapping path="/studymenu/onStudyMenuList"/>
-		         <mvc:mapping path="/studymenu/onStudyUpdateForm"/>
-		         <mvc:mapping path="/studymenu/onStudyWriteForm"/>
-		         
+		       
 		         <mvc:mapping path="/imgupload/**"/>
 		          
 		          
