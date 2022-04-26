@@ -127,7 +127,8 @@ h2, h3, h5 {
 				<br>
 			        <div class="row">
 	                    <div class="col">
-	                      <h5>진행중인 스터디</h5> 
+	                    <c:if test="${empty list}"> <br><h5>진행중인 스터디가 없습니다.</h5> </c:if>
+	                      <c:if test="${!empty list}"><h5>진행중인 스터디</h5>  </c:if>
 	                    </div>
 	                </div>
 	                    

@@ -344,11 +344,11 @@ public class StudyMemberController {
   @RequestMapping("picturePro")
   public String picturePro(@RequestParam("picture") MultipartFile file, Model model) {
     
-    String path = request.getServletContext().getRealPath("/")+"upload";
+    String path = request.getServletContext().getRealPath("/")+"imgupload/";
     System.out.println(path);
-    File file111=new File(path);
-    if(!file111.exists()) { 
-      file111.mkdir();
+    File folder = new File(path);
+    if(!folder.exists()) {
+    	folder.mkdir();
     }
     String filename = file.getOriginalFilename();
 

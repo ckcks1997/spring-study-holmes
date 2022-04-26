@@ -21,6 +21,7 @@
  <mvc:resources mapping="/fonts/**" location="/resources/fonts/" />
  <mvc:resources mapping="/common/**" location="/WEB-INF/common/" />
  <mvc:resources mapping="/upload/**" location="/upload/" />
+ <mvc:resources mapping="/imgupload/**" location="/imgupload/" />
  <mvc:resources mapping="/comboardupload/**" location="/comboardupload/" />
 <mvc:view-controller path="/index" view-name="index"/>
 <mvc:view-controller path="/index.do" view-name="index"/> 
