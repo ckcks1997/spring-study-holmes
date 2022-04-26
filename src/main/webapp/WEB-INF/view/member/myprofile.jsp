@@ -125,25 +125,7 @@ h2, h3, h5 {
 					</form>
 				</div>
 				<br>
-
-				<div class="container container-css  p-5">
-					<h5>관심태그</h5>
-					<form action="<%=request.getContextPath()%>/studymember/myprofileEdit2">
-						<div class="row px-5">
-							<input class="col-10 form-control input-border-round" type="text" name="tag" maxlength="10" required>
-							<div class="col text-center">
-								<button class="btn btn-color">추가</button>
-							</div>
-						</div>
-					</form>
-					<!-- 태그 출력 -->
-					<div class="container p-2">
-						<c:forEach var="i" items="${tagInfo}">
-							<span class="interest-tag">#${i.tag}</span>
-						</c:forEach>
-					</div>
-				</div>
-				<br>
+ 
 				<div class="container container-css p-5">
 					<div class="container d-flex justify-content-between  ">
 						<div class="row">

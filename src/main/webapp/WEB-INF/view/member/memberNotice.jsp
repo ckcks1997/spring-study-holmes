@@ -69,6 +69,7 @@
                             </a>
                             <hr>
                          </c:forEach>
+                         <c:if test="${empty noticeList}"> <br><h5>알림이 없습니다.</h5> </c:if>
                          </div>
                      </div>
                       
