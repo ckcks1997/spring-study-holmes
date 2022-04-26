@@ -43,6 +43,7 @@ public class StudyMenuController {
 	StudyMenuDao smd;
 	
 	
+	
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;
@@ -1106,28 +1107,27 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onStudyMenuInfo")
-	public String onStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
-
+	public String onStudyMenuInfo() {
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
 		StudyMenu s = smd.menuBoardOne(board_num);
 		m.addAttribute("s", s);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
         // 닉네임으로 평판 가져오기
-        StudyMemberDao sd = new StudyMemberDao();
-        StudyMember repVal = sd.getPoint(s.getNickname());
+       
+        StudyMember repVal = md.getPoint(s.getNickname());
         m.addAttribute("repVal", repVal);
         
 		return "/view/study/onStudyMenuInfo";
 	}
 
 	@RequestMapping("offStudyMenuInfo")
-	public String offStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String offStudyMenuInfo() {
 
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
@@ -1135,20 +1135,20 @@ public class StudyMenuController {
 		m.addAttribute("s", s);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
 		// 닉네임으로 평판 가져오기
-		StudyMemberDao sd = new StudyMemberDao();
-		StudyMember repVal = sd.getPoint(s.getNickname());
+		
+		StudyMember repVal = md.getPoint(s.getNickname());
 		m.addAttribute("repVal", repVal);
 		
 		return "/view/study/offStudyMenuInfo";
 	}
 
 	@RequestMapping("onoffStudyMenuInfo")
-	public String onoffStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffStudyMenuInfo() {
 
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
@@ -1156,13 +1156,13 @@ public class StudyMenuController {
 		m.addAttribute("s", s);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
         // 닉네임으로 평판 가져오기
-        StudyMemberDao sd = new StudyMemberDao();
-        StudyMember repVal = sd.getPoint(s.getNickname());
+       
+        StudyMember repVal = md.getPoint(s.getNickname());
         m.addAttribute("repVal", repVal);
         
 		return "/view/study/onoffStudyMenuInfo";
