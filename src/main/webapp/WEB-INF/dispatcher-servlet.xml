@@ -21,7 +21,9 @@
  <mvc:resources mapping="/fonts/**" location="/resources/fonts/" />
  <mvc:resources mapping="/common/**" location="/WEB-INF/common/" />
  <mvc:resources mapping="/upload/**" location="/upload/" />
- <mvc:resources mapping="/comboardupload/**" location="/comboardupload/" />
+ <mvc:resources mapping="/imgupload/**" location="/imgupload/" />
+ <mvc:resources mapping="/comboardupload/**" location="/comboardupload/" /> 
+	
 <mvc:view-controller path="/index" view-name="index"/>
 <mvc:view-controller path="/index.do" view-name="index"/> 
 
@@ -34,26 +36,51 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-	<mvc:resources mapping="/image/**"  location="/image/" cache-period="60"/>
- 	<mvc:resources mapping="/boardupload/**"  location="/boardupload/" cache-period="60"/>
-	
-          <!-- 인터셉터 적용 -->
-<!--          <mvc:interceptors> 
-	         <mvc:interceptor>
-		         <mvc:mapping path="/acl/**"/>
-		         <bean class="service.AdminInterceptor"/>
-	         </mvc:interceptor>
+
+          <mvc:interceptors> 
+ 
 	         
-	         <bean class="service.MeasuringIntercoptor"/> 전체 적용
-	         
-         	 <mvc:interceptor> 여러 path 적용
-		         <mvc:mapping path="/members/m2"/>
-		         <mvc:mapping path="/files/**"/>
-		         <bean class = "service.LoginInterceptor"/>
+         	 <mvc:interceptor> <!-- 여러 path 적용 --> 
+		         <mvc:mapping path="/studymember/notice"/>
+		         <mvc:mapping path="/studymember/noticeInfo"/>
+		         <mvc:mapping path="/studymember/groupAccept"/>
+		         <mvc:mapping path="/studymember/mypage"/>
+		         <mvc:mapping path="/studymember/myprofile"/>
+		         <mvc:mapping path="/studymember/myprofileEdit1"/>
+		         <mvc:mapping path="/studymember/passwordChange"/>
+		         <mvc:mapping path="/studymember/passwordChangePro"/>
+		         <mvc:mapping path="/studymember/goodbye"/>
+		         <mvc:mapping path="/studymember/goodbyePro"/>
+		         
+		         <!--offStudy-->
+		         <mvc:mapping path="/studymenu/myList2"/>
+		         <mvc:mapping path="/studymenu/offSearchList"/>
+		         <mvc:mapping path="/studymenu/offStudyMenuInfo"/>
+		         <mvc:mapping path="/studymenu/offStudyMenuList"/>
+		         <mvc:mapping path="/studymenu/offStudyUpdateForm"/>
+		         <mvc:mapping path="/studymenu/offStudyWriteForm"/>
+		         <!--onoffStudy-->
+		        <mvc:mapping path="/studymenu/onoffSearchList"/>
+		         <mvc:mapping path="/studymenu/onoffStudyMenuInfo"/>
+		         <mvc:mapping path="/studymenu/onoffStudyMenuList"/>
+		         <mvc:mapping path="/studymenu/onoffStudyUpdateForm"/>
+		         <mvc:mapping path="/studymenu/onoffStudyWriteForm"/>
+				 <!--onStudy-->
+				 <mvc:mapping path="/studymenu/onSearchList"/>
+		         <mvc:mapping path="/studymenu/onStudyMenuInfo"/>
+		         <mvc:mapping path="/studymenu/onStudyMenuList"/>
+		         <mvc:mapping path="/studymenu/onStudyUpdateForm"/>
+		         <mvc:mapping path="/studymenu/onStudyWriteForm"/>
+		         
+		         <mvc:mapping path="/imgupload/**"/>
+		          
+		          
+		          
+		          
+		         <bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
-         </mvc:interceptors>
-     -->
-         
+         </mvc:interceptors> 
+    
  
 
         <bean id="multipartResolver" 

@@ -47,7 +47,7 @@ body {
 				<hr align="left" width="150px" style="border: 0.5px solid #c47100" />
 
 
-				<form name="cf"
+				<form
 					action="<%=request.getContextPath()%>/group/groupBoardWritePro"
 					enctype="multipart/form-data" method="post">
 					<br /> <br />
@@ -101,8 +101,8 @@ body {
 				enctype : 'multipart/form-data', 
 				processData : false,
 				success : function(url) { 
-					
-					 let res = url.trim();
+					let res ="<%=request.getContextPath()%>/imgupload/"
+					   res += url.trim();
 					 console.log(res)
 					$(el).summernote('insertImage', res, function($image) {
 						$image.css('width', "25%");

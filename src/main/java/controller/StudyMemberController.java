@@ -81,16 +81,12 @@ public class StudyMemberController {
   public String memberNotice(Model model) {
 
     String id = (String) session.getAttribute("memberNickname");
-    String msg = "로그인이 필요합니다";
-    String url = "/studymember/loginForm";
-    if(id != null) {
+
       List<Notice> noticeList = nd.noticeGet(id); //알림 리스트 가져옴
       model.addAttribute("noticeList", noticeList);
       session.setAttribute("noticeCount", 0);
       return "/view/member/memberNotice";      
-    }
-    model.addAttribute("msg", msg);  
-    return "redirect:"+url;
+
   }
   
   /*
@@ -98,13 +94,10 @@ public class StudyMemberController {
    * */
   @RequestMapping("noticeInfo")
   public String noticeInfo(Model model) {
-
-	  System.out.println("================");
-    String id = (String) session.getAttribute("memberNickname");
-    String msg = "로그인이 필요합니다";
-    String url = "/studymember/loginForm";
+ 
+    String id = (String) session.getAttribute("memberNickname"); 
     
-    if(id != null) { //현재 로그인 된 유저라면 
+ 
       int noticeNum = Integer.parseInt(request.getParameter("noticeNum"));
       
       //noticeNum에 해당하는 notice정보 가져오기
@@ -133,9 +126,9 @@ public class StudyMemberController {
     	  model.addAttribute("notice", n);  
     	  return "/view/member/memberNoticeInfo";
       }      
-    }
-    model.addAttribute("msg", msg);  
-    return "redirect:"+url;
+ 
+    model.addAttribute("msg", "오류 발생");  
+    return "redirect:/board/main";
   }
   
   /*
@@ -145,11 +138,9 @@ public class StudyMemberController {
   public String groupAccept(Model model) {
 
     String id = (String) session.getAttribute("memberNickname");
- 
-   
-    String msg = "로그인이 필요합니다";
-    String url = "/studymember/loginForm";
-    if(id != null) { 
+
+    String msg = "오류발생";
+    String url = "/board/main"; 
       
       int noticeNum = Integer.parseInt(request.getParameter("notice_num")); //알림번호 가져옴
       Notice n = nd.noticeGetByNoticeNum(noticeNum); //알림정보 조회
@@ -161,26 +152,22 @@ public class StudyMemberController {
         gm.setBoardnum(menu.getBoard_num());
         gm.setNickname(n.getNickname_from()); 
         gmd.groupInsert(gm, 0);
-        
-        
+       
         /*TODO: 스터디에 참가한 사람에게 알림 전송*/
-        
-        
+
         msg = "등록되었습니다";
-        url = "/studymember/notice";
-         
-      }      
+        url = "/studymember/notice";   
     }
 
     model.addAttribute("msg", msg);  
     return "redirect:"+url;
   }
+  
   /*
    * 로그인 페이지
    * */
   @RequestMapping("loginForm")
   public String memberloginForm() {
-
     return "view/member/login";
   }
   
@@ -267,8 +254,7 @@ public class StudyMemberController {
     String url = "/board/main";
     
     return "redirect:"+url;
-  }
-  
+  } 
   
     /*회원가입*/
   
@@ -319,7 +305,7 @@ public class StudyMemberController {
   }
   
   /*
-   * 닉네임 중복확인0
+   * 닉네임 중복확인
    * */
   @ResponseBody //Ajax 통신
   @RequestMapping(value="nicknameExist") 
@@ -334,7 +320,6 @@ public class StudyMemberController {
    * */
   @RequestMapping("pictureForm")
   public String pictureForm() {
-
     return "/single/pictureForm";
   }
   
@@ -344,11 +329,11 @@ public class StudyMemberController {
   @RequestMapping("picturePro")
   public String picturePro(@RequestParam("picture") MultipartFile file, Model model) {
     
-    String path = request.getServletContext().getRealPath("/")+"upload";
+    String path = request.getServletContext().getRealPath("/")+"imgupload/";
     System.out.println(path);
-    File file111=new File(path);
-    if(!file111.exists()) { 
-      file111.mkdir();
+    File folder = new File(path);
+    if(!folder.exists()) {
+    	folder.mkdir();
     }
     String filename = file.getOriginalFilename();
 
@@ -368,16 +353,12 @@ public class StudyMemberController {
   }
   
   
-  
   /*
    * 마이페이지
    * */
+  
   @RequestMapping("mypage")
   public String mypage(Model model) {
-    
-    String msg="로그인이 필요합니다"; 
-    
-    if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID"); 
       StudyMember mem = md.studyMemberOne(memberID);
       model.addAttribute("memberInfo", mem);
@@ -385,11 +366,7 @@ public class StudyMemberController {
       List<ReputationEstimate> repList = red.getReputation(mem.getNickname());
       model.addAttribute("repList", repList);
 
-      return "/view/member/mypage";
-    }
-
-    model.addAttribute("msg", msg); 
-    return "/view/member/login";
+      return "/view/member/mypage"; 
   }
   
     /*내  프로필 정보*/
@@ -397,21 +374,14 @@ public class StudyMemberController {
   /*
    * 내 프로필 정보
    * */
+  
   @RequestMapping("myprofile")
   public String myprofile(Model model) {
-	  
-    String msg="로그인이 필요합니다"; 
-    
-    if(session.getAttribute("memberID") != null) {
       String memberID = (String) session.getAttribute("memberID");   
       StudyMember mem = md.studyMemberOne(memberID);
       model.addAttribute("memberInfo", mem);
       
       return "/view/member/myprofile";
-    }
-    
-    request.setAttribute("msg", msg); 
-    return "/view/member/login";
   }
   
   /*
@@ -419,19 +389,17 @@ public class StudyMemberController {
    * */
   @PostMapping("myprofileEdit1")
   public String myprofileEdit1(Model model, RedirectAttributes redirect) { 
-    String msg="로그인이 필요합니다"; 
-    String url = "/view/member/login";
-    if(session.getAttribute("memberID") != null) {
+    String msg="오류 발생"; 
+    String url= "redirect:/studymember/myprofile";
       String s_id = (String)session.getAttribute("memberID");
       String profile_intro = (String) request.getParameter("profile_intro");
  
       int result = md.studyMemberIntroUpdate(s_id, profile_intro);
       System.out.println(result);
       if(result == 1) {
-        msg="수정되었습니다";
-        url= "redirect:/studymember/myprofile";
+        msg="수정되었습니다"; 
       }
-    } //메세지 값을 post방식으로 보냅니다.
+     //메세지 값을 post방식으로 보냅니다.
     redirect.addFlashAttribute("msg", msg); //redirect후 뒤로가기 하면 컨트롤러로 요청이 들어오지는 않는데
     										//브라우져에는 msg값이 남아있는지 alert가 뜨네요..
     return url;
@@ -443,15 +411,7 @@ public class StudyMemberController {
    * */
   @RequestMapping("passwordChange")
   public String passwordChange(Model model) {
-    String msg="로그인이 필요합니다"; 
-    
-    if(session.getAttribute("memberID") != null) {
       return "/view/member/passwordChange"; 
-    }
-    
-    model.addAttribute("msg", msg); 
-    return "redirect:/studymember/loginForm";
-
   }
   
   /*
@@ -462,14 +422,11 @@ public class StudyMemberController {
 		  @RequestParam("password") String password,
 		  @RequestParam("newpassword") String newpassword, 
 		  RedirectAttributes redirect ) {
-
-	System.out.println(password+"====");
-	System.out.println(newpassword+"====");
-	
-    String msg="로그인이 필요합니다.";
-    String url="redirect:/studymember/loginForm";
+ 
+    String msg="오류 발생";
+    String url="redirect:/studymember/myprofile";
     
-    if(session.getAttribute("memberID") != null && !password.isEmpty()) {
+    if(!password.isEmpty()) {
     	msg="비밀번호가 다릅니다.";
       String s_id = (String)request.getSession().getAttribute("memberID");
       StudyMember sm = md.studyMemberOne(s_id);
@@ -488,23 +445,13 @@ public class StudyMemberController {
    * 회원탈퇴
    * */
   @RequestMapping("goodbye")
-  public String goodBye(Model model, RedirectAttributes redirect ) { 
-    String msg="로그인이 필요합니다";
-    String url="redirect:/studymember/loginForm";
-    
-    if(session.getAttribute("memberID") != null) {
+  public String goodBye(Model model) { 
+
       String memberID = (String) session.getAttribute("memberID");
-       
       StudyMember mem = md.studyMemberOne(memberID);
-       
       model.addAttribute("memberInfo", mem);
        
       return "/view/member/goodbye";
-    }
-    
-    redirect.addFlashAttribute("msg", msg); 
- 
-    return url; 
   }
   
   /*
@@ -512,10 +459,10 @@ public class StudyMemberController {
    * */
   @PostMapping("goodbyePro")
   public String goodbyePro(RedirectAttributes redirect ) {
-    String msg="로그인이 필요합니다";
-    String url="redirect:/studymember/loginForm";
-    
-    if(session.getAttribute("memberID") != null) {
+	  
+	  String msg="알 수 없는 오류";
+      String url="redirect:/board/main";
+
       String memberID = (String) session.getAttribute("memberID");
       String pw = request.getParameter("password");
        
@@ -527,26 +474,16 @@ public class StudyMemberController {
         if(deleted == 1) {
           session.invalidate();
           msg="회원탈퇴가 완료되었습니다.";
-          url="redirect:/board/main";
         } else {
-          
           msg="알 수 없는 오류";
-          url="redirect:/board/main";
         }
       }else {
-        
         msg="비밀번호가 다릅니다";
         url="redirect:/studymember/goodbye";
       }
-        
-    }
-    
     redirect.addFlashAttribute("msg", msg); 
- 
     return url; 
   }
-  
- 
  
   /*
    * 마이페이지

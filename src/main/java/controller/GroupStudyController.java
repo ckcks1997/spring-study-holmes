@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Attend;
 import model.Community;
@@ -389,7 +390,7 @@ public class GroupStudyController {
  
   /*글쓰기-진행*/
   @RequestMapping("groupBoardWritePro")
-  public String groupBoardWritePro(Model model) {
+  public String groupBoardWritePro(GroupBoard gb, Model model) {
 	  
 	  HttpSession session = request.getSession();
 	  String msg = "로그인이 필요합니다";
@@ -400,15 +401,8 @@ public class GroupStudyController {
 		String boardid = (String) session.getAttribute("boardid"); //게시판목록
 		String boardnum = (String) session.getAttribute("boardnum");//그룹번호
 		String memberNickname = (String) session.getAttribute("memberNickname"); 
-		String title = (String) request.getParameter("title");
-		String content = (String) request.getParameter("content");
-		
-		GroupBoard gb = new GroupBoard();
-		
 		gb.setBoardid(boardid);
 		gb.setS_board_num(Integer.parseInt(boardnum));
-		gb.setTitle(title);
-		gb.setContent(content);
 		gb.setNickname(memberNickname);
 		
 		int res = gbd.groupInsertBoard(gb);
@@ -423,10 +417,10 @@ public class GroupStudyController {
   
   //게시글 상세보기
   @RequestMapping("groupBoardInfo")
-  public String groupBoardInfo(HttpServletRequest request, HttpServletResponse response) {
-	  HttpSession session = request.getSession();
-	  String s_board_num = (String) session.getAttribute("boardnum");
-	  String board_num = request.getParameter("board_num");
+  public String groupBoardInfo(Model model, String board_num ) { 
+	  //로그인 인터셉터 사용예정
+	  
+	  String s_board_num = (String) session.getAttribute("boardnum"); 
 	  
 	  GroupBoard gb = gbd.groupBoardOne(s_board_num, board_num);
 	  gbd.groupReadCountUp(Integer.parseInt(board_num));
@@ -436,10 +430,9 @@ public class GroupStudyController {
 	  List<Reply> reply_list = rd.replyWriteList(Integer.parseInt(board_num));
 	  int reply_count = rd.replyCount(Integer.parseInt(board_num));
 	  
-	  request.setAttribute("reply_list", reply_list);
-	  request.setAttribute("reply_count", reply_count);
-	  
-	  request.setAttribute("groupBoard", gb); 
+	  model.addAttribute("reply_list", reply_list);
+	  model.addAttribute("reply_count", reply_count); 
+	  model.addAttribute("groupBoard", gb); 
 	  
 	  return "/view/group/groupBoardInfo";
 
@@ -447,105 +440,74 @@ public class GroupStudyController {
   }
 
   /*이미지 업로드*/
+  	@ResponseBody
 	@RequestMapping("imageUpload")                                             
-	public String imageUpload(HttpServletRequest request, HttpServletResponse response) {
+	public String imageUpload(@RequestParam("file") MultipartFile multipartFile) {
  
-		String path = request.getServletContext().getRealPath("/")+"upload";
-		String fileName = "";
-	    //폴더가 없으면 에러남, 검사 후 폴더생성
-	    File file=new File(path);
-	    if(!file.exists()) { 
-	      file.mkdir();
-	    }
-	    
+		String path = request.getServletContext().getRealPath("/")+"imgupload/";
 	    String filename = null;
-	    MultipartFile multi = null;
-	    /*
-	    try {
-	      multi = new MultipartFile(request, path, 10*1024*1024, "utf-8");
-	    } catch (IOException e) { 
-	      e.printStackTrace();
+	    File folder = new File(path);
+	    if(!folder.exists()) {
+	    	folder.mkdir();
 	    }
-	     
-	    filename = multi.getFilesystemName("file");
-	    */
-	    System.out.println("filename="+filename);
-	    request.setAttribute("filename", filename);
-	    return "/single/picturePro2.jsp";
+	    if(!multipartFile.isEmpty()) {
+	    	File file = new File(path, multipartFile.getOriginalFilename());
+	    	try {
+				multipartFile.transferTo(file);
+				filename=multipartFile.getOriginalFilename();
+			} catch (IllegalStateException e) { 
+				e.printStackTrace();
+			} catch (IOException e) { 
+				e.printStackTrace();
+			} 
+	    } 
+	  System.out.println(filename);
+	    return filename;
 	}
 	
   //게시글 수정페이지
 	  @RequestMapping("groupBoardUpdateForm")
-	  public String comBoardUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
-		  
-		  HttpSession session = request.getSession();
+	  public String comBoardUpdateForm(@RequestParam int board_num, Model model) {
+		   
 		  String msg = "로그인이 필요합니다";
 		  String url = request.getContextPath()+"/studymember/loginForm";
 		  
-		  if(session.getAttribute("memberNickname")!= null) {
-			  
-			  
-		 	  int board_num = Integer.parseInt(request.getParameter("board_num"));
-		 	  System.out.println(board_num+"==");
-		 	  GroupBoardDao gbd = new GroupBoardDao();
+		  if(session.getAttribute("memberNickname")!= null) { 
+			   
+		 	  System.out.println(board_num+"=="); 
 		 	  GroupBoard gb = gbd.groupBoardOne2(board_num);
 		 	  
 		 	  if(gb.getNickname().equals(session.getAttribute("memberNickname") )){
 			 	  request.setAttribute("gb", gb);
-			 	  return "/view/group/groupBoardUpdateForm.jsp";
+			 	  return "/view/group/groupBoardUpdateForm";
 		 	  }
 		  }
 		  
 	      msg= "권한이 없습니다.";
-	      url= "main";
 
-	    request.setAttribute("msg", msg);
-	    request.setAttribute("url", url);
-	     
-	    return "/view/alert.jsp";  
+	    request.setAttribute("msg", msg); 
+	    return url;  
 	    }
 	  
 	  //게시글 수정
 	  @RequestMapping("groupBoardUpdatePro")
-	  public String comBoardUpdatePro(HttpServletRequest request, HttpServletResponse response) {
+	  public String comBoardUpdatePro(GroupBoard gb, int board_num, RedirectAttributes redirect) {
 		  
-		  String path = request.getServletContext().getRealPath("/")+"/comboardupload/";
-		  /*
-		  int size = 10*10*1024;
-		  MultipartRequest multi = null;
-		  try {
-			multi = new MultipartRequest(request, path, size, "utf-8");
-		  } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		  }
-		  GroupBoard com = new GroupBoard();
-		  com.setboard_num(Integer.parseInt(multi.getParameter("board_num")));
-		  com.setTitle(multi.getParameter("title"));
-		  com.setContent(multi.getParameter("content"));
-		  
-		  GroupBoardDao cbd = new GroupBoardDao();
-		  
-		  String msg = "";
-		  String url = "";
-		  
-		
-		  
-		  //Community newcom = cbd.comBoardOne(com.getNum());
-		  if(cbd.groupBoardUpdate(com)>0) {
+		  gb.setboard_num(board_num); 
+  
+		  String msg = "오류";
+		  String url = "board/main";
+		   
+		  if(gbd.groupBoardUpdate(gb)>0) {
 			   msg = "수정되었습니다";
-			   url = request.getContextPath()+"/group/groupBoardInfo?board_num="+com.getboard_num();
+			   url =  "/group/groupBoardInfo?board_num="+gb.getboard_num();
 			 
 		  } else {
 			  msg = "수정이 실패하였습니다";
 		  }
-		 
 		  
-		  request.setAttribute("msg", msg);
-		  request.setAttribute("url", url);
-		 */
-		  
-		  return "/view/alert.jsp";
+		  redirect.addFlashAttribute("msg", msg);  
+		  return "redirect:/"+url;
 		  
 	  }
 	  

@@ -14,7 +14,7 @@
 
 <script>
 const img = opener.document.getElementById("pic");
-img.src = "<%=request.getContextPath()%>/upload/${filename}";
+img.src = "<%=request.getContextPath()%>/imgupload/${filename}";
 opener.document.f.picture.value = "${filename}";
 self.close();
 </script>
