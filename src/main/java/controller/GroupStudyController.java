@@ -493,14 +493,14 @@ public class GroupStudyController {
 	  @RequestMapping("groupBoardUpdatePro")
 	  public String comBoardUpdatePro(GroupBoard gb, int board_num, RedirectAttributes redirect) {
 		  
-		  gb.setboard_num(board_num); 
+		  gb.setBoard_num(board_num); 
   
 		  String msg = "오류";
 		  String url = "board/main";
 		   
 		  if(gbd.groupBoardUpdate(gb)>0) {
 			   msg = "수정되었습니다";
-			   url =  "/group/groupBoardInfo?board_num="+gb.getboard_num();
+			   url =  "/group/groupBoardInfo?board_num="+gb.getBoard_num();
 			 
 		  } else {
 			  msg = "수정이 실패하였습니다";
