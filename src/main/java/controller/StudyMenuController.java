@@ -43,6 +43,7 @@ public class StudyMenuController {
 	StudyMenuDao smd;
 	
 	
+	
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;
@@ -1106,28 +1107,27 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onStudyMenuInfo")
-	public String onStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
-
+	public String onStudyMenuInfo() {
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
 		StudyMenu s = smd.menuBoardOne(board_num);
 		m.addAttribute("s", s);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
         // 닉네임으로 평판 가져오기
-        StudyMemberDao sd = new StudyMemberDao();
-        StudyMember repVal = sd.getPoint(s.getNickname());
+       
+        StudyMember repVal = md.getPoint(s.getNickname());
         m.addAttribute("repVal", repVal);
         
 		return "/view/study/onStudyMenuInfo";
 	}
 
 	@RequestMapping("offStudyMenuInfo")
-	public String offStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String offStudyMenuInfo() {
 
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
@@ -1135,20 +1135,20 @@ public class StudyMenuController {
 		m.addAttribute("s", s);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
 		// 닉네임으로 평판 가져오기
-		StudyMemberDao sd = new StudyMemberDao();
-		StudyMember repVal = sd.getPoint(s.getNickname());
+		
+		StudyMember repVal = md.getPoint(s.getNickname());
 		m.addAttribute("repVal", repVal);
 		
 		return "/view/study/offStudyMenuInfo";
 	}
 
 	@RequestMapping("onoffStudyMenuInfo")
-	public String onoffStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffStudyMenuInfo() {
 
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
@@ -1156,13 +1156,13 @@ public class StudyMenuController {
 		m.addAttribute("s", s);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
         // 닉네임으로 평판 가져오기
-        StudyMemberDao sd = new StudyMemberDao();
-        StudyMember repVal = sd.getPoint(s.getNickname());
+       
+        StudyMember repVal = md.getPoint(s.getNickname());
         m.addAttribute("repVal", repVal);
         
 		return "/view/study/onoffStudyMenuInfo";
@@ -1171,7 +1171,7 @@ public class StudyMenuController {
 	
 	/*---------------------------------------------------------------------------*/
 	 @RequestMapping("onStudyUpdateForm")
-	 public String onStudyUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
+	 public String onStudyUpdateForm() {
 		  
 		  int board_num = Integer.parseInt(request.getParameter("board_num"));
 		  
@@ -1183,7 +1183,7 @@ public class StudyMenuController {
 	 
 	
 	  @RequestMapping("onStudyUpdatePro")
-	  public String onStudyUpdatePro(HttpServletRequest request, HttpServletResponse response) {
+	  public String onStudyUpdatePro() {
 		  
 		  try {
 				request.setCharacterEncoding("utf-8");
@@ -1226,7 +1226,7 @@ public class StudyMenuController {
 	  
 	  /*---------------------------------------------------------------------------*/
 		 @RequestMapping("offStudyUpdateForm")
-		 public String offStudyUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
+		 public String offStudyUpdateForm() {
 			  
 			  int board_num = Integer.parseInt(request.getParameter("board_num"));
 			 
@@ -1238,7 +1238,7 @@ public class StudyMenuController {
 		 
 		
 		  @RequestMapping("offStudyUpdatePro")
-		  public String offStudyUpdatePro(HttpServletRequest request, HttpServletResponse response) {
+		  public String offStudyUpdatePro() {
 			  
 			  try {
 					request.setCharacterEncoding("utf-8");
@@ -1280,7 +1280,7 @@ public class StudyMenuController {
 		  
 		  /*---------------------------------------------------------------------------*/
 			 @RequestMapping("onoffStudyUpdateForm")
-			 public String onoffStudyUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
+			 public String onoffStudyUpdateForm() {
 				  
 				  int board_num = Integer.parseInt(request.getParameter("board_num"));
 				  
@@ -1292,7 +1292,7 @@ public class StudyMenuController {
 			 
 			
 			  @RequestMapping("onoffStudyUpdatePro")
-			  public String onoffStudyUpdatePro(HttpServletRequest request, HttpServletResponse response) {
+			  public String onoffStudyUpdatePro() {
 				  
 				  try {
 						request.setCharacterEncoding("utf-8");
@@ -1334,7 +1334,7 @@ public class StudyMenuController {
 			  }
 			  /*---------------------------------------------------------------------------*/
 			  @RequestMapping("onStudyDelete") 
-			  public String onStudyDelete(HttpServletRequest request, HttpServletResponse response) {
+			  public String onStudyDelete() {
 				  
 				  int board_num = Integer.parseInt(request.getParameter("board_num"));
 				 
@@ -1360,7 +1360,7 @@ public class StudyMenuController {
 			  }
 			  
 			  @RequestMapping("offStudyDelete") 
-			  public String offStudyDelete(HttpServletRequest request, HttpServletResponse response) {
+			  public String offStudyDelete() {
 				  
 				  int board_num = Integer.parseInt(request.getParameter("board_num"));
 				  
@@ -1386,7 +1386,7 @@ public class StudyMenuController {
 			  }
 			  
 			  @RequestMapping("onoffStudyDelete") 
-			  public String onoffStudyDelete(HttpServletRequest request, HttpServletResponse response) {
+			  public String onoffStudyDelete() {
 				  
 				  int board_num = Integer.parseInt(request.getParameter("board_num"));
 				  
@@ -1418,10 +1418,9 @@ public class StudyMenuController {
 	// 내가쓴 커뮤니티 게시글//
 	
 			  @RequestMapping("mylist2") 
-				public String mylist2(HttpServletRequest request, 
-						HttpServletResponse response) {
+				public String mylist2() {
 
-				HttpSession session = request.getSession();
+				
 				String nickname = (String) session.getAttribute("memberNickname");
 				String menuid = "";
 				int pageInt = 1;
@@ -1486,7 +1485,7 @@ public class StudyMenuController {
 	/*---------------------------------------------------------------------------*/
 	// 스터디 참가신청 버튼을 누를 때
 	@RequestMapping("studyIn")
-	public String studyIn(HttpServletRequest request, HttpServletResponse response) {
+	public String studyIn() {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
