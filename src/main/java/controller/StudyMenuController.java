@@ -41,6 +41,8 @@ public class StudyMenuController {
 	StudyMenuDao sm;
 	@Autowired
 	StudyMenuDao smd;
+
+
 	
 	
 	@ModelAttribute
@@ -363,11 +365,11 @@ public class StudyMenuController {
 	/*---------------------------------------------------------------------------*/
 	/* 오프라인글쓰기 */
 	@RequestMapping("offStudyWriteForm")
-	public String offStudyWriteForm(HttpServletRequest request, HttpServletResponse response) {
+	public String offStudyWriteForm() {
 
-		HttpSession session = request.getSession();
+		
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url =  "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "/view/study/offStudyWriteForm";
@@ -380,28 +382,9 @@ public class StudyMenuController {
 	}
 
 	@RequestMapping("offWritePro")
-	public String offWritePro(HttpServletRequest request, HttpServletResponse response) {
-
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		StudyMenu studymenu = new StudyMenu();
-
-		studymenu.setTitle(request.getParameter("title"));
-		studymenu.setSubject(request.getParameter("subject"));
-		studymenu.setRegion(request.getParameter("region"));
-		studymenu.setPrice(request.getParameter("price"));
-		studymenu.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		studymenu.setPernum(pernum);
-		studymenu.setContent(request.getParameter("content"));
-		studymenu.setLatitude(request.getParameter("latitude"));
-		studymenu.setLongitude(request.getParameter("longitude"));
-
+	public String offWritePro(StudyMenu studymenu) {
+	
+		
 		String menuid = (String) request.getSession().getAttribute("menuid");
 		if (menuid == null)
 			menuid = "1";
@@ -414,7 +397,6 @@ public class StudyMenuController {
 
 		// group insert
 		
-		System.out.println(studymenu);
 		GroupMember gmem = new GroupMember();
 		gmem.setBoardnum(studymenu.getBoard_num());
 		gmem.setNickname(studymenu.getNickname());
@@ -436,16 +418,12 @@ public class StudyMenuController {
 
 	/* 온라인글쓰기 */
 	@RequestMapping("onStudyWriteForm")
-	public String onStudyWriteForm(HttpServletRequest request, HttpServletResponse response) {
-
-		HttpSession session = request.getSession();
+	public String onStudyWriteForm() {
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
-
+		String url = "/studymember/loginForm";
 		if (session.getAttribute("memberNickname") != null) {
 			return "/view/study/onStudyWriteForm";
 		}
-
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
 
@@ -453,27 +431,9 @@ public class StudyMenuController {
 	}
 
 	@RequestMapping("onWritePro")
-	public String onWritePro(HttpServletRequest request, HttpServletResponse response) {
-
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		StudyMenu studymenu = new StudyMenu();
-
-		studymenu.setTitle(request.getParameter("title"));
-		studymenu.setSubject(request.getParameter("subject"));
-		studymenu.setRegion(request.getParameter("region"));
-		studymenu.setPrice(request.getParameter("price"));
-		studymenu.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		studymenu.setPernum(pernum);
-		studymenu.setContent(request.getParameter("content"));
-		studymenu.setLatitude(request.getParameter("latitude"));
-		studymenu.setLongitude(request.getParameter("longitude"));
+	public String onWritePro(StudyMenu studymenu) {
+		
+		
 
 		String menuid = (String) request.getSession().getAttribute("menuid");
 		if (menuid == null)
@@ -487,7 +447,6 @@ public class StudyMenuController {
 
 		// group insert
 		
-		System.out.println(studymenu);
 		GroupMember gmem = new GroupMember();
 		gmem.setBoardnum(studymenu.getBoard_num());
 		gmem.setNickname(studymenu.getNickname());
@@ -509,11 +468,10 @@ public class StudyMenuController {
 
 	/* 온라인글쓰기 */
 	@RequestMapping("onoffStudyWriteForm")
-	public String onoffStudyWriteForm(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffStudyWriteForm() {
 
-		HttpSession session = request.getSession();
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "/view/study/onoffStudyWriteForm";
@@ -527,27 +485,9 @@ public class StudyMenuController {
 
 	/* 온오프라인글쓰기 */
 	@RequestMapping("onoffWritePro")
-	public String onoffWritePro(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffWritePro(StudyMenu studymenu) {
 
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		StudyMenu studymenu = new StudyMenu();
-
-		studymenu.setTitle(request.getParameter("title"));
-		studymenu.setSubject(request.getParameter("subject"));
-		studymenu.setRegion(request.getParameter("region"));
-		studymenu.setPrice(request.getParameter("price"));
-		studymenu.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		studymenu.setPernum(pernum);
-		studymenu.setContent(request.getParameter("content"));
-		studymenu.setLatitude(request.getParameter("latitude"));
-		studymenu.setLongitude(request.getParameter("longitude"));
 
 		String menuid = (String) request.getSession().getAttribute("menuid");
 		if (menuid == null)
@@ -561,7 +501,6 @@ public class StudyMenuController {
 
 		// group insert
 		
-		System.out.println(studymenu);
 		GroupMember gmem = new GroupMember();
 		gmem.setBoardnum(studymenu.getBoard_num());
 		gmem.setNickname(studymenu.getNickname());
@@ -583,7 +522,7 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onSearch")
-	public String onSearch(HttpServletRequest request, HttpServletResponse response) {
+	public String onSearch(String part, String searchData, String menuid) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
@@ -591,29 +530,21 @@ public class StudyMenuController {
 			e.printStackTrace();
 		}
 
-		String part = "";
-		String searchData = "";
-
-		part = request.getParameter("part");
-		searchData = request.getParameter("searchData");
-		String menuid = request.getParameter("menuid");
-
-		
+				
 		smd.studySearch(part, searchData, menuid);
-
+		System.out.println("part:"+part);
+		System.out.println("searchData:"+ searchData);
 		return "/studymenu/onSearchList";
 	}
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onSearchList")
-	public String onSearchList(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-
+	public String onSearchList(String part, String searchData) {
+		
 		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
-		String part = request.getParameter("part");
-		String searchData = request.getParameter("searchData");
+		
 
 		if (request.getParameter("menuid") != null) {
 			session.setAttribute("menuid", request.getParameter("menuid"));
@@ -691,7 +622,7 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("offSearch")
-	public String offSearch(HttpServletRequest request, HttpServletResponse response) {
+	public String offSearch(String part, String searchData, String menuid) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
@@ -699,12 +630,6 @@ public class StudyMenuController {
 			e.printStackTrace();
 		}
 
-		String part = "";
-		String searchData = "";
-
-		part = request.getParameter("part");
-		searchData = request.getParameter("searchData");
-		String menuid = request.getParameter("menuid");
 
 		
 		smd.studySearch(part, searchData, menuid);
@@ -714,14 +639,13 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("offSearchList")
-	public String offSearchList(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
+	public String offSearchList(String part, String searchData) {
+		
 
 		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
-		String part = request.getParameter("part");
-		String searchData = request.getParameter("searchData");
+		
 
 		if (request.getParameter("menuid") != null) {
 			session.setAttribute("menuid", request.getParameter("menuid"));
@@ -799,21 +723,13 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onoffSearch")
-	public String onoffSearch(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffSearch(String part, String searchData, String menuid) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String part = "";
-		String searchData = "";
-
-		part = request.getParameter("part");
-		searchData = request.getParameter("searchData");
-		String menuid = request.getParameter("menuid");
-
 		
 		smd.studySearch(part, searchData, menuid);
 
@@ -822,14 +738,12 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onoffSearchList")
-	public String onoffSearchList(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffSearchList(String part, String searchData) {
 		HttpSession session = request.getSession();
 
 		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
-		String part = request.getParameter("part");
-		String searchData = request.getParameter("searchData");
 
 		if (request.getParameter("menuid") != null) {
 			session.setAttribute("menuid", request.getParameter("menuid"));
@@ -908,20 +822,13 @@ public class StudyMenuController {
 	
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onAllSearch")
-	public String onAllSearch(HttpServletRequest request, HttpServletResponse response) {
+	public String onAllSearch(String part, String searchData, String menuid) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String part = "";
-		String searchData = "";
-
-		part = request.getParameter("part");
-		searchData = request.getParameter("searchData");
-		String menuid = request.getParameter("menuid");
 
 		
 		smd.onAllSearch(part, searchData, menuid);
@@ -931,14 +838,12 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onAllSearchList")
-	public String onAllSearchList(HttpServletRequest request, HttpServletResponse response) {
+	public String onAllSearchList(String part, String searchData) {
 		HttpSession session = request.getSession();
 
 		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
-		String part = request.getParameter("part");
-		String searchData = request.getParameter("searchData");
 
 		if (request.getParameter("menuid") != null) {
 			session.setAttribute("menuid", request.getParameter("menuid"));
@@ -1017,20 +922,13 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("offAllSearch")
-	public String offAllSearch(HttpServletRequest request, HttpServletResponse response) {
+	public String offAllSearch(String part, String searchData, String menuid) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String part = "";
-		String searchData = "";
-
-		part = request.getParameter("part");
-		searchData = request.getParameter("searchData");
-		String menuid = request.getParameter("menuid");
 
 		
 		smd.offAllSearch(part, searchData, menuid);
@@ -1040,15 +938,13 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("offAllSearchList")
-	public String offAllSearchList(HttpServletRequest request, HttpServletResponse response) {
+	public String offAllSearchList(String part, String searchData) {
 		HttpSession session = request.getSession();
 
 		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
-		String part = request.getParameter("part");
-		String searchData = request.getParameter("searchData");
-
+		
 		if (request.getParameter("menuid") != null) {
 			session.setAttribute("menuid", request.getParameter("menuid"));
 			session.setAttribute("pageNum", "1");
@@ -1126,7 +1022,7 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onoffAllSearch")
-	public String onoffAllSearch(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffAllSearch(String part, String searchData, String menuid) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {
@@ -1134,12 +1030,6 @@ public class StudyMenuController {
 			e.printStackTrace();
 		}
 
-		String part = "";
-		String searchData = "";
-
-		part = request.getParameter("part");
-		searchData = request.getParameter("searchData");
-		String menuid = request.getParameter("menuid");
 
 		
 		smd.onoffAllSearch(part, searchData, menuid);
@@ -1149,14 +1039,12 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onoffAllSearchList")
-	public String onoffAllSearchList(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffAllSearchList(String part, String searchData) {
 		HttpSession session = request.getSession();
 
 		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
-		String part = request.getParameter("part");
-		String searchData = request.getParameter("searchData");
 
 		if (request.getParameter("menuid") != null) {
 			session.setAttribute("menuid", request.getParameter("menuid"));
@@ -1235,63 +1123,61 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onStudyMenuInfo")
-	public String onStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String onStudyMenuInfo(StudyMenu studymenu, int board_num) {
 
-		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
-		StudyMenu s = smd.menuBoardOne(board_num);
-		m.addAttribute("s", s);
+		studymenu= smd.menuBoardOne(board_num);
+		m.addAttribute("studymenu", studymenu);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
         // 닉네임으로 평판 가져오기
         StudyMemberDao sd = new StudyMemberDao();
-        StudyMember repVal = sd.getPoint(s.getNickname());
+        StudyMember repVal = sd.getPoint(studymenu.getNickname());
         m.addAttribute("repVal", repVal);
         
 		return "/view/study/onStudyMenuInfo";
 	}
 
 	@RequestMapping("offStudyMenuInfo")
-	public String offStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String offStudyMenuInfo(StudyMenu studymenu, int board_num) {
 
-		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
-		StudyMenu s = smd.menuBoardOne(board_num);
-		m.addAttribute("s", s);
+		
+		studymenu = smd.menuBoardOne(board_num);
+		m.addAttribute("studymenu", studymenu);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
+		
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
 		// 닉네임으로 평판 가져오기
 		StudyMemberDao sd = new StudyMemberDao();
-		StudyMember repVal = sd.getPoint(s.getNickname());
+		StudyMember repVal = sd.getPoint(studymenu.getNickname());
 		m.addAttribute("repVal", repVal);
 		
 		return "/view/study/offStudyMenuInfo";
 	}
 
 	@RequestMapping("onoffStudyMenuInfo")
-	public String onoffStudyMenuInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String onoffStudyMenuInfo(StudyMenu studymenu, int board_num) {
 
-		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		
-		StudyMenu s = smd.menuBoardOne(board_num);
-		m.addAttribute("s", s);
+		
+		studymenu = smd.menuBoardOne(board_num);
+		m.addAttribute("studymenu", studymenu);
 
 		// session의 닉네임 가져오기
-		HttpSession session = request.getSession();
 		String loginNick = (String) session.getAttribute("memberNickname");
 		m.addAttribute("loginNick", loginNick);
 		
         // 닉네임으로 평판 가져오기
         StudyMemberDao sd = new StudyMemberDao();
-        StudyMember repVal = sd.getPoint(s.getNickname());
+        StudyMember repVal = sd.getPoint(studymenu.getNickname());
         m.addAttribute("repVal", repVal);
         
 		return "/view/study/onoffStudyMenuInfo";
@@ -1300,50 +1186,29 @@ public class StudyMenuController {
 	
 	/*---------------------------------------------------------------------------*/
 	 @RequestMapping("onStudyUpdateForm")
-	 public String onStudyUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
+	 public String onStudyUpdateForm(StudyMenu studymenu, int board_num) {
 		  
-		  int board_num = Integer.parseInt(request.getParameter("board_num"));
 		  
-		  StudyMenu sm = smd.studyMenuOne(board_num);
-		  m.addAttribute("sm", sm);
+		 studymenu = smd.studyMenuOne(board_num);
+		  m.addAttribute("studymenu", studymenu);
 		  
 		  return "/view/study/onStudyUpdateForm";
 	 }
 	 
 	
 	  @RequestMapping("onStudyUpdatePro")
-	  public String onStudyUpdatePro(HttpServletRequest request, HttpServletResponse response) {
-		  
-		  try {
-				request.setCharacterEncoding("utf-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  StudyMenu sm = new StudyMenu();
-		  int board_num = Integer.parseInt(request.getParameter("board_num"));
-		  sm.setBoard_num(board_num);
-		  sm.setTitle(request.getParameter("title"));
-		  sm.setSubject(request.getParameter("subject"));
-		  sm.setRegion(request.getParameter("region"));
-		  sm.setPrice(request.getParameter("price"));
-		  sm.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		  int pernum = Integer.parseInt(request.getParameter("pernum"));
-		  sm.setPernum(pernum);
-		  sm.setContent(request.getParameter("content"));
-		  sm.setLatitude(request.getParameter("latitude"));
-		  sm.setLongitude(request.getParameter("longitude"));
-		  
-		 
+	  public String onStudyUpdatePro(StudyMenu studymenu) {
+		
 		  
 		  String msg = "";
 		  String url = "";
-		  if(smd.studyUpdate(sm)>0) {
+		  if(smd.studyUpdate(studymenu)>0) {
 			   msg = "수정되었습니다";
-			   url = request.getContextPath()+"/studymenu/onStudyMenuInfo?board_num="+sm.getBoard_num();
+			   url = request.getContextPath()+"/studymenu/onStudyMenuInfo?board_num="+studymenu.getBoard_num();
 			 
 		  } else {
 			  msg = "수정이 실패하였습니다";
+			  url = request.getContextPath()+"/studymenu/onStudyMenuInfo?board_num="+studymenu.getBoard_num();
 		  }
 		  m.addAttribute("msg", msg);
 		  m.addAttribute("url", url);
@@ -1355,49 +1220,27 @@ public class StudyMenuController {
 	  
 	  /*---------------------------------------------------------------------------*/
 		 @RequestMapping("offStudyUpdateForm")
-		 public String offStudyUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
+		 public String offStudyUpdateForm(StudyMenu studymenu, int board_num) {
 			  
-			  int board_num = Integer.parseInt(request.getParameter("board_num"));
 			 
-			  StudyMenu sm = smd.studyMenuOne(board_num);
-			  m.addAttribute("sm", sm);
+			 studymenu = smd.studyMenuOne(board_num);
+			  m.addAttribute("studymenu", studymenu);
 			  
 			  return "/view/study/offStudyUpdateForm";
 		 }
 		 
 		
 		  @RequestMapping("offStudyUpdatePro")
-		  public String offStudyUpdatePro(HttpServletRequest request, HttpServletResponse response) {
-			  
-			  try {
-					request.setCharacterEncoding("utf-8");
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			  StudyMenu sm = new StudyMenu();
-			  int board_num = Integer.parseInt(request.getParameter("board_num"));
-			  sm.setBoard_num(board_num);
-			  sm.setTitle(request.getParameter("title"));
-			  sm.setSubject(request.getParameter("subject"));
-			  sm.setRegion(request.getParameter("region"));
-			  sm.setPrice(request.getParameter("price"));
-			  sm.setNickname((String) request.getSession().getAttribute("memberNickname"));
-			  int pernum = Integer.parseInt(request.getParameter("pernum"));
-			  sm.setPernum(pernum);
-			  sm.setContent(request.getParameter("content"));
-			  sm.setLatitude(request.getParameter("latitude"));
-			  sm.setLongitude(request.getParameter("longitude"));
-			  
-			 
+		  public String offStudyUpdatePro(StudyMenu studymenu) {
 			  
 			  String msg = "";
 			  String url = "";
-			  if(smd.studyUpdate(sm)>0) {
+			  if(smd.studyUpdate(studymenu)>0) {
 				   msg = "수정되었습니다";
-				   url = request.getContextPath()+"/studymenu/offStudyMenuInfo?board_num="+sm.getBoard_num();				 
+				   url = request.getContextPath()+"/studymenu/offStudyMenuInfo?board_num="+studymenu.getBoard_num();				 
 			  } else {
 				  msg = "수정이 실패하였습니다";
+				  url = request.getContextPath()+"/studymenu/offStudyMenuInfo?board_num="+studymenu.getBoard_num();
 			  }
 			  m.addAttribute("msg", msg);
 			  m.addAttribute("url", url);
@@ -1409,50 +1252,29 @@ public class StudyMenuController {
 		  
 		  /*---------------------------------------------------------------------------*/
 			 @RequestMapping("onoffStudyUpdateForm")
-			 public String onoffStudyUpdateForm(HttpServletRequest request,  HttpServletResponse response) {
+			 public String onoffStudyUpdateForm(StudyMenu studymenu, int board_num) {
 				  
-				  int board_num = Integer.parseInt(request.getParameter("board_num"));
+				 
 				  
-				  StudyMenu sm = smd.studyMenuOne(board_num);
-				  m.addAttribute("sm", sm);
+				  studymenu = smd.studyMenuOne(board_num);
+				  m.addAttribute("studymenu", studymenu);
 				  
 				  return "/view/study/onoffStudyUpdateForm";
 			 }
 			 
 			
 			  @RequestMapping("onoffStudyUpdatePro")
-			  public String onoffStudyUpdatePro(HttpServletRequest request, HttpServletResponse response) {
-				  
-				  try {
-						request.setCharacterEncoding("utf-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				  StudyMenu sm = new StudyMenu();
-				  int board_num = Integer.parseInt(request.getParameter("board_num"));
-				  sm.setBoard_num(board_num);
-				  sm.setTitle(request.getParameter("title"));
-				  sm.setSubject(request.getParameter("subject"));
-				  sm.setRegion(request.getParameter("region"));
-				  sm.setPrice(request.getParameter("price"));
-				  sm.setNickname((String) request.getSession().getAttribute("memberNickname"));
-				  int pernum = Integer.parseInt(request.getParameter("pernum"));
-				  sm.setPernum(pernum);
-				  sm.setContent(request.getParameter("content"));
-				  sm.setLatitude(request.getParameter("latitude"));
-				  sm.setLongitude(request.getParameter("longitude"));
-				  
-				  
+			  public String onoffStudyUpdatePro(StudyMenu studymenu) {
 				  
 				  String msg = "";
 				  String url = "";
-				  if(smd.studyUpdate(sm)>0) {
+				  if(smd.studyUpdate(studymenu)>0) {
 					   msg = "수정되었습니다";
-					   url = request.getContextPath()+"/studymenu/onoffStudyMenuInfo?board_num="+sm.getBoard_num();
+					   url = request.getContextPath()+"/studymenu/onoffStudyMenuInfo?board_num="+studymenu.getBoard_num();
 					 
 				  } else {
 					  msg = "수정이 실패하였습니다";
+					  url = request.getContextPath()+"/studymenu/onoffStudyMenuInfo?board_num="+studymenu.getBoard_num();
 				  }
 				  m.addAttribute("msg", msg);
 				  m.addAttribute("url", url);
@@ -1463,12 +1285,11 @@ public class StudyMenuController {
 			  }
 			  /*---------------------------------------------------------------------------*/
 			  @RequestMapping("onStudyDelete") 
-			  public String onStudyDelete(HttpServletRequest request, HttpServletResponse response) {
+			  public String onStudyDelete(StudyMenu studymenu, int board_num) {
 				  
-				  int board_num = Integer.parseInt(request.getParameter("board_num"));
 				 
-				  StudyMenu sm = smd.studyMenuOne(board_num);
-				  m.addAttribute("sm", sm);
+				  studymenu = smd.studyMenuOne(board_num);
+				  m.addAttribute("studymenu", studymenu);
 				  		  
 				  String msg = "";
 				  String url = "";
@@ -1489,12 +1310,12 @@ public class StudyMenuController {
 			  }
 			  
 			  @RequestMapping("offStudyDelete") 
-			  public String offStudyDelete(HttpServletRequest request, HttpServletResponse response) {
+			  public String offStudyDelete(StudyMenu studymenu, int board_num) {
 				  
-				  int board_num = Integer.parseInt(request.getParameter("board_num"));
+				 
 				  
-				  StudyMenu sm = smd.studyMenuOne(board_num);
-				  m.addAttribute("sm", sm);
+				  studymenu = smd.studyMenuOne(board_num);
+				  m.addAttribute("studymenu", studymenu);
 				  		  
 				  String msg = "";
 				  String url = "";
@@ -1515,12 +1336,12 @@ public class StudyMenuController {
 			  }
 			  
 			  @RequestMapping("onoffStudyDelete") 
-			  public String onoffStudyDelete(HttpServletRequest request, HttpServletResponse response) {
+			  public String onoffStudyDelete(StudyMenu studymenu, int board_num) {
 				  
-				  int board_num = Integer.parseInt(request.getParameter("board_num"));
+				 
 				  
-				  StudyMenu sm = smd.studyMenuOne(board_num);
-				  m.addAttribute("sm", sm);
+				  studymenu = smd.studyMenuOne(board_num);
+				  m.addAttribute("studymenu", studymenu);
 				  		  
 				  String msg = "";
 				  String url = "";
@@ -1547,10 +1368,9 @@ public class StudyMenuController {
 	// 내가쓴 커뮤니티 게시글//
 	
 			  @RequestMapping("mylist2") 
-				public String mylist2(HttpServletRequest request, 
-						HttpServletResponse response) {
+				public String mylist2() {
 
-				HttpSession session = request.getSession();
+
 				String nickname = (String) session.getAttribute("memberNickname");
 				String menuid = "";
 				int pageInt = 1;
