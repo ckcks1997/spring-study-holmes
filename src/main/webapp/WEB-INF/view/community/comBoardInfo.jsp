@@ -257,7 +257,7 @@ a:hover {
 								</c:when>
 								<%--리스트값에 닉네임이 없다면 신고등록모달 --%>
 								<c:otherwise>
-									<button type="button" class="btn btn-dark mt-3"
+									<button type="button" class="btn btn-dark mt-3" id = "reportButton"
 										data-toggle="modal" data-target="#reportModal">신고</button>
 								</c:otherwise>
 							</c:choose>
@@ -552,9 +552,10 @@ $("#sendReport").on("click",function(){
 				success : function(result) {
 					alert("신고되었습니다");
 						//alert(report_reason); //option값 잘 들어오는지 확인
-						
-						let button = document.getElementById('sendReport');
+						let button = document.querySelector("#reportButton");
 						button.disabled = true;
+						
+						
 				},
 				error : function(result) {
 					console.log(result);
