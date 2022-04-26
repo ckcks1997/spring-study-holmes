@@ -212,8 +212,6 @@ body {
 					</div>
 				</c:if>
 
-
-
 					<button type="button" class="btn btn-dark mt-3"
 						onclick="location.href ='groupBoardList'">목록으로</button>
 					<button type="button" class="btn btn-dark mt-3"data-toggle="modal"
@@ -349,13 +347,6 @@ body {
 </div>
 
 
-
-
-
-
-
-
-
 <!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
 //댓글입력
@@ -367,8 +358,6 @@ $("#writeReply").on("click", function(){
 			"board_num" : "${groupBoard.board_num}",
 			"reply_content" : reply_content.value			
 	}
-
-
 
 	$.ajax({ 
 		type: "post",
@@ -409,17 +398,10 @@ $("#writeReply").on("click", function(){
 						+  '<p>'+content+'</p>'
 						+ '</div>'
 			            +  '<hr align="left" style="background-color: 333b3d; height:0.7px;" />'
-			        	+ '</div>' ;
-			
-			
+			        	+ '</div>' ;	
 			            
 			 newReply.innerHTML +=line
 							
-				
-			
-			
-			
-
 		},
 		error: function (result){
 			console.log(result);
@@ -429,9 +411,6 @@ $("#writeReply").on("click", function(){
 
 	
 })
-
-
-
 
 
 //댓글삭제---------------------------------------------------------------------------------------------
@@ -509,13 +488,6 @@ $("#sendReport").on("click",function(){
 
 	<br>
 	<br>
-
- 
-
- 
-
- 
-
 
 
 </body>

@@ -14,82 +14,16 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link href="<%=request.getContextPath() %>/css/footer.css" rel="stylesheet" type="text/css"> 
-
-<style>
-
-	@font-face {
+<link href="<%=request.getContextPath() %>/css/header.css" rel="stylesheet" type="text/css"> 
+ <style>
+ 	@font-face {
 		font-family: "kita";
 		src: url("<%=request.getContextPath()%>/fonts/KITA.ttf")
 			format("truetype");
 		font-weight: normal;
 		font-style: normal;
 	}
-	
-	@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-	/* 전체 폰트 적용 */
-	* {
-	font-family: "Pretendard Variable";
-	}
-		/* button */
-	.btn-round {
-		border-radius: 20px;
-	}
-
-	a {
-		color: white;
-		text-decoration: none;
-	}
-
-	a:hover {
-		color: white;
-		text-decoration: none;
-	}
-	/* navbar */
-	.form-control {
-		height: 40px !important;
-		background: #fff !important;
-		color: #3a4348 !important;
-		font-size: 16px;
-		border-radius: 0px;
-		-webkit-box-shadow: none !important;
-		box-shadow: none !important;
-	}
-
-	.search-domain {
-		background: #22d47b;
-		border: 2px solid #22d47b;
-		color: #fff;
-		-webkit-border-radius: 0;
-		-moz-border-radius: 0;
-		-ms-border-radius: 0;
-		border-radius: 0;
-	}
-
-	.navbar-brand {
-		position: relative;
-		font-family: "kita";
-	}
-
-
-.star {
-	position: absolute;
-	top: 10%;
-	right: 5%;
-	height: 10px;
-}
-.fa-solid{
-    font-size:1.5rem;
-}
-.dropdown-item:active{
-    background-color:#f55555 !important;
-}
-.a-no-deco, 
-.a-no-deco:hover 
-{
-    color:white;
-}
-</style>
+ </style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
