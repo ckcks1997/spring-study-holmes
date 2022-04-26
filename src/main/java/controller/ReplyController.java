@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,23 +38,23 @@ public class ReplyController {
 		this.session = request.getSession();
 	}
 	
-	@ResponseBody
+	//@ResponseBody// 자바 객체를 http바디로 보냄 
+	
 	@RequestMapping("writeReply")
-	public String writeReply(@RequestBody Reply reply) {
+	public String writeReply(@RequestBody Map<String, String> rep, Reply reply) { //RequestBody : http요청 바디내용을 자바객체로 받음
 		
 		String nickname = (String) session.getAttribute("memberNickname");
-		reply.setNickname(nickname);
+		reply.setNickname(nickname); //닉네임
+		//프론트에서 보낸 ajax데이터
+		reply.setContent(rep.get("reply_content"));
+		reply.setBoard_num(Integer.parseInt(rep.get("board_num")));
 		
-		int reply_num = rd.replyNextNum();
+		int reply_num = rd.replyNextNum(); 
+		reply.setReply_num(reply_num);
 		
 		rd.insertReply(reply); //댓글 저장하기
-		
-		//원글의 replycnt에 +1하기 
-		rd.comReplyCountUp(Integer.parseInt(board_num));
-		System.out.println("board_num:" + board_num);		
-
 		//reply_num은 댓글의 번호
-		m.addAttribute("reply_num", reply_num);
+		m.addAttribute("reply", reply);
 		
 		
 		return "single/num";	
