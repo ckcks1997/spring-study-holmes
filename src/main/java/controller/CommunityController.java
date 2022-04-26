@@ -341,15 +341,6 @@ public class CommunityController {
 		// 세션에 저장된 닉네임 가져와서 커뮤니티 닉네임으로 저장하기
 		com.setNickname((String)session.getAttribute("memberNickname"));
 		
-		//com.setTitle(multi.getParameter("title"));
-
-		// 썸머노트는 텍스트를 <p></p>태그 붙여서 데이터저장함 -- p태그 제거하고 db저장
-		//String content = multi.getParameter("content");
-
-		// content1 == 맨앞 맨뒤 p태그 제거한 내용
-		//String content1 = content.substring(3, content.length() - 4);
-		//com.setContent(content1);
-		
 		com.setIp(request.getLocalAddr());
 
 		String boardid = (String) session.getAttribute("boardid");

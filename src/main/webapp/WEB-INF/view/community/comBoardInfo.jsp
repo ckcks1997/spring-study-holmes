@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -417,12 +419,13 @@ $("#writeReply").on("click", function(){
 	}
 
 
-
+//data: 변수를 json 문자열로 바꾸고, dataType으로 서버에서 리턴하는 데이터를 text로 인식하기로, contentType으로 body에 보내는 데이터를 json타입으로 전송할거라고 명시  
 	$.ajax({ 
 		type: "post",
 		url: "<%=request.getContextPath()%>/reply/writeReply",
-		data: reply,
+		data: JSON.stringify(reply),
 		dataType: 'text',
+		contentType: 'application/json',
 		success : function(result){
 			result = result.trim()
 			result.replace(" ","")
