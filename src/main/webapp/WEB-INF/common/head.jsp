@@ -13,13 +13,13 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<link href="<%=request.getContextPath() %>/common/css/footer.css" rel="stylesheet" type="text/css"> 
+<link href="<%=request.getContextPath() %>/css/footer.css" rel="stylesheet" type="text/css"> 
 
 <style>
 
 	@font-face {
 		font-family: "kita";
-		src: url("<%=request.getContextPath()%>/common/fonts/KITA.ttf")
+		src: url("<%=request.getContextPath()%>/fonts/KITA.ttf")
 			format("truetype");
 		font-weight: normal;
 		font-style: normal;
