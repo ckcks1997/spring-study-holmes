@@ -214,7 +214,8 @@ public class GroupStudyController {
     
     if(nickname != null) { 
       int res = gmd.isMemberInGroup(boardnum, nickname); //그룹에 있는지 확인, 있다면 1
-      if(res == 1) { //있다면 그룹 글 조회
+      System.out.println(res+"=12121");
+      if(res > 0) { //있다면 그룹 글 조회
     	 
     	  
     	  String boardid = "";
@@ -298,7 +299,7 @@ public class GroupStudyController {
     
     if(nickname != null) {
       int res = gmd.isMemberInGroup(boardnum, nickname); //그룹에 있는지 확인, 있다면 1
-      if(res == 1) { //있다면 그룹 글 조회
+      if(res > 0) { //있다면 그룹 글 조회
 
     	  String boardid = "";
 		  int pageInt = 1;
@@ -388,15 +389,13 @@ public class GroupStudyController {
  
   /*글쓰기-진행*/
   @RequestMapping("groupBoardWritePro")
-  public String groupBoardWritePro(HttpServletRequest request,  HttpServletResponse response) {
+  public String groupBoardWritePro(Model model) {
 	  
 	  HttpSession session = request.getSession();
 	  String msg = "로그인이 필요합니다";
 	  String url = request.getContextPath()+"/studymember/loginForm";
 	  
 	  if(session.getAttribute("memberNickname")!= null) {
-
-		  
  
 		String boardid = (String) session.getAttribute("boardid"); //게시판목록
 		String boardnum = (String) session.getAttribute("boardnum");//그룹번호
@@ -412,16 +411,14 @@ public class GroupStudyController {
 		gb.setContent(content);
 		gb.setNickname(memberNickname);
 		
-		GroupBoardDao gbd = new GroupBoardDao();
 		int res = gbd.groupInsertBoard(gb);
 		System.out.println("result="+res);
-		return "redirect:/view/group/groupBoard?boardnum="+boardnum+"&pageNum=1";
+		return "redirect:/group/groupBoard?boardnum="+boardnum+"&pageNum=1";
 	  }
 	  
-	  request.setAttribute("msg", msg);
-	  request.setAttribute("url", url);
+	  model.addAttribute("msg", msg); 
 	  
-	  return "/view/alert.jsp";
+	  return url;
   }
   
   //게시글 상세보기
@@ -430,13 +427,11 @@ public class GroupStudyController {
 	  HttpSession session = request.getSession();
 	  String s_board_num = (String) session.getAttribute("boardnum");
 	  String board_num = request.getParameter("board_num");
-	  GroupBoardDao gbd = new GroupBoardDao();
 	  
 	  GroupBoard gb = gbd.groupBoardOne(s_board_num, board_num);
 	  gbd.groupReadCountUp(Integer.parseInt(board_num));
 	  
 	  //댓글보여주기
-	  ReplyDao rd = new ReplyDao();
 
 	  List<Reply> reply_list = rd.replyWriteList(Integer.parseInt(board_num));
 	  int reply_count = rd.replyCount(Integer.parseInt(board_num));
@@ -446,7 +441,7 @@ public class GroupStudyController {
 	  
 	  request.setAttribute("groupBoard", gb); 
 	  
-	  return "/view/group/groupBoardInfo.jsp";
+	  return "/view/group/groupBoardInfo";
 
 	  
   }
