@@ -1,5 +1,6 @@
 package model;
 
+
 public class Attend {
 
   private String id;
