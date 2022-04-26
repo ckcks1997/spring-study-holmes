@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import model.Community;
 import model.Report;
@@ -19,7 +22,7 @@ import service.NoticeDao;
 import service.ReportDao;
 
 
-@Component
+@RestController
 @RequestMapping("/report/")
 public class ReportController {
 	
@@ -43,16 +46,16 @@ public class ReportController {
 	
 	
 	@RequestMapping("sendReport")
-	public String sendReport(int board_num, int report_reason, Report report) {
+	public String sendReport(@RequestBody Map<String, Integer> rep, Report report, Community com) {
 	
 	//프론트에서 값 잘 넘어왔는지 확인 -----------
-	System.out.println("원 게시글: " + board_num);
-	System.out.println("신고사유: " + report_reason);
+	//System.out.println("원 게시글: " + rep.get("board_num"));
+	//System.out.println("신고사유: " + rep.get("report_reason"));
 	//--------------------------------------
-	
+	int board_num = rep.get("board_num");
 	//신고사유 한번 정리-----------
 	String reason = "영리목적/스팸홍보성";
-	switch (report_reason) {
+	switch (rep.get("report_reason")) {
 	case 2 :   reason = "음란성/선정성"; break;
 	case 3 :   reason = "욕설/비방/혐오"; break;
 	case 4 :   reason = "개인정보 노출"; break;
@@ -67,7 +70,7 @@ public class ReportController {
 	report.setReport_reason(reason);
 	report.setBoard_num(board_num);
 			//원 게시글 정보 report에 넣기
-			Community com = cbd.comBoardOne(board_num); 
+			com = cbd.comBoardOne(board_num); 
 	report.setWriter_nickname(com.getNickname());
 	report.setBoard_num_title(com.getTitle());
 	report.setBoard_num_regdate(com.getRegdate());
@@ -80,8 +83,6 @@ public class ReportController {
 		} else {
 			System.out.println("신고 DB등록 에러");
 		}
-		
-		
 		
 		//3번째 신고가 들어오면 알림주고 게시글 삭제 
 		List<String> nicknameList = report_d.reportNickname(board_num);

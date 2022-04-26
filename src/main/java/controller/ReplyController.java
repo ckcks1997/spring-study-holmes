@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import model.Community;
 import model.Reply;
@@ -61,11 +62,12 @@ public class ReplyController {
 	}
 	
 	@RequestMapping("deleteReply")
-	public String deleteReply(int reply_num) {
+	public String deleteReply(@RequestBody Map<String, String> rep, Reply reply) {
 		
-		System.out.println(reply_num);
+		int reply_num = Integer.parseInt((rep.get("reply_num")));
+		System.out.println("-----삭제 ajax값"+reply_num);
 		
-		Reply reply =  rd.replyOne(reply_num);
+		reply =  rd.replyOne(reply_num);
 		m.addAttribute("reply", reply);
 		rd.deleteReply(reply_num);
 	

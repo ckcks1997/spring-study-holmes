@@ -240,8 +240,9 @@ a:hover {
 					<button type="button" class="btn btn-dark mt-3"
 						onclick="location.href ='comBoardList'">목록으로</button>
 
+					<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
 					<c:if test="${com.boardid != 4 && com.boardid != 5}">
-						<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
+						
 						<!-- 1)로그인 된 회원이고 2)글 작성자와 다른 회원만 신고버튼 활성화 -->
 						<c:if
 							test="${memberNickname != null && memberNickname != com.nickname}">
@@ -250,14 +251,12 @@ a:hover {
 								<%--리스트값에 이미 닉네임이 있다면 신고거절모달 --%>
 								<c:when test="${fn:contains(nickList, memberNickname) }">
 									<button type="button" class="btn btn-dark mt-3"
-										data-toggle="modal" data-target="#rejectModal"
-										class="btn btn-danger mt-3">신고</button>
+										data-toggle="modal" data-target="#rejectModal">신고</button>
 								</c:when>
 								<%--리스트값에 닉네임이 없다면 신고등록모달 --%>
 								<c:otherwise>
 									<button type="button" class="btn btn-dark mt-3"
-										data-toggle="modal" data-target="#reportModal"
-										class="btn btn-danger mt-3">신고</button>
+										data-toggle="modal" data-target="#reportModal">신고</button>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -408,7 +407,7 @@ a:hover {
 	
 	<!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
-//댓글달기
+<!--댓글 달기 -->
 $("#writeReply").on("click", function(){
 	var reply_content = document.querySelector("#reply_content")
 	
@@ -419,7 +418,7 @@ $("#writeReply").on("click", function(){
 	}
 
 
-//data: 변수를 json 문자열로 바꾸고, dataType으로 서버에서 리턴하는 데이터를 text로 인식하기로, contentType으로 body에 보내는 데이터를 json타입으로 전송할거라고 명시  
+<!--data: 변수를 json 문자열로 바꾸고, dataType으로 서버에서 리턴하는 데이터를 text로 인식하기로, contentType으로 body에 보내는 데이터를 json타입으로 전송할거라고 명시-->
 	$.ajax({ 
 		type: "post",
 		url: "<%=request.getContextPath()%>/reply/writeReply",
@@ -476,7 +475,7 @@ $("#writeReply").on("click", function(){
 			console.log(result);
 			alert("error");
 		}	
-	}); //end ajax
+	}); <!-- end ajax -->
 
 	
 })
@@ -485,7 +484,7 @@ $("#writeReply").on("click", function(){
 
 
 
-//댓글삭제---------------------------------------------------------------------------------------------
+<!--댓글삭제--------------------------------------------------------------------------------------------->
 function deleteReply(num){
 
 	//alert(num)
@@ -497,14 +496,15 @@ function deleteReply(num){
 	$.ajax({
 		type: 'post',
 		url : "<%=request.getContextPath()%>/reply/deleteReply",
-				data : deleteReply,
+				data : JSON.stringify(deleteReply),
 				dataType : 'text',
+				contentType: 'application/json',
 				success : function(result) {
 					alert("댓글이 삭제됩니다");
 					//alert(result)
 					var deleteReply = document.querySelector('#r' + num)
 					//alert(deleteReply.innerHTML) //삭제할 내용 확인
-					deleteReply.innerHTML = ""
+					deleteReply.innerHTML = "";
 
 				},
 				error : function(result) {
@@ -544,11 +544,15 @@ $("#sendReport").on("click",function(){
 	$.ajax({
 		type: "post",
 		url: "<%=request.getContextPath()%>/report/sendReport",
-				data : report,
+				data : JSON.stringify(report),
 				dataType : 'text',
+				contentType: "application/json",
 				success : function(result) {
 					alert("신고되었습니다");
-					//	alert(report_reason); option값 잘 들어오는지 확인
+						//alert(report_reason); //option값 잘 들어오는지 확인
+						
+						let button = document.getElementById('sendReport');
+						button.disabled = true;
 				},
 				error : function(result) {
 					console.log(result);
