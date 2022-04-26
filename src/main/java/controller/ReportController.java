@@ -48,10 +48,6 @@ public class ReportController {
 	@RequestMapping("sendReport")
 	public String sendReport(@RequestBody Map<String, Integer> rep, Report report, Community com) {
 	
-	//프론트에서 값 잘 넘어왔는지 확인 -----------
-	//System.out.println("원 게시글: " + rep.get("board_num"));
-	//System.out.println("신고사유: " + rep.get("report_reason"));
-	//--------------------------------------
 	int board_num = rep.get("board_num");
 	//신고사유 한번 정리-----------
 	String reason = "영리목적/스팸홍보성";
@@ -79,7 +75,6 @@ public class ReportController {
 		int num = report_d.insertReport(report);
 		if(num ==1) {
 			System.out.println("신고 정상 등록");
-			
 		} else {
 			System.out.println("신고 DB등록 에러");
 		}
@@ -99,7 +94,6 @@ public class ReportController {
 			String info = "신고요청에 의한 게시물 삭제";
 			//알림테이블에 등록하기
 			nd.noticeReportWrite(info, from, writer_nickname,board_num); 
-			
 			cbd.comBoardDelete(board_num); //삭제하기
 		} 
 		

@@ -411,10 +411,9 @@ public class CommunityController {
 
 			} else { //로그인은 되어있는데 글 작성자가 아닐 경우 
 				msg = "글 작성자만 열람가능합니다"; 
-				url = request.getContextPath() + "/community/comBoardList"; // community컨트롤러 타서 다시 comBoardList()로 back
+				url = request.getContextPath() + "/community/comBoardList"; 
 			}
 			m.addAttribute("msg", msg);
-			//System.out.println("----------------------" + msg); //값 확인
 			m.addAttribute("url", url);
 
 		} else { // 문의 게시판이 아닌 다른 게시판은 검증 거치지 않고 바로 열람 가능 
@@ -424,7 +423,6 @@ public class CommunityController {
 
 			// 신고한 유저 닉네임 리스트 세팅
 			List<String> nicknameList = report_d.reportNickname(board_num);
-			System.out.println("신고:-----"+board_num+nicknameList);
 			m.addAttribute("nicknameList", nicknameList);
 
 			// 댓글보여주기
