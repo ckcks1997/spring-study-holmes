@@ -144,7 +144,7 @@
 												</c:if>
 												<c:if test="${reply.picture ne null }">
 													<img class="pic_mini"
-														src="<%=request.getContextPath()%>/upload/${com.picture}">
+														src="<%=request.getContextPath()%>/imgupload/${reply.picture}">
 												</c:if>
 
 												${reply.nickname} · ${reply.regdate2}

@@ -54,7 +54,21 @@
 		         <mvc:mapping path="/group/**"/>
 		         <!-- 그룹게시판 첨부파일위치용, 로그인 해야 열람가능 -->
      			 <mvc:mapping path="/upload/**"/> 
-
+     			 
+     			 
+     			 <!-- community -->
+     			 <mvc:mapping path="/community/comBoardmyList1"/>
+     			 <mvc:mapping path="/community/comWriteForm"/>
+     			 <mvc:mapping path="/community/comWritePro"/>
+     			 <mvc:mapping path="/community/comBoardUpdateForm"/>
+     			 <mvc:mapping path="/community/comBoardUpdatePro"/>
+     			 <mvc:mapping path="/community/comBoardDelete"/>
+     			 
+     			 
+     			 
+     			 
+     			 
+     		
 		         <bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
 	         

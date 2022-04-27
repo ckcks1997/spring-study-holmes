@@ -20,9 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id = "replyWriteList" resultType = "reply" parameterType = "int">
 	select * from 
 	(select reply_num, nickname, content, to_char(regdate, 'yyyy-mm-dd') regdate2 from reply 
-	where board_num = #{board_num} ) reply
+	where board_num = #{board_num} order by regdate asc) reply
  	left join  
-  	(select nickname, picture from study_member) study on reply.nickname = study.nickname order by regdate2 asc  
+  	(select nickname, picture from study_member) study on reply.nickname = study.nickname   
 </select>
 
 
