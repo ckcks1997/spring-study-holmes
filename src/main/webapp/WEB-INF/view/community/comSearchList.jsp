@@ -5,73 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="<%=request.getContextPath() %>/css/boardsearch.css" rel="stylesheet" type="text/css"> 
 <title>Insert title here</title>
 </head>
-<style>
-body {
-	height: 100vh;
-}
-
-/* 명언 */
-.famous-saying-box {
-	height: 150px;
-	background-color: #333b3d;
-}
-
  
-.reaction {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.circle {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 80%;
-	height: 100%;
-	
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.page-item > a{
-    color:#f55555; 
-}
-.page-item > a:hover{
-    color:#f55555; 
-}
-.active2 > a{
-    background-color:#f55555 !important; 
-    border: 1px solid #f55555 !important; 
-} 
-
-.reactions {
-	font-size: 13px;
-}
-
-.divide {
-	font-weight:700;
-    color: #777;
-}
-
-
-a {
-	color:black;
-}
-
-
-a:hover {
-    color:#f55555;
-    text-decoration: none;
-}
-
-
-
-</style>
 <body>
 
 

@@ -7,78 +7,10 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-
-<style>
-body {
-	height: 100vh;
-}
-
-/* 명언 */
-.famous-saying-box {
-	height: 150px;
-	background-color: #333b3d;
-}
-
- 
-.reaction {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.circle {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 80%;
-	height: 100%;
-	
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.page-item > a{
-    color:#f55555; 
-}
-.page-item > a:hover{
-    color:#f55555; 
-}
-.active2 > a{
-    background-color:#f55555 !important; 
-    border: 1px solid #f55555 !important; 
-} 
-
-.reactions {
-	font-size: 13px;
-}
-
-.divide {
-	font-weight:700;
-    color: #777;
-}
-
-
-a {
-	color:black;
-}
-
-
-a:hover {
-    color:#f55555;
-    text-decoration: none;
-}
-
-
-
-</style>
+<link href="<%=request.getContextPath() %>/css/boardlist.css" rel="stylesheet" type="text/css"> 
 <title>스터디 홈즈</title>
 </head>
 <body>
-
-
 
 	<div class="container-fluid famous-saying-box">
 		<div class="container p-3">
