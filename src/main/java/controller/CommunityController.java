@@ -331,7 +331,7 @@ public class CommunityController {
 		m.addAttribute("url", url);
 		
 
-		return "view/alert";
+		return "redirect:/board/main";
 	}
 
 	// 글쓰기
