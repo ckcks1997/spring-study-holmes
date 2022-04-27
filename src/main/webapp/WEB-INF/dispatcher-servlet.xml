@@ -13,7 +13,7 @@
  
  
 <mvc:annotation-driven/>
-<context:component-scan base-package="controller, service"/>
+<context:component-scan base-package="controller, service, util"/>
 <context:annotation-config/>
   
  <mvc:resources mapping="/img/**" location="/resources/img/" />
@@ -27,19 +27,14 @@
 <mvc:view-controller path="/index" view-name="index"/>
 <mvc:view-controller path="/index.do" view-name="index"/> 
 
-    <bean id="formattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-    </bean>
-    
-    
+    <bean id="formattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-
           <mvc:interceptors> 
- 
-	         
+   
          	 <mvc:interceptor> <!-- 여러 path 적용 --> 
 		         <mvc:mapping path="/studymember/notice"/>
 		         <mvc:mapping path="/studymember/noticeInfo"/>
@@ -63,10 +58,9 @@
      			 <mvc:mapping path="/community/comBoardUpdatePro"/>
      			 <mvc:mapping path="/community/comBoardDelete"/>	
 		       	<bean class = "interceptor.LoginInterceptor"/>
-
 	         </mvc:interceptor>
 
-	          <mvc:interceptor> 
+	         <mvc:interceptor> 
 		      <mvc:mapping path="/studymemu/myList2"/>
 		      <!-- off -->
 		       <mvc:mapping path="/studymemu/offSearchList"/>
@@ -88,12 +82,8 @@
 		       <mvc:mapping path="/studymemu/onStudyWriteForm"/>
 		         <bean class = "interceptor.StudyMenuLoginInterceptor"/>
 	         </mvc:interceptor>
-	         
-	         
-	         
-         </mvc:interceptors> 
     
- 
+         </mvc:interceptors> 
 
         <bean id="multipartResolver" 
         	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -104,8 +94,5 @@
     		<property name="maxInMemorySize" value="200000000" />
         	-->
         </bean>
- 
 
-        
-        
 </beans>
