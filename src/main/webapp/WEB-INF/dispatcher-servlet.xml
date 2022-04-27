@@ -20,7 +20,7 @@
  <mvc:resources mapping="/css/**" location="/resources/css/" />
  <mvc:resources mapping="/fonts/**" location="/resources/fonts/" />
  <mvc:resources mapping="/common/**" location="/WEB-INF/common/" />
- <mvc:resources mapping="/upload/**" location="/upload/" />
+ <mvc:resources mapping="/studyupload/**" location="/studyupload/" />
  <mvc:resources mapping="/imgupload/**" location="/imgupload/" />
  <mvc:resources mapping="/comboardupload/**" location="/comboardupload/" /> 
 	
@@ -53,7 +53,7 @@
 		         <mvc:mapping path="/studymember/goodbyePro"/>
 		         <mvc:mapping path="/group/**"/>
 		         <!-- 그룹게시판 첨부파일위치용, 로그인 해야 열람가능 -->
-     			 <mvc:mapping path="/upload/**"/> 
+     			 <mvc:mapping path="/studyupload/**"/> 
 
 		         <bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
