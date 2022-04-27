@@ -11,7 +11,7 @@
 	
 	<properties>
 		<project.build.sourceEncoding> utf-8</project.build.sourceEncoding>
-		<spring.version>5.2.19.RELEASE</spring.version>
+		<spring.version>5.3.19</spring.version>
 		<spring.version2>4.3.30.RELEASE</spring.version2>
 		<org.aspectj-version>1.9.8</org.aspectj-version>
 		<org.slf4j-version>1.7.36</org.slf4j-version>
@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
+			<version>2.7</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
@@ -89,19 +89,12 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.17.2</version>
-		</dependency>
-
+ 
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency> <!-- object<->json 라이브러리 -->
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.13.2</version>
+			<version>2.13.2.2</version>
 		</dependency>
 		
 		<dependency>
@@ -143,9 +136,9 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
