@@ -51,10 +51,14 @@
 		         <mvc:mapping path="/studymember/passwordChangePro"/>
 		         <mvc:mapping path="/studymember/goodbye"/>
 		         <mvc:mapping path="/studymember/goodbyePro"/>
-
+ 
 		         <mvc:mapping path="/imgupload/**"/>
 		         <bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
+	         
+	         
+	         
+	         
 	         
          </mvc:interceptors> 
     

@@ -5,76 +5,9 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
- 
+<link href="<%=request.getContextPath() %>/css/groupinfo.css" rel="stylesheet" type="text/css">  
 <title>스터디 진행현황</title>
-<style>
-/* 명언 */
-.famous-saying-box {
-    height: 150px;
-    background-color: #333b3d;
-}
 
-.color-white {
-    color: white;
-}
-
-.footer-content {
-    padding-top: 50px;
-}
-
-/* aside */
-ul, li {
-    list-style: none;
-}
-
-li>a {
-    color: rgb(10, 10, 10);
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-h2, h3, h5 {
-	font-weight: bold;
-}
-
-.btn-color{
-    color:white;
-    background-color:#c47100;
-    border: none;
-}
-.btn-color:hover, 
-.btn-color:active, 
-.btn-color:visited{
-    color:white;
-    background-color:#a35100;
-    border: none;
-}
-.container-css {
-	background: #f8f8f8;
-	border-radius: 20px;
-}
-
-.input-border-round {
-	border-radius: 20px;
-}
-
-.interest-tag {
-	font-weight: bold;
-	margin: 2px;
-}
-
-.h5-subinfo {
-	font-size: 0.8rem;
-	font-weight: bold;
-	color: #C47100;
-}
-.btn-c{
-    background-color:#f55555;
-    color:white;
-}
-</style>
 </head>
 <body>
 
