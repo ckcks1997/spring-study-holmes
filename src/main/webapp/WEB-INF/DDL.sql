@@ -148,9 +148,7 @@ create table attend
 ----채팅 테이블
 create sequence chatseq2;
 create table WEBCHAT2
-(
-    NUM      NUMBER not null
-        primary key,
+(  NUM      NUMBER not null  primary key,
     boardnum VARCHAR2(30),
     memberNickname  VARCHAR2(30),
     MESSAGE  VARCHAR2(3000),

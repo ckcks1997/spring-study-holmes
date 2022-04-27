@@ -40,7 +40,9 @@ public class StudyMenuController {
 	StudyMenuDao sm;
 	@Autowired
 	StudyMenuDao smd;
-
+	
+	
+	
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;

@@ -16,7 +16,6 @@ import service.AttendDao;
 
 @Controller
 @RequestMapping("/attend/")
-
 public class AttendCheckController  {
 
 	HttpServletRequest request;
