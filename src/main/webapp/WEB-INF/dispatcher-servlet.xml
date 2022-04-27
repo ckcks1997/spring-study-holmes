@@ -64,6 +64,8 @@
      			 <mvc:mapping path="/community/comBoardUpdatePro"/>
      			 <mvc:mapping path="/community/comBoardDelete"/>
      			 
+     			
+     			 
      			 
      			 
      			 

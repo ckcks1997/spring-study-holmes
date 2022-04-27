@@ -69,8 +69,10 @@
 									<img class="pic_mini"
 										src="<%=request.getContextPath()%>/imgupload/${com.picture}">
 								</c:if>
-
-								${com.nickname} · ${com.regdate}
+								<a href = "<%=request.getContextPath() %>/studymember/userinfo?usernick=${com.nickname}"> 
+								${com.nickname} </a>
+								
+								· ${com.regdate}
 
 
 								<c:if test="${memberNickname eq com.nickname}">
