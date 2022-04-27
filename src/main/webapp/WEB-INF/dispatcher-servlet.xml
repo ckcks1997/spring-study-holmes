@@ -55,28 +55,28 @@
 		         <bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
 	         
-	         <!--  <mvc:interceptor> 
+	          <mvc:interceptor> 
 		      <mvc:mapping path="/studymemu/myList2"/>
-		      off
+		      <!-- off -->
 		       <mvc:mapping path="/studymemu/offSearchList"/>
 		       <mvc:mapping path="/studymemu/offStudyMenuinfo"/>
 		       <mvc:mapping path="/studymemu/offStudyMenuList"/>
 		       <mvc:mapping path="/studymemu/offStudyUpdateForm"/>
 		       <mvc:mapping path="/studymemu/offStudyWriteForm"/>
-		       onoff
+		       <!-- onoff -->
 		 		 <mvc:mapping path="/studymemu/onoffSearchList"/>
 		       <mvc:mapping path="/studymemu/onoffStudyMenuinfo"/>
 		       <mvc:mapping path="/studymemu/onoffStudyMenuList"/>
 		       <mvc:mapping path="/studymemu/onoffStudyUpdateForm"/>
 		       <mvc:mapping path="/studymemu/onoffStudyWriteForm"/>
-		        on
+		       <!--  on -->
 		        <mvc:mapping path="/studymemu/onSearchList"/>
 		       <mvc:mapping path="/studymemu/onStudyMenuinfo"/>
 		       <mvc:mapping path="/studymemu/onStudyMenuList"/>
 		       <mvc:mapping path="/studymemu/onStudyUpdateForm"/>
 		       <mvc:mapping path="/studymemu/onStudyWriteForm"/>
-		         <bean class = "interceptor.LoginInterceptor2"/>
-	         </mvc:interceptor> -->
+		         <bean class = "interceptor.StudyMenuLoginInterceptor"/>
+	         </mvc:interceptor>
 	         
 	         
 	         
