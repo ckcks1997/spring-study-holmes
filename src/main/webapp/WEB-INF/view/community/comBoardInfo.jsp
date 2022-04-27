@@ -67,7 +67,7 @@
 								</c:if>
 								<c:if test="${com.picture ne null }">
 									<img class="pic_mini"
-										src="<%=request.getContextPath()%>/upload/${com.picture}">
+										src="<%=request.getContextPath()%>/imgupload/${com.picture}">
 								</c:if>
 
 								${com.nickname} · ${com.regdate}

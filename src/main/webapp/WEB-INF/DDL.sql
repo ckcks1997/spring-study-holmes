@@ -62,7 +62,7 @@ create table community
 	regdate	    date,
 	ip	        varchar(20),
 	readcnt	    number,
-	nickname    varchar(10),
+	nickname    varchar(30),
 	replycnt    number
 );
 
