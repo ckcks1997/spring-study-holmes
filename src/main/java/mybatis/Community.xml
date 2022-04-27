@@ -47,7 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <select id = "comBoardOne" resultType = "community" parameterType ="int">
-	select * from community where board_num = #{board_num}
+	select * from (select * from community where board_num = #{board_num}) com
+	left join (select picture, nickname from study_member) study on com.nickname = study.nickname
 </select>
 
 

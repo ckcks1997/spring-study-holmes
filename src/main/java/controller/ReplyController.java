@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import model.Community;
 import model.Reply;
@@ -49,11 +50,15 @@ public class ReplyController {
 		reply.setContent(rep.get("reply_content"));
 		reply.setBoard_num(Integer.parseInt(rep.get("board_num")));
 		
+		//reply_num은 댓글의 번호
 		int reply_num = rd.replyNextNum(); 
 		reply.setReply_num(reply_num);
 		
 		rd.insertReply(reply); //댓글 저장하기
-		//reply_num은 댓글의 번호
+		
+		//원글의 replycnt 업데이트 하기 
+		rd.comReplyCount(Integer.parseInt(rep.get("board_num")));
+		
 		m.addAttribute("reply", reply);
 		
 		
@@ -61,13 +66,17 @@ public class ReplyController {
 	}
 	
 	@RequestMapping("deleteReply")
-	public String deleteReply(int reply_num) {
+	public String deleteReply(@RequestBody Map<String, Integer> rep, Reply reply) {
 		
-		System.out.println(reply_num);
+		int reply_num = rep.get("reply_num");
+		int board_num = rep.get("board_num");
+		System.out.println("-----댓글삭제 ajax값"+reply_num);
 		
-		Reply reply =  rd.replyOne(reply_num);
+		reply =  rd.replyOne(reply_num);
 		m.addAttribute("reply", reply);
 		rd.deleteReply(reply_num);
+		//원글 replycnt 업데이트 하기
+		rd.comReplyCount(board_num);
 	
 		return "view/alert";
 	}

@@ -1,61 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="<%=request.getContextPath() %>/css/boardinfo.css" rel="stylesheet" type="text/css"> 
+
 <title>Insert title here</title>
 
 </head>
-<style>
-body {
-	height: 100vh;
-}
 
-/* 명언 */
-.famous-saying-box {
-	height: 150px;
-	background-color: #333b3d;
-}
-
-.txt_bar {
-	margin: 0 9px 0 5px;
-	color: gray;
-}
-
-/* 게시글 , 댓글 작성자 날짜*/
-.postInfo, #replyInfo {
-	font-size: 15px;
-	font-weight: 600;
-	color: gray;
-}
-
-/*댓글 textarea 출력시 css*/
-.replyTxt {
-	word-wrap: break-word; /*영역 넘어가면 줄바꿈하기*/
-	word-break: break-word; /* 영문의 경우 단어단위로 줄바꿈하기 */
-}
-
-a {
-	color: gray;
-}
-
-a:hover {
-	color: black;
-}
-
-.pic_mini {
-	width: 25px;
-	height: 25px;
-	border-radius: 70%;
-}
-</style>
 <body>
 
 
@@ -110,7 +67,7 @@ a:hover {
 								</c:if>
 								<c:if test="${com.picture ne null }">
 									<img class="pic_mini"
-										src="<%=request.getContextPath()%>/upload/${com.picture}">
+										src="<%=request.getContextPath()%>/imgupload/${com.picture}">
 								</c:if>
 
 								${com.nickname} · ${com.regdate}
@@ -180,8 +137,18 @@ a:hover {
 										<div class="col-md-10" id="replyInfo">
 											<input type="hidden" id="reply_num" name="reply_num"
 												value="${reply.reply_num}">
+											<p>
+												<c:if test="${reply.picture eq null }">
+													<img class="pic_mini"
+														src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+												</c:if>
+												<c:if test="${reply.picture ne null }">
+													<img class="pic_mini"
+														src="<%=request.getContextPath()%>/upload/${com.picture}">
+												</c:if>
 
-											<p>${reply.nickname} · ${reply.regdate2}</p>
+												${reply.nickname} · ${reply.regdate2}
+											</p>
 										</div>
 
 										<c:if test="${memberNickname eq reply.nickname}">
@@ -242,8 +209,9 @@ a:hover {
 					<button type="button" class="btn btn-dark mt-3"
 						onclick="location.href ='comBoardList'">목록으로</button>
 
+					<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
 					<c:if test="${com.boardid != 4 && com.boardid != 5}">
-						<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
+
 						<!-- 1)로그인 된 회원이고 2)글 작성자와 다른 회원만 신고버튼 활성화 -->
 						<c:if
 							test="${memberNickname != null && memberNickname != com.nickname}">
@@ -252,14 +220,13 @@ a:hover {
 								<%--리스트값에 이미 닉네임이 있다면 신고거절모달 --%>
 								<c:when test="${fn:contains(nickList, memberNickname) }">
 									<button type="button" class="btn btn-dark mt-3"
-										data-toggle="modal" data-target="#rejectModal"
-										class="btn btn-danger mt-3">신고</button>
+										data-toggle="modal" data-target="#rejectModal">신고</button>
 								</c:when>
 								<%--리스트값에 닉네임이 없다면 신고등록모달 --%>
 								<c:otherwise>
 									<button type="button" class="btn btn-dark mt-3"
-										data-toggle="modal" data-target="#reportModal"
-										class="btn btn-danger mt-3">신고</button>
+										id="reportButton" data-toggle="modal"
+										data-target="#reportModal">신고</button>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -407,10 +374,10 @@ a:hover {
 		</div>
 	</div>
 
-	
+
 	<!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
-//댓글달기
+<!--댓글 달기 -->
 $("#writeReply").on("click", function(){
 	var reply_content = document.querySelector("#reply_content")
 	
@@ -421,7 +388,7 @@ $("#writeReply").on("click", function(){
 	}
 
 
-//data: 변수를 json 문자열로 바꾸고, dataType으로 서버에서 리턴하는 데이터를 text로 인식하기로, contentType으로 body에 보내는 데이터를 json타입으로 전송할거라고 명시  
+<!--data: 변수를 json 문자열로 바꾸고, dataType으로 서버에서 리턴하는 데이터를 text로 인식하기로, contentType으로 body에 보내는 데이터를 json타입으로 전송할거라고 명시-->
 	$.ajax({ 
 		type: "post",
 		url: "<%=request.getContextPath()%>/reply/writeReply",
@@ -478,7 +445,7 @@ $("#writeReply").on("click", function(){
 			console.log(result);
 			alert("error");
 		}	
-	}); //end ajax
+	}); <!-- end ajax -->
 
 	
 })
@@ -487,26 +454,28 @@ $("#writeReply").on("click", function(){
 
 
 
-//댓글삭제---------------------------------------------------------------------------------------------
+<!--댓글삭제--------------------------------------------------------------------------------------------->
 function deleteReply(num){
 
 	//alert(num)
 	var deleteReply = {
-					"reply_num" :num
+					"board_num" : "${com.board_num}",
+					"reply_num" : num
 	}
 
 	
 	$.ajax({
 		type: 'post',
 		url : "<%=request.getContextPath()%>/reply/deleteReply",
-				data : deleteReply,
+				data : JSON.stringify(deleteReply),
 				dataType : 'text',
+				contentType: 'application/json',
 				success : function(result) {
 					alert("댓글이 삭제됩니다");
 					//alert(result)
 					var deleteReply = document.querySelector('#r' + num)
 					//alert(deleteReply.innerHTML) //삭제할 내용 확인
-					deleteReply.innerHTML = ""
+					deleteReply.innerHTML = "";
 
 				},
 				error : function(result) {
@@ -546,11 +515,16 @@ $("#sendReport").on("click",function(){
 	$.ajax({
 		type: "post",
 		url: "<%=request.getContextPath()%>/report/sendReport",
-				data : report,
+				data : JSON.stringify(report),
 				dataType : 'text',
+				contentType: "application/json",
 				success : function(result) {
 					alert("신고되었습니다");
-					//	alert(report_reason); option값 잘 들어오는지 확인
+						//alert(report_reason); //option값 잘 들어오는지 확인
+						let button = document.querySelector("#reportButton");
+						button.disabled = true;
+						
+						
 				},
 				error : function(result) {
 					console.log(result);

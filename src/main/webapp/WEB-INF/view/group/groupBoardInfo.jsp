@@ -5,52 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="<%=request.getContextPath() %>/css/boardinfo.css" rel="stylesheet" type="text/css"> 
 <title>Insert title here</title>
 
 </head>
-<style>
-body {
-	height: 100vh;
-}
-
-/* 명언 */
-.famous-saying-box {
-	height: 150px;
-	background-color: #333b3d;
-}
-
-.txt_bar {
-	margin: 0 9px 0 5px;
-	color: gray;
-}
-
-/* 게시글 , 댓글 작성자 날짜*/
-.postInfo, #replyInfo { 
-	font-size: 15px;
-	font-weight: 600;
-	color : gray;
-
-}
-
-/*댓글 textarea 출력시 css*/
-.replyTxt {
-	 word-wrap : break-word; /*영역 넘어가면 줄바꿈하기*/
-	 word-break: break-word; /* 영문의 경우 단어단위로 줄바꿈하기 */
-	
-}
-
- a {
- color:gray;
- }
  
- a:hover {
- color: black;
- }
- 
- 
-
-
-</style>
 <body>
 
 
@@ -212,8 +171,6 @@ body {
 					</div>
 				</c:if>
 
-
-
 					<button type="button" class="btn btn-dark mt-3"
 						onclick="location.href ='groupBoardList'">목록으로</button>
 					<button type="button" class="btn btn-dark mt-3"data-toggle="modal"
@@ -349,13 +306,6 @@ body {
 </div>
 
 
-
-
-
-
-
-
-
 <!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
 //댓글입력
@@ -367,8 +317,6 @@ $("#writeReply").on("click", function(){
 			"board_num" : "${groupBoard.board_num}",
 			"reply_content" : reply_content.value			
 	}
-
-
 
 	$.ajax({ 
 		type: "post",
@@ -409,17 +357,10 @@ $("#writeReply").on("click", function(){
 						+  '<p>'+content+'</p>'
 						+ '</div>'
 			            +  '<hr align="left" style="background-color: 333b3d; height:0.7px;" />'
-			        	+ '</div>' ;
-			
-			
+			        	+ '</div>' ;	
 			            
 			 newReply.innerHTML +=line
 							
-				
-			
-			
-			
-
 		},
 		error: function (result){
 			console.log(result);
@@ -429,9 +370,6 @@ $("#writeReply").on("click", function(){
 
 	
 })
-
-
-
 
 
 //댓글삭제---------------------------------------------------------------------------------------------
@@ -509,13 +447,6 @@ $("#sendReport").on("click",function(){
 
 	<br>
 	<br>
-
- 
-
- 
-
- 
-
 
 
 </body>

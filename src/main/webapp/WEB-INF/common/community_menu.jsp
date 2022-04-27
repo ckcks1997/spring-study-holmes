@@ -1,42 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <head>
-<style>
-/* aside */
-ul, li {
-    list-style: none;
-}
-
-li {
-	font-weight:700;
-    color: #777;
-}
-li:hover {
-    font-weight:700;
-    color:#f55555;
-    
-}
-a:hover {
-    color: black;
-    text-decoration: none;
-}
-
-.aside-content {
-    display: block;
-    width: 200px;
-    line-height: 40px;
-    text-align: left;
-    padding-left: 10px;
-}
- 
-
-.selected, .selected:hover {
-    padding-left:10px;
-    color:white;
-    background: #f55555; 
-    border-radius:10px;
-}
-</style>
+<link href="<%=request.getContextPath() %>/css/menu1.css" rel="stylesheet" type="text/css"> 
 </head>
 <body>
 	<aside class="col-lg-3 mb-5">

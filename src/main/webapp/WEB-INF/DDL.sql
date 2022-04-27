@@ -58,14 +58,14 @@ create table community
 	board_num 	    number 		    primary key,
 	title	    varchar2(100)	not null,
 	content	    varchar2(4000),
-	likes	    number,
 	boardid	    varchar2(1),
 	regdate	    date,
 	ip	        varchar(20),
 	readcnt	    number,
-	nickname    varchar(10),
+	nickname    varchar(30),
 	replycnt    number
 );
+
 
 create sequence board_seq;
 
@@ -93,14 +93,15 @@ create table study_menu
 );
 
 ---댓글 테이블
+drop table reply;
 create table reply (
 	reply_num number primary key,
 	board_num number,
 	nickname varchar2(30) not null,
 	regdate date,
 	content varchar2(4000)
+	
 );
-
 create sequence reply_seq;
 
  
@@ -173,6 +174,7 @@ create table reputation_estimate
 
 -----------신고 테이블 
 create SEQUENCE report_seq;
+
 create table report 
 (
 report_num  number  not null primary key,
