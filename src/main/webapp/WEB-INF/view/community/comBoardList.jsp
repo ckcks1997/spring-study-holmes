@@ -210,7 +210,7 @@ a:hover {
 													</c:if>
 													<c:if test="${com.picture ne null }">
 														<img class="pic_mini"
-															src="<%=request.getContextPath()%>/upload/${com.picture}">
+															src="<%=request.getContextPath()%>/imgupload/${com.picture}">
 													</c:if>
 													<small> ${com.nickname} · ${com.regdate} </small>
 												</h6>

@@ -404,7 +404,7 @@ public class CommunityController {
 				// 댓글보여주기
 				List<Reply> reply_list = rd.replyWriteList(board_num);
 				int reply_count = rd.replyCount(board_num);
-
+				
 				m.addAttribute("reply_list", reply_list);
 				m.addAttribute("reply_count", reply_count);
 				return "view/community/comBoardInfo"; 

@@ -22,7 +22,7 @@ public class Community {
 	private int readcnt;
 	private String nickname;
 	private int replycnt;
-	private String picture;
+	private String picture; //left join 할때 사용
 	
 	
 	

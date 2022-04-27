@@ -87,11 +87,11 @@ public class ReplyDao {
 		
 	  }
 	  
-	  public int comReplyCountUp(int board_num) {
+	  public int comReplyCount(int board_num) {
 		  
 		
 		  try {
-			  int communityTable = sqlSession.update(NS+"comReplyCountUp", board_num);
+			  int communityTable = sqlSession.update(NS+"comReplyCount", board_num);
 			  int groupTable = sqlSession.update(NS+"groupReplyCountUp", board_num);
 			  return communityTable+groupTable;
 		  } catch(Exception e) {

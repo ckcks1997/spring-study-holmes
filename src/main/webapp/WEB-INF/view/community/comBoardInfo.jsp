@@ -180,8 +180,18 @@ a:hover {
 										<div class="col-md-10" id="replyInfo">
 											<input type="hidden" id="reply_num" name="reply_num"
 												value="${reply.reply_num}">
+											<p>
+												<c:if test="${reply.picture eq null }">
+													<img class="pic_mini"
+														src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+												</c:if>
+												<c:if test="${reply.picture ne null }">
+													<img class="pic_mini"
+														src="<%=request.getContextPath()%>/upload/${com.picture}">
+												</c:if>
 
-											<p>${reply.nickname} · ${reply.regdate2}</p>
+												${reply.nickname} · ${reply.regdate2}
+											</p>
 										</div>
 
 										<c:if test="${memberNickname eq reply.nickname}">
@@ -244,7 +254,7 @@ a:hover {
 
 					<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
 					<c:if test="${com.boardid != 4 && com.boardid != 5}">
-						
+
 						<!-- 1)로그인 된 회원이고 2)글 작성자와 다른 회원만 신고버튼 활성화 -->
 						<c:if
 							test="${memberNickname != null && memberNickname != com.nickname}">
@@ -257,8 +267,9 @@ a:hover {
 								</c:when>
 								<%--리스트값에 닉네임이 없다면 신고등록모달 --%>
 								<c:otherwise>
-									<button type="button" class="btn btn-dark mt-3" id = "reportButton"
-										data-toggle="modal" data-target="#reportModal">신고</button>
+									<button type="button" class="btn btn-dark mt-3"
+										id="reportButton" data-toggle="modal"
+										data-target="#reportModal">신고</button>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -406,7 +417,7 @@ a:hover {
 		</div>
 	</div>
 
-	
+
 	<!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
 <!--댓글 달기 -->
@@ -491,7 +502,8 @@ function deleteReply(num){
 
 	//alert(num)
 	var deleteReply = {
-					"reply_num" :num
+					"board_num" : "${com.board_num}",
+					"reply_num" : num
 	}
 
 	
