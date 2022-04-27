@@ -356,17 +356,18 @@ public class CommunityController {
 		int num = cbd.comInsertBoard(com);
 
 		String msg = "게시물이 등록되지 않습니다.";
-		String url = request.getContextPath() + "/community/comWriteForm";
+		String url = "/community/comBoardList";
 		if (num == 1) {
 			msg = "게시물이 등록되었습니다.";
-			url = request.getContextPath() + "/community/comBoardList?pageNum=1";
+			url = "/community/comBoardList?pageNum=1";
 
 		}
 
 		m.addAttribute("msg", msg);
-		m.addAttribute("url",url);
+		m.addAttribute("url", url);
+		
 
-		return "view/alert";
+		return "redirect:"+url;
 	}
 
 	// 게시글 상세보기
