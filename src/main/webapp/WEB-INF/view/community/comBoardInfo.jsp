@@ -144,7 +144,7 @@
 												</c:if>
 												<c:if test="${reply.picture ne null }">
 													<img class="pic_mini"
-														src="<%=request.getContextPath()%>/imgupload/${com.picture}">
+														src="<%=request.getContextPath()%>/upload/${com.picture}">
 												</c:if>
 
 												${reply.nickname} · ${reply.regdate2}
@@ -180,7 +180,6 @@
 										value="${com.board_num}"> <input type="hidden"
 										name="reply_nickname" id="reply_nickname"
 										value="${memberNickname}">
-										
 
 									<textarea class="col-md-12" rows="5" cols="80"
 										name="reply_content" placeholder="댓글을 달아주세요"
@@ -402,6 +401,7 @@ $("#writeReply").on("click", function(){
 			
 			//alert("["+result+"]");
 			//alert(result);
+		
 			var newReply = document.querySelector('#replyList')
 			var reply_num = result
 			var nickname = document.querySelector('#reply_nickname').value

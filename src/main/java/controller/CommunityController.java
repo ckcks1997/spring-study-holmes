@@ -314,15 +314,18 @@ public class CommunityController {
 	@RequestMapping("comWriteForm")
 	public String comWriteForm() {
 
-		String msg = "오류 발생";
-		String url = "/community/comBoardList";
+		String msg = "로그인이 필요합니다";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "view/community/comWriteForm";
 		}
 
 		m.addAttribute("msg", msg);
-		return "redirect:"+url;
+		m.addAttribute("url", url);
+		
+
+		return "redirect:/board/main";
 	}
 
 	// 글쓰기
@@ -339,13 +342,15 @@ public class CommunityController {
 			boardid = "1";
 		}
 		com.setBoardid(boardid);
+
 		com.setBoard_num(cbd.comNextNum());
+		
 		
 		//셋팅한 com으로 insert하기 
 		int num = cbd.comInsertBoard(com);
 
 		String msg = "게시물이 등록되지 않습니다.";
-		String url = request.getContextPath() +"/community/comBoardList";
+		String url = request.getContextPath() + "/community/comWriteForm";
 		if (num == 1) {
 			msg = "게시물이 등록되었습니다.";
 			url = request.getContextPath() + "/community/comBoardList?pageNum=1";
@@ -353,7 +358,9 @@ public class CommunityController {
 		}
 
 		m.addAttribute("msg", msg);
-		return "redirect:"+url;
+		m.addAttribute("url",url);
+
+		return "view/alert";
 	}
 
 	// 게시글 상세보기

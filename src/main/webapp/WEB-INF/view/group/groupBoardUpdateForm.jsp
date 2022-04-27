@@ -102,7 +102,7 @@ body {
 			$.ajax({  
 				data : form_data,
 				type : "POST",
-				url : '<%=request.getContextPath()%>/group/imageUpload',
+				url : '<%=request.getContextPath()%>/group/upload',
 				cache : false,
 				contentType : false,
 				enctype : 'multipart/form-data', 
