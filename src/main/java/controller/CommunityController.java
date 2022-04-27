@@ -379,10 +379,8 @@ public class CommunityController {
 		String msg;
 		String url;
 
-		// 문의 게시판 검증단계
-		//String boardid = (String) request.getParameter("boardid");
 		String boardid = com.getBoardid();
-		System.out.println(boardid + "---글:" + com.getNickname() + "---현재:" + session.getAttribute("memberNickname")); // 값 확인
+		//System.out.println(boardid + "---글:" + com.getNickname() + "---현재:" + session.getAttribute("memberNickname")); // 값 확인
 			
 		
 		
@@ -403,24 +401,19 @@ public class CommunityController {
 				// 조회수 올리기
 				cbd.comReadCountUp(board_num);
 
-				// 신고한 유저 닉네임 리스트 세팅
-				List<String> nicknameList = report_d.reportNickname(board_num);
-				m.addAttribute("nicknameList", nicknameList);
-
 				// 댓글보여주기
 				List<Reply> reply_list = rd.replyWriteList(board_num);
 				int reply_count = rd.replyCount(board_num);
 
 				m.addAttribute("reply_list", reply_list);
 				m.addAttribute("reply_count", reply_count);
-				return "view/community/comBoardInfo"; // 게시글 상세보기 jsp로 보내기
+				return "view/community/comBoardInfo"; 
 
 			} else { //로그인은 되어있는데 글 작성자가 아닐 경우 
 				msg = "글 작성자만 열람가능합니다"; 
-				url = request.getContextPath() + "/community/comBoardList"; // community컨트롤러 타서 다시 comBoardList()로 back
+				url = request.getContextPath() + "/community/comBoardList"; 
 			}
 			m.addAttribute("msg", msg);
-			//System.out.println("----------------------" + msg); //값 확인
 			m.addAttribute("url", url);
 
 		} else { // 문의 게시판이 아닌 다른 게시판은 검증 거치지 않고 바로 열람 가능 

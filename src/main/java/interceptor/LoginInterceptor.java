@@ -15,12 +15,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	throws Exception{
 		//TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		String login = (String) session.getAttribute("memberId");
+		String login = (String) session.getAttribute("memberNickname");
 		
 		
 		if(login == null) {
 			String msg = URLEncoder.encode("로그인이 필요합니다.","UTF-8");
-			response.sendRedirect(request.getContextPath()+"/member/loginForm?msg="+msg);
+			response.sendRedirect(request.getContextPath()+"/studymember/loginForm?msg="+msg);
 		return false;
 		}
 		
