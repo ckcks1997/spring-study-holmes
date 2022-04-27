@@ -1,6 +1,12 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 public class Attend {
 
   private String id;
@@ -10,26 +16,7 @@ public class Attend {
   
   public Attend() {}
 
-public String getId() {
-	return id;
-}
 
-public void setId(String id) {
-	this.id = id;
-}
-
-public String getGift() {
-	return gift;
-}
-
-public void setGift(String gift) {
-	this.gift = gift;
-}
-
-@Override
-public String toString() {
-	return "{\"id\":\"" + id + "\", \"gift\":\"" + gift + "\"}";
-}
 
 
 public Attend(String id, String gift) {

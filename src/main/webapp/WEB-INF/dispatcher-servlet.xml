@@ -54,9 +54,35 @@
 		         <mvc:mapping path="/group/**"/>
 		         <!-- 그룹게시판 첨부파일위치용, 로그인 해야 열람가능 -->
      			 <mvc:mapping path="/upload/**"/> 
-     			 
+
 		         <bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
+	         
+	         <!--  <mvc:interceptor> 
+		      <mvc:mapping path="/studymemu/myList2"/>
+		      off
+		       <mvc:mapping path="/studymemu/offSearchList"/>
+		       <mvc:mapping path="/studymemu/offStudyMenuinfo"/>
+		       <mvc:mapping path="/studymemu/offStudyMenuList"/>
+		       <mvc:mapping path="/studymemu/offStudyUpdateForm"/>
+		       <mvc:mapping path="/studymemu/offStudyWriteForm"/>
+		       onoff
+		 		 <mvc:mapping path="/studymemu/onoffSearchList"/>
+		       <mvc:mapping path="/studymemu/onoffStudyMenuinfo"/>
+		       <mvc:mapping path="/studymemu/onoffStudyMenuList"/>
+		       <mvc:mapping path="/studymemu/onoffStudyUpdateForm"/>
+		       <mvc:mapping path="/studymemu/onoffStudyWriteForm"/>
+		        on
+		        <mvc:mapping path="/studymemu/onSearchList"/>
+		       <mvc:mapping path="/studymemu/onStudyMenuinfo"/>
+		       <mvc:mapping path="/studymemu/onStudyMenuList"/>
+		       <mvc:mapping path="/studymemu/onStudyUpdateForm"/>
+		       <mvc:mapping path="/studymemu/onStudyWriteForm"/>
+		         <bean class = "interceptor.LoginInterceptor2"/>
+	         </mvc:interceptor> -->
+	         
+	         
+	         
          </mvc:interceptors> 
     
  

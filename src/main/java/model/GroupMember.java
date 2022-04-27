@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,5 +16,6 @@ public class GroupMember {
   private int boardnum;
   private String nickname;
   private Date regdate;
+
  
 }

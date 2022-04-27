@@ -40,7 +40,9 @@ public class StudyMenuController {
 	StudyMenuDao sm;
 	@Autowired
 	StudyMenuDao smd;
-
+	
+	
+	
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;
@@ -356,24 +358,8 @@ public class StudyMenuController {
 	@RequestMapping("offWritePro")
 	public String offWritePro(StudyMenu studymenu) {
 
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		studymenu.setTitle(request.getParameter("title"));
-		studymenu.setSubject(request.getParameter("subject"));
-		studymenu.setRegion(request.getParameter("region"));
-		studymenu.setPrice(request.getParameter("price"));
-		studymenu.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		studymenu.setPernum(pernum);
-		studymenu.setContent(request.getParameter("content"));
-		studymenu.setLatitude(request.getParameter("latitude"));
-		studymenu.setLongitude(request.getParameter("longitude"));
-
-		String menuid = (String) request.getSession().getAttribute("menuid");
+		studymenu.setNickname((String) session.getAttribute("memberNickname"));
+		String menuid = (String) session.getAttribute("menuid");
 		if (menuid == null)
 			menuid = "1";
 		studymenu.setMenuid(menuid);
@@ -422,26 +408,9 @@ public class StudyMenuController {
 
 	@RequestMapping("onWritePro")
 	public String onWritePro(StudyMenu studymenu) {
-
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		studymenu.setTitle(request.getParameter("title"));
-		studymenu.setSubject(request.getParameter("subject"));
-		studymenu.setRegion(request.getParameter("region"));
-		studymenu.setPrice(request.getParameter("price"));
-		studymenu.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		studymenu.setPernum(pernum);
-		studymenu.setContent(request.getParameter("content"));
-		studymenu.setLatitude(request.getParameter("latitude"));
-		studymenu.setLongitude(request.getParameter("longitude"));
-
-		String menuid = (String) request.getSession().getAttribute("menuid");
+		
+		studymenu.setNickname((String) session.getAttribute("memberNickname"));
+		String menuid = (String) session.getAttribute("menuid");
 		if (menuid == null)
 			menuid = "1";
 		studymenu.setMenuid(menuid);
@@ -452,7 +421,6 @@ public class StudyMenuController {
 
 		// group insert
 
-		System.out.println(studymenu);
 		GroupMember gmem = new GroupMember();
 		gmem.setBoardnum(studymenu.getBoard_num());
 		gmem.setNickname(studymenu.getNickname());
@@ -492,25 +460,8 @@ public class StudyMenuController {
 	@RequestMapping("onoffWritePro")
 	public String onoffWritePro(StudyMenu studymenu) {
 
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		studymenu.setTitle(request.getParameter("title"));
-		studymenu.setSubject(request.getParameter("subject"));
-		studymenu.setRegion(request.getParameter("region"));
-		studymenu.setPrice(request.getParameter("price"));
-		studymenu.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		studymenu.setPernum(pernum);
-		studymenu.setContent(request.getParameter("content"));
-		studymenu.setLatitude(request.getParameter("latitude"));
-		studymenu.setLongitude(request.getParameter("longitude"));
-
-		String menuid = (String) request.getSession().getAttribute("menuid");
+		studymenu.setNickname((String) session.getAttribute("memberNickname"));
+		String menuid = (String) session.getAttribute("menuid");
 		if (menuid == null)
 			menuid = "1";
 		studymenu.setMenuid(menuid);
@@ -520,7 +471,6 @@ public class StudyMenuController {
 		int num = sm.insertMenu(studymenu);
 
 		// group insert
-		System.out.println(studymenu);
 		GroupMember gmem = new GroupMember();
 		gmem.setBoardnum(studymenu.getBoard_num());
 		gmem.setNickname(studymenu.getNickname());
@@ -1065,25 +1015,6 @@ public class StudyMenuController {
 	@RequestMapping("onStudyUpdatePro")
 	public String onStudyUpdatePro(StudyMenu sm, int board_num) {
 
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		sm.setBoard_num(board_num);
-		sm.setTitle(request.getParameter("title"));
-		sm.setSubject(request.getParameter("subject"));
-		sm.setRegion(request.getParameter("region"));
-		sm.setPrice(request.getParameter("price"));
-		sm.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		sm.setPernum(pernum);
-		sm.setContent(request.getParameter("content"));
-		sm.setLatitude(request.getParameter("latitude"));
-		sm.setLongitude(request.getParameter("longitude"));
-
 		String msg = "";
 		String url = "";
 		if (smd.studyUpdate(sm) > 0) {
@@ -1112,25 +1043,6 @@ public class StudyMenuController {
 	@RequestMapping("offStudyUpdatePro")
 	public String offStudyUpdatePro(StudyMenu sm, int board_num) {
 
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		sm.setBoard_num(board_num);
-		sm.setTitle(request.getParameter("title"));
-		sm.setSubject(request.getParameter("subject"));
-		sm.setRegion(request.getParameter("region"));
-		sm.setPrice(request.getParameter("price"));
-		sm.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		sm.setPernum(pernum);
-		sm.setContent(request.getParameter("content"));
-		sm.setLatitude(request.getParameter("latitude"));
-		sm.setLongitude(request.getParameter("longitude"));
-
 		String msg = "";
 		String url = "";
 		if (smd.studyUpdate(sm) > 0) {
@@ -1157,24 +1069,6 @@ public class StudyMenuController {
 
 	@RequestMapping("onoffStudyUpdatePro")
 	public String onoffStudyUpdatePro(StudyMenu sm, int board_num) {
-
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		sm.setBoard_num(board_num);
-		sm.setTitle(request.getParameter("title"));
-		sm.setSubject(request.getParameter("subject"));
-		sm.setRegion(request.getParameter("region"));
-		sm.setPrice(request.getParameter("price"));
-		sm.setNickname((String) request.getSession().getAttribute("memberNickname"));
-		int pernum = Integer.parseInt(request.getParameter("pernum"));
-		sm.setPernum(pernum);
-		sm.setContent(request.getParameter("content"));
-		sm.setLatitude(request.getParameter("latitude"));
-		sm.setLongitude(request.getParameter("longitude"));
 
 		String msg = "";
 		String url = "";
@@ -1321,17 +1215,11 @@ public class StudyMenuController {
 	// 스터디 참가신청 버튼을 누를 때
 	@RequestMapping("studyIn")
 	public String studyIn() {
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		
 		String board_name = (String) request.getParameter("board_name");
 		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		String nickname_from = (String) request.getParameter("f_nickname");
 		String nickname_to = (String) request.getParameter("t_nickname");
-
-		System.out.println(nickname_to);
 
 		nd.noticeWrite(board_num, nickname_from, nickname_to);
 
