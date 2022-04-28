@@ -56,33 +56,25 @@
      			 <mvc:mapping path="/community/comWritePro"/>
      			 <mvc:mapping path="/community/comBoardUpdateForm"/>
      			 <mvc:mapping path="/community/comBoardUpdatePro"/>
-     			 <mvc:mapping path="/community/comBoardDelete"/>	
+     			 <mvc:mapping path="/community/comBoardDelete"/>
+     			 
+     			 <!-- studymenu -->
+     			 <mvc:mapping path="/studymenu/mylist2"/>
+     			 <mvc:mapping path="/studymenu/onStudyWriteForm" />	
+     			 <mvc:mapping path="/studymenu/offStudyWriteForm" />
+     			 <mvc:mapping path="/studymenu/onoffStudyWriteForm" />
+     			 
+     			 <mvc:mapping path="/studymenu/onStudyUpdateForm" />	
+     			 <mvc:mapping path="/studymenu/offStudyUpdateForm" />
+     			 <mvc:mapping path="/studymenu/onoffStudyUpdateForm" />
+     			 
+     			 <mvc:mapping path="/studymenu/onStudyDelete" />	
+     			 <mvc:mapping path="/studymenu/offStudyDelete" />
+     			 <mvc:mapping path="/studymenu/onoffStudyDelete" />
+     			 
+     			 <mvc:mapping path="/studymenu/studyIn" />
 		       	<bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
-
-	         <mvc:interceptor> 
-		      <mvc:mapping path="/studymemu/myList2"/>
-		      <!-- off -->
-		       <mvc:mapping path="/studymemu/offSearchList"/>
-		       <mvc:mapping path="/studymemu/offStudy**"/>
-		       <!-- <mvc:mapping path="/studymemu/offStudyMenuList"/>
-		       <mvc:mapping path="/studymemu/offStudyUpdateForm"/>
-		       <mvc:mapping path="/studymemu/offStudyWriteForm"/> -->
-		       <!-- onoff -->
-		 		 <mvc:mapping path="/studymemu/onoffSearchList"/>
-		       <mvc:mapping path="/studymemu/onoffStudyMenu**"/>
-		       <!-- <mvc:mapping path="/studymemu/onoffStudyMenuList"/>
-		       <mvc:mapping path="/studymemu/onoffStudyUpdateForm"/>
-		       <mvc:mapping path="/studymemu/onoffStudyWriteForm"/> -->
-		       <!--  on -->
-		        <mvc:mapping path="/studymemu/onSearchList"/>
-		       <mvc:mapping path="/studymemu/onStudyMenu**"/>
-		       <!-- <mvc:mapping path="/studymemu/onStudyMenuList"/>
-		       <mvc:mapping path="/studymemu/onStudyUpdateForm"/>
-		       <mvc:mapping path="/studymemu/onStudyWriteForm"/> -->
-		         <bean class = "interceptor.LoginInterceptor"/>
-	         </mvc:interceptor>
-    
          </mvc:interceptors> 
 
         <bean id="multipartResolver" 
