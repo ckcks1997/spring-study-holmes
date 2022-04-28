@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,14 +40,14 @@ public class ReplyController {
 		this.session = request.getSession();
 	}
 	
-	//@ResponseBody// 자바 객체를 http바디로 보냄 
-	
-	@RequestMapping("writeReply")
-	public String writeReply(@RequestBody Map<String, String> rep, Reply reply) { //RequestBody : http요청 바디내용을 자바객체로 받음
+	@ResponseBody// 자바 객체를 http바디로 보냄 
+	@RequestMapping(value="writeReply", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Reply writeReply(@RequestBody Map<String, String> rep ) { //RequestBody : http요청 바디내용을 자바객체로 받음
 		
-		String nickname = (String) session.getAttribute("memberNickname");
-		reply.setNickname(nickname); //닉네임
-		//프론트에서 보낸 ajax데이터
+		System.out.println(rep);//board_num과 reply_content값이 오는지 확인
+		
+		Reply reply = new Reply(); //글 저장을 위한 객체 생성 
+		reply.setNickname((String) session.getAttribute("memberNickname")); //닉네임
 		reply.setContent(rep.get("reply_content"));
 		reply.setBoard_num(Integer.parseInt(rep.get("board_num")));
 		
@@ -58,11 +59,8 @@ public class ReplyController {
 		
 		//원글의 replycnt 업데이트 하기 
 		rd.comReplyCount(Integer.parseInt(rep.get("board_num")));
-		
-		m.addAttribute("reply", reply);
-		
-		
-		return "single/num";	
+
+		return reply;	
 	}
 	
 	@RequestMapping("deleteReply")

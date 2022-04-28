@@ -405,23 +405,30 @@ $("#writeReply").on("click", function(){
 			//alert(result);
 		
 			var newReply = document.querySelector('#replyList')
-			var reply_num = result
+			var reply_num = JSON.parse(result).reply_num;
 			var nickname = document.querySelector('#reply_nickname').value
 			var content = document.querySelector('#reply_content').value
 			var today = new Date();
 			var year =today.getFullYear();
 			var month = today.getMonth()+1; 
+			month = (month < 10 ? '0'+month:month);
 			var date = today.getDate();
 			var regdate = year + '-' + month + '-' + date;
 			
 			let temp = 'id="r'+reply_num+'"'
 			
+			let pic = 	<c:if test="${com.picture eq null }">
+							'<img class="pic_mini" src="<%=request.getContextPath()%>/img/profile_empty.jpg">'
+						</c:if>
+						<c:if test="${com.picture ne null }">
+							'<img class="pic_mini" src="<%=request.getContextPath()%>/imgupload/${com.picture}">'
+						</c:if>;
 			
 			let line =  '<div class = "reply"       '+temp+' >'
 						+ '<div class = "row">'
 						+ '<div class = "col-md-10" id = "replyInfo">'
 						+ '<input type = "hidden" id = "reply_num" name = "reply_num" value= '+reply_num+'>'
-						+ '<p>'+nickname+' · '+ regdate +'</p>'
+						+ '<p> '+ pic + nickname+' · '+ regdate +'</p>'
 			          	+ '</div>'
 			          	+ '<div class = "col-md-2">'
 			          	+ '<input type = "button" class = "btn btn-light"       onclick="deleteReply(\''+reply_num +'\')" value = "삭제"/>'
@@ -432,15 +439,8 @@ $("#writeReply").on("click", function(){
 						+ '</div>'
 			            +  '<hr align="left" style="background-color: 333b3d; height:0.7px;" />'
 			        	+ '</div>' ;
-			
-			
 			            
 			 newReply.innerHTML +=line
-							
-				
-			
-			
-			
 
 		},
 		error: function (result){
