@@ -341,17 +341,8 @@ public class StudyMenuController {
 	/* 오프라인글쓰기 */
 	@RequestMapping("offStudyWriteForm")
 	public String offStudyWriteForm() {
-
-		String msg = "로그인이 필요합니다";
-		String url = "/studymember/loginForm";
-
-		if (session.getAttribute("memberNickname") != null) {
-			return "/view/study/offStudyWriteForm";
-		}
-		m.addAttribute("msg", msg);
-//		m.addAttribute("url", url);
-
-		return "redirect:"+url;
+		
+		return "/view/study/offStudyWriteForm";
 	}
 
 	@RequestMapping("offWritePro")
@@ -369,7 +360,6 @@ public class StudyMenuController {
 
 		// group insert
 
-		System.out.println(studymenu);
 		GroupMember gmem = new GroupMember();
 		gmem.setBoardnum(studymenu.getBoard_num());
 		gmem.setNickname(studymenu.getNickname());
@@ -393,16 +383,7 @@ public class StudyMenuController {
 	@RequestMapping("onStudyWriteForm")
 	public String onStudyWriteForm() {
 
-		String msg = "로그인이 필요합니다";
-		String url = "/studymember/loginForm";
-
-		if (session.getAttribute("memberNickname") != null) {
-			return "/view/study/onStudyWriteForm";
-		}
-		m.addAttribute("msg", msg);
-//		m.addAttribute("url", url);
-
-		return "redirect:"+url;
+		return "/view/study/onStudyWriteForm";
 	}
 
 	@RequestMapping("onWritePro")
@@ -443,16 +424,7 @@ public class StudyMenuController {
 	@RequestMapping("onoffStudyWriteForm")
 	public String onoffStudyWriteForm() {
 
-		String msg = "로그인이 필요합니다";
-		String url = "/studymember/loginForm";
-
-		if (session.getAttribute("memberNickname") != null) {
-			return "/view/study/onoffStudyWriteForm";
-		}
-		m.addAttribute("msg", msg);
-//		m.addAttribute("url", url);
-
-		return "redirect:"+url;
+		return "/view/study/onoffStudyWriteForm";
 	}
 
 	/* 온오프라인글쓰기 */

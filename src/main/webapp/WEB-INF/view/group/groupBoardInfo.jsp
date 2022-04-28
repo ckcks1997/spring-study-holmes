@@ -121,7 +121,7 @@
 											<p>${reply.nickname} · ${reply.regdate2}</p>
 										</div>
 
-										<c:if test="${loginNick eq reply.nickname}">
+										<c:if test="${memberNickname eq reply.nickname}">
 											<div class="col-md-2">
 												<input type="button" class="btn btn-light"
 													onclick="deleteReply('${reply.reply_num}')" value="삭제" />
@@ -307,38 +307,43 @@
 
 
 <!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
+	<!-- -----------------------------댓글 자바스크립트-------------------------------------------- -->
 	<script>
-//댓글입력
+<!--댓글 달기 -->
 $("#writeReply").on("click", function(){
 	var reply_content = document.querySelector("#reply_content")
 	
   //alert(reply_content.value)
 	var reply = {
-			"board_num" : "${groupBoard.board_num}",
+			"board_num" : "${param.board_num}",
 			"reply_content" : reply_content.value			
 	}
 
+
+<!--data: 변수를 json 문자열로 바꾸고, dataType으로 서버에서 리턴하는 데이터를 text로 인식하기로, contentType으로 body에 보내는 데이터를 json타입으로 전송할거라고 명시-->
 	$.ajax({ 
 		type: "post",
 		url: "<%=request.getContextPath()%>/reply/writeReply",
-		data: reply,
+		data: JSON.stringify(reply),
 		dataType: 'text',
+		contentType: 'application/json',
 		success : function(result){
 			result = result.trim()
 			result.replace(" ","")
 			
 			//alert("["+result+"]");
-			//alert(result);
+			console.log(result);
 		
 			var newReply = document.querySelector('#replyList')
-			var reply_num = result
+			var reply_num = JSON.parse(result).reply_num;
 			var nickname = document.querySelector('#reply_nickname').value
 			var content = document.querySelector('#reply_content').value
 			var today = new Date();
 			var year =today.getFullYear();
 			var month = today.getMonth()+1; 
+			month = (month < 10 ? '0'+month:month);
 			var date = today.getDate();
-			var regdate = year + '-' + month + '-' + date;
+			var regdate = year + '-' + month + '-' + date; 
 			
 			let temp = 'id="r'+reply_num+'"'
 			
@@ -357,41 +362,53 @@ $("#writeReply").on("click", function(){
 						+  '<p>'+content+'</p>'
 						+ '</div>'
 			            +  '<hr align="left" style="background-color: 333b3d; height:0.7px;" />'
-			        	+ '</div>' ;	
+			        	+ '</div>' ;
+			
+			
 			            
 			 newReply.innerHTML +=line
 							
+				
+			
+			
+			
+
 		},
 		error: function (result){
 			console.log(result);
 			alert("error");
 		}	
-	}); //end ajax
+	}); <!-- end ajax -->
 
 	
 })
 
 
-//댓글삭제---------------------------------------------------------------------------------------------
+
+
+
+<!--댓글삭제--------------------------------------------------------------------------------------------->
 function deleteReply(num){
 
 	//alert(num)
 	var deleteReply = {
-					"reply_num" :num
+					"board_num" : "${param.board_num}",
+					"reply_num" : num
 	}
 
 	
 	$.ajax({
 		type: 'post',
 		url : "<%=request.getContextPath()%>/reply/deleteReply",
-				data : deleteReply,
+				data : JSON.stringify(deleteReply),
 				dataType : 'text',
+				contentType: 'application/json',
 				success : function(result) {
 					alert("댓글이 삭제됩니다");
 					//alert(result)
 					var deleteReply = document.querySelector('#r' + num)
 					//alert(deleteReply.innerHTML) //삭제할 내용 확인
-					deleteReply.innerHTML = ""
+					deleteReply.innerHTML = "";
 
 				},
 				error : function(result) {
@@ -402,12 +419,13 @@ function deleteReply(num){
 			})
 
 		}
-		$('#deleteReply').on("click", function() {
-			var reply_num = document.querySelector("#reply_num")
+		
+$('#deleteReply').on("click", function() {
+		var reply_num = document.querySelector("#reply_num")
 
-		})
+	})
 		
-		
+	
 //신고 전달 --------------------------------------------------------------------------
 //자바스크립트 질문 ㅠㅠ 
 function reasonOption(){
@@ -424,24 +442,29 @@ $("#sendReport").on("click",function(){
 	
 	let report = {
 			"report_reason": report_reason,
-			"board_num": "${groupBoard.board_num}"
+			"board_num": "${param.board_num}"
 	}
 	
 	$.ajax({
 		type: "post",
 		url: "<%=request.getContextPath()%>/report/sendReport",
-		data: report,
-		dataType: 'text',
-		success : function(result) {
-			alert("신고되었습니다");
-		//	alert(report_reason); option값 잘 들어오는지 확인
-		},
-		error : function(result) {
-			console.log(result);
-			alert("error");
-		}
-	})
-})
+				data : JSON.stringify(report),
+				dataType : 'text',
+				contentType: "application/json",
+				success : function(result) {
+					alert("신고되었습니다");
+						//alert(report_reason); //option값 잘 들어오는지 확인
+						let button = document.querySelector("#reportButton");
+						button.disabled = true;
+						
+						
+				},
+				error : function(result) {
+					console.log(result);
+					alert("error");
+				}
+			})
+		})
 	</script>
 
 
