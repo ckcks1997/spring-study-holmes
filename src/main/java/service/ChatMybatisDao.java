@@ -3,7 +3,9 @@ package service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
+
 import model.WebChat;
 import util.MybatisConnection;
 
@@ -13,17 +15,9 @@ public class ChatMybatisDao {
   private Map<String, Object> map = new HashMap<>();
 
   public int nextNum() {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    
-    try { 
-      return sqlSession.selectOne(NS + "nextNum", map);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
-
-    return 0;
+   
+      return sqlSession.selectOne(NS + "nextNum");
+  
 
   }
   
