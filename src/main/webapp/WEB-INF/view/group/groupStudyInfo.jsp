@@ -50,7 +50,7 @@
 				      </a>
 				    </c:forEach>
 					
-					<a class="btn btn-c" href="<%=request.getContextPath()%>/chat/chat?boardnum=${groupMemberList[0].boardnum}">채팅 입장</a>
+					<a class="btn btn-c" href="<%=request.getContextPath()%>/socket/chat?boardnum=${groupMemberList[0].boardnum}">채팅 입장</a>
                     <a class="btn btn-c" href="<%=request.getContextPath()%>/group/groupBoard?boardnum=${groupMemberList[0].boardnum}&boardid=1">그룹 게시판</a>
                     <a class="btn btn-c" href="<%=request.getContextPath()%>/group/groupexit?boardnum=${groupMemberList[0].boardnum}">스터디 종료</a>
 

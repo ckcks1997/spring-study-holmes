@@ -2,6 +2,7 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import model.GroupMember; 
+import model.GroupMember;
 import model.Notice;
 import model.Report;
 import model.ReputationEstimate;
@@ -27,6 +28,7 @@ import model.StudyMember;
 import model.StudyMenu;
 import service.CommunityBoardDao;
 import service.GroupMemberDao;
+import service.KakaoService;
 import service.NoticeDao;
 import service.ReportDao;
 import service.ReputationEstimateDao;
@@ -52,7 +54,9 @@ public class StudyMemberController {
 	ReportDao rd;
 	@Autowired
 	ReputationEstimateDao red;
-
+    @Autowired
+    KakaoService kakaoService;
+	
 	HttpServletRequest request;
 	HttpSession session;
 	
@@ -208,26 +212,20 @@ public class StudyMemberController {
    * 카카오 로그인
    * */
   @RequestMapping("kakaologin")
-  public String kakaoLogin(Model model) {
-     
-    String kakaoemail = request.getParameter("kakaoemail"); // email
-    System.out.println(kakaoemail+"=="); 
-    
-    StudyMember member = md.studyMemberOne(kakaoemail);
-    System.out.println(member+"===");
-    if(member == null) {
-      request.setAttribute("kakaoemail", kakaoemail);
-      return "/view/member/join";
-    }
-    
-    request.getSession().setAttribute("memberID", member.getEmail());
-    request.getSession().setAttribute("memberNickname", member.getNickname());
-    request.getSession().setAttribute("memberPicture", member.getPicture());
-     
-    String msg = "";
-    String url =  "/board/main"; 
-    model.addAttribute("msg", msg);  
-    return "redirect:"+url;
+  public String kakaoLogin(@RequestParam(value = "code", required = false) String code, Model model) {
+      String access_Token = kakaoService.getAccessToken(code);
+      HashMap<String, Object> userInfo = kakaoService.getUserInfo(access_Token);
+      
+      StudyMember mem = md.studyMemberOne((String)userInfo.get("email"));
+      if(mem == null) {
+    	  model.addAttribute("kakaoemail", userInfo.get("email"));
+    	  model.addAttribute("kakaonick", userInfo.get("nickname"));
+    	  return "view/member/join";
+      }
+      request.getSession().setAttribute("memberID", mem.getEmail());
+      request.getSession().setAttribute("memberNickname", mem.getNickname());
+      request.getSession().setAttribute("memberPicture", mem.getPicture());
+    return "redirect:/board/main";
   }
   
   /*
