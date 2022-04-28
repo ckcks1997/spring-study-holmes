@@ -8,14 +8,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="<%=request.getContextPath() %>/css/boardlist.css" rel="stylesheet" type="text/css"> 
-
-<style>
-.pic_mini {
-	width: 25px;
-	height: 25px;
-	border-radius: 70%;
-}
-</style>
 <title>스터디 홈즈</title>
 </head>
 <body>
@@ -46,10 +38,8 @@
 					style="background-color: #c47100; height: 1px;" />
 
 
-				<form action="<%=request.getContextPath()%>/community/comSearch"
-					method=post>
+				<form action="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid}&part=${part}&searchData=${searchData}">
 					<input type="hidden" name="boardid" value="${boardid}" />
-
 					<div class="row">
 						<div class="col-xs-12 col-sm-11 col-md-10">
 							<div class="d-flex flex-row align-items-center">
@@ -66,8 +56,7 @@
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-1 col-md-2 btn-search">
-							<input class="btn btn-dark" type="submit" name="search"
-								value="검색" />
+							<input class="btn btn-dark" type="submit" value="검색" />
 						</div>
 					</div>
 
@@ -78,11 +67,11 @@
 				<div class="row col-sm-9 divide" style="float: left">
 				<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
 					<c:if test="${boardid != 4 && boardid != 5}"><%--공지와 문의게시판이 아닌 곳에만 적용 --%>
-					<a href="<%=request.getContextPath()%>/community/comBoardList">최신순</a>
+					<a href="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid}&sort=&part=${part}&searchData=${searchData}">최신순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp;
-							<a href="<%=request.getContextPath()%>/community/comBoardReply">댓글순</a>
+							<a href="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid }&sort=replycnt&part=${part }&searchData=${searchData}">댓글순</a>
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp; <a
-								href="<%=request.getContextPath()%>/community/comBoardRead">조회수순</a>
+								href="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid }&sort=readcnt&part=${part}&searchData=${searchData}">조회수순</a>
 					</c:if>
 					
 				</div>
@@ -142,8 +131,7 @@
 												style="color: black">
 												<p style="font-size: 17px; font-weight: bold;">
 													${com.title}</p>
-												<p style="font-size: 17px; font-weight: bold;">
-													${preContent}</p> <br />
+											 	<br />
 												<h6 style="color: gray;">
 													<c:if test="${com.picture eq null }">
 														<img class="pic_mini"
@@ -206,18 +194,18 @@
 					<li
 						class='page-item <c:if test ="${startPage <= bottomLine }"> disabled </c:if> '><a
 						class="page-link"
-						href="<%=request.getContextPath()%>/community/comBoardList?pageNum=${startPage-bottomLine}">이전</a></li>
+						href="<%=request.getContextPath()%>/community/comBoardList?pageNum=${startPage-bottomLine}&sort=&part=${part}&searchData=${searchData}">이전</a></li>
 					<c:forEach var="i" begin="${startPage}" end="${endPage}">
 						<li
 							class='page-item <c:if test = "${i==pageInt}" > active active2</c:if> '>
 							<a class="page-link"
-							href="<%=request.getContextPath()%>/community/comBoardList?pageNum=${i}">${i}</a>
+							href="<%=request.getContextPath()%>/community/comBoardList?pageNum=${i}&sort=&part=${part}&searchData=${searchData}">${i}</a>
 						</li>
 					</c:forEach>
 					<li
 						class='page-item <c:if test ="${endPage >= maxPage}"> disabled </c:if>  '>
 						<a class="page-link"
-						href="<%=request.getContextPath()%>/community/comBoardList?pageNum=${startPage+bottomLine}">다음</a>
+						href="<%=request.getContextPath()%>/community/comBoardList?pageNum=${startPage+bottomLine}&sort=&part=${part}&searchData=${searchData}">다음</a>
 					</li>
 				</ul>
 			</div>

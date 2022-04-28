@@ -48,7 +48,7 @@ public class CommunityBoardDao {
 			
 				map.clear();
 				map.put("part", part);
-				map.put("searchData", "%"+searchData+"%");
+				map.put("searchData", searchData);
 				map.put("boardid", boardid);
 				
 			return sqlSession.selectOne(NS+"comSearchCount",map);
@@ -120,9 +120,36 @@ public class CommunityBoardDao {
 				map.put("start", (pageInt-1)*limit+1);
 				map.put("end", pageInt*limit);
 				map.put("part", part);
-				map.put("searchData", "%"+searchData+"%");
+				map.put("searchData", searchData);
 					
 			return sqlSession.selectList(NS+"comSearchList",map);
+			
+	  }
+	  
+	//검색리스트
+	  public List<Community> comSearchListReply(int pageInt, int limit, int boardcount, String boardid, String part, String searchData) {
+		  
+				map.clear();
+				map.put("boardid", boardid);
+				map.put("start", (pageInt-1)*limit+1);
+				map.put("end", pageInt*limit);
+				map.put("part", part);
+				map.put("searchData", searchData);
+					
+			return sqlSession.selectList(NS+"comSearchListReply",map);
+			
+	  }
+	//검색리스트
+	  public List<Community> comSearchListRead(int pageInt, int limit, int boardcount, String boardid, String part, String searchData) {
+		  
+				map.clear();
+				map.put("boardid", boardid);
+				map.put("start", (pageInt-1)*limit+1);
+				map.put("end", pageInt*limit);
+				map.put("part", part);
+				map.put("searchData", searchData);
+					
+			return sqlSession.selectList(NS+"comSearchListRead",map);
 			
 	  }
 	  
@@ -200,28 +227,8 @@ public class CommunityBoardDao {
 	  }
 	  
 	  
-	  public List<Community> comSearch(String part,String searchData, String boardid) {
-		  
-		  
-		  List<Community> searchList = null;
-		  
-		 
-			  map.clear();
-			  map.put("part", part);
-			  map.put("searchData", "%"+searchData+"%");
-			  map.put("boardid", boardid);
-			  
-			  searchList = sqlSession.selectList(NS+"comSearch",map);
-	
-		  
-		  return searchList;
-		  
-	  }
 	  
-	  
-	  
-	  
-	  
+	 
 	  
 	  
 	  /* 메인화면(board) 최신글 출력 관련 Dao */

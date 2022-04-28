@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from(
   	select rownum rnum, a.* from 
   	(select * from (select * from community where boardid = #{boardid} order by board_num desc) com
-  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )where rnum between #{start} and #{end}
+  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )
+  	where rnum between #{start} and #{end}
 </select> 
 
 <!-- 댓글순 출력, 댓글수가 같으면 최신순으로 출력 -->
@@ -26,7 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from(
   	select rownum rnum, a.* from 
   	(select * from (select * from community where boardid = #{boardid} order by replycnt desc, board_num desc) com
-  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )where rnum between #{start} and #{end}
+  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )
+  	where rnum between #{start} and #{end}
 </select> 
 
 <!-- 조회수순 출력, 조회수가 같으면 최신순으로 출력 -->
@@ -34,7 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from(
   	select rownum rnum, a.* from 
   	(select * from (select * from community where boardid = #{boardid} order by readcnt desc, board_num desc) com
-  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )where rnum between #{start} and #{end}
+  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )
+  	where rnum between #{start} and #{end}
 </select>
 
 <!-- 내가 쓴 문의글 출력, 최신순으로 출력 -->
@@ -78,25 +81,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 
-<!-- 검색 기능-->
-<select id = "comSearch" parameterType = "map" resultType="community">
-	select * from community where (${part}) like (#{searchData})
-	and boardid = #{boardid}	
-</select>
-
-
 <!-- 검색수 -->
 <select id = "comSearchCount" resultType = "int" parameterType = "map">
-	select count(*) from community where boardid = #{boardid} and (${part}) like (#{searchData})
+	select count(*) from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%')
 </select> 
 
-<!-- 검색리스트목록 -->
+
+
+
+<!-- 검색목록 -->
 <select id = "comSearchList" resultType = "community"  parameterType = "map">
-	select * from (select rownum rnum, a.* from 
-	(select * from community where boardid = #{boardid} and (${part}) like (#{searchData}) order by board_num desc) a)
+	select * from 
+	(select rownum rnum, a.* from 
+	(select * from (select * from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%') order by board_num desc) com
+  	left join 
+  	(select picture, nickname from study_member) study on com.nickname = study.nickname ) a)
 	where rnum between #{start} and #{end}
 </select> 
 
+<!-- 검색 후 댓글 순 -->
+<select id = "comSearchListReply" resultType = "community"  parameterType = "map">
+	select * from 
+	(select rownum rnum, a.* from 
+	(select * from (select * from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%') order by replycnt desc) com
+  	left join 
+  	(select picture, nickname from study_member) study on com.nickname = study.nickname ) a)
+	where rnum between #{start} and #{end}
+</select> 
+
+<!-- 검색 후 조회수순 -->
+<select id = "comSearchListRead" resultType = "community"  parameterType = "map">
+	select * from 
+	(select rownum rnum, a.* from 
+	(select * from (select * from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%') order by readcnt desc) com
+  	left join 
+  	(select picture, nickname from study_member) study on com.nickname = study.nickname ) a)
+	where rnum between #{start} and #{end}
+</select> 
 
 
 

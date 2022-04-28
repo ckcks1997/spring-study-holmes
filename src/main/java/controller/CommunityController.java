@@ -49,17 +49,16 @@ public class CommunityController {
 	}
 	
 
-	// 최신순 나열
+	//나열
 	@RequestMapping("comBoardList")
-	public String comBoardList() {
+	public String comBoardList(String sort, String boardid, String part, String searchData ) {
+		System.out.println("리스트====sort:"+sort +"boardid:"+boardid+"part:"+part+"searchData:"+searchData);
 
-
-		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;
 
-		if (request.getParameter("boardid") != null) {
-			session.setAttribute("boardid", request.getParameter("boardid"));
+		if (boardid != null) {
+			session.setAttribute("boardid", boardid);
 			session.setAttribute("pageNum", "1");
 		}
 
@@ -81,7 +80,36 @@ public class CommunityController {
 
 		
 		int boardcount = cbd.comBoardCount(boardid);
-		List<Community> list = cbd.comBoardList(pageInt, limit, boardcount, boardid);
+		List<Community> list;
+		
+		if(sort != null && sort.equals("replycnt")) { // 댓글순 목록
+			list = cbd.comBoardReply(pageInt, limit, boardcount, boardid);
+			if(part != null && part != "" && searchData !=null && searchData != "") {
+				boardcount = cbd.comSearchCount(boardid,part,searchData);
+				list  = cbd.comSearchListReply(pageInt,limit,boardcount,boardid, part, searchData);
+			}
+			
+		} else if(sort != null && sort.equals("readcnt")) { // 조회수순 목록
+			list = cbd.comBoardRead(pageInt, limit, boardcount, boardid);
+			if(part != null && part != "" && searchData !=null && searchData != "") {
+				boardcount = cbd.comSearchCount(boardid,part,searchData);
+				list  = cbd.comSearchListRead(pageInt,limit,boardcount,boardid, part, searchData);
+			}
+			
+			
+		} else { // 최신순 목록
+			list = cbd.comBoardList(pageInt, limit, boardcount, boardid);
+			if(part != null && part != "" && searchData !=null && searchData != "") { //검색어가 있으면
+				System.out.println("--전: "+boardcount);
+				boardcount = cbd.comSearchCount(boardid, part, searchData);
+				System.out.println("--후: "+boardcount);
+				
+				list = cbd.comSearchList(pageInt, limit, boardcount, boardid, part, searchData); //검색어 목록
+				
+				System.out.println("검색&최신순");
+				System.out.println(pageInt+"/"+limit+"/"+boardcount+"/"+boardid+"/"+part+"/"+searchData);
+			}
+		}
 		int boardnum = boardcount - limit * (pageInt - 1);
 		int bottomLine = 3;
 		int startPage = (pageInt - 1) / bottomLine * bottomLine + 1;
@@ -121,144 +149,7 @@ public class CommunityController {
 		return "view/community/comBoardList";
 	}
 
-	// 댓글순 나열
-	@RequestMapping("comBoardReply")
-	public String comBoardReply() {
-
-		String boardid = "";
-		int pageInt = 1;
-		int limit = 4;
-
-		if (request.getParameter("boardid") != null) {
-			session.setAttribute("boardid", request.getParameter("boardid"));
-			session.setAttribute("pageNum", "1");
-		}
-
-		boardid = (String) session.getAttribute("boardid");
-		if (boardid == null) {
-			boardid = "1";
-		}
-
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
-		}
-
-		String pageNum = (String) session.getAttribute("pageNum");
-		if (pageNum == null) {
-			pageNum = "1";
-		}
-
-		pageInt = Integer.parseInt(pageNum);
-
-		int boardcount = cbd.comBoardCount(boardid);
-		List<Community> list = cbd.comBoardReply(pageInt, limit, boardcount, boardid);
-		int boardnum = boardcount - limit * (pageInt - 1);
-		int bottomLine = 3;
-		int startPage = (pageInt - 1) / bottomLine * bottomLine + 1;
-		int endPage = startPage + bottomLine - 1;
-		int maxPage = (boardcount / limit) + (boardcount % limit == 0 ? 0 : 1);
-		if (endPage > maxPage)
-			endPage = maxPage;
-
-		String boardName = "질문 & 답변";
-		switch (boardid) {
-		case "5":
-			boardName = "문의사항";
-			break;
-		case "4":
-			boardName = "공지";
-			break;
-		case "3":
-			boardName = "정보공유";
-			break;
-		case "2":
-			boardName = "자유";
-			break;
-
-		}
-		m.addAttribute("boardName", boardName);
-		m.addAttribute("pageInt", pageInt);
-		m.addAttribute("boardid", boardid);
-		m.addAttribute("boardcount", boardcount);
-		m.addAttribute("list", list);
-		m.addAttribute("boardnum", boardnum);
-		m.addAttribute("startPage", startPage);
-		m.addAttribute("bottomLine", bottomLine);
-		m.addAttribute("endPage", endPage);
-		m.addAttribute("maxPage", maxPage);
-
-		return "view/community/comBoardList";
-	}
-
-	//조회수순 나열
-	@RequestMapping("comBoardRead")
-	public String comBoardRead() {
-
-		String boardid = "";
-		int pageInt = 1;
-		int limit = 4;
-
-		if (request.getParameter("boardid") != null) {
-			session.setAttribute("boardid", request.getParameter("boardid"));
-			session.setAttribute("pageNum", "1");
-		}
-
-		boardid = (String) session.getAttribute("boardid");
-		if (boardid == null) {
-			boardid = "1";
-		}
-
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
-		}
-
-		String pageNum = (String) session.getAttribute("pageNum");
-		if (pageNum == null) {
-			pageNum = "1";
-		}
-
-		pageInt = Integer.parseInt(pageNum);
-
-		int boardcount = cbd.comBoardCount(boardid);
-		List<Community> list = cbd.comBoardRead(pageInt, limit, boardcount, boardid);
-		int boardnum = boardcount - limit * (pageInt - 1);
-		int bottomLine = 3;
-		int startPage = (pageInt - 1) / bottomLine * bottomLine + 1;
-		int endPage = startPage + bottomLine - 1;
-		int maxPage = (boardcount / limit) + (boardcount % limit == 0 ? 0 : 1);
-		if (endPage > maxPage)
-			endPage = maxPage;
-
-		String boardName = "질문 & 답변";
-		switch (boardid) {
-		case "5":
-			boardName = "문의사항";
-			break;
-		case "4":
-			boardName = "공지";
-			break;
-		case "3":
-			boardName = "정보공유";
-			break;
-		case "2":
-			boardName = "자유";
-			break;
-
-		}
-		m.addAttribute("boardName", boardName);
-		m.addAttribute("pageInt", pageInt);
-		m.addAttribute("boardid", boardid);
-		m.addAttribute("boardcount", boardcount);
-		m.addAttribute("list", list);
-		m.addAttribute("boardnum", boardnum);
-		m.addAttribute("startPage", startPage);
-		m.addAttribute("bottomLine", bottomLine);
-		m.addAttribute("endPage", endPage);
-		m.addAttribute("maxPage", maxPage);
-
-		return "view/community/comBoardList";
-	}
-
+	
 	@RequestMapping("comBoardmyList1")
 	public String comBoardmyList1() {
 		
@@ -481,33 +372,16 @@ public class CommunityController {
 
 	}
 
+	/*
 	// 검색
-	@RequestMapping("comSearch")
-	public String comSearch(String part, String searchData,String boardid) {
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		cbd.comSearch(part, searchData, boardid);
-		System.out.println("part:" + part);
-		System.out.println("searchData:" + searchData);
-
-		return "/community/comSearchList";
-
-	}
-
-	// 검색한 페이지
 	@RequestMapping("comSearchList")
-	public String comSearchList(String part, String searchData) {
+	public String comSearchList(String part, String searchData, String boardid) {
 		
-		String boardid = "";
 		int pageInt = 1;
 		int limit = 4;		
-
-		if (request.getParameter("boardid") != null) { // 게시판번호 있으면
-			session.setAttribute("boardid", request.getParameter("boardid")); // 세션에 게시판 번호 셋팅
+		
+		if (boardid != null) { // 게시판번호 있으면
+			session.setAttribute("boardid", boardid); // 세션에 게시판 번호 셋팅
 			session.setAttribute("pageNum", "1"); // 세션에 페이지번호 셋팅
 		}
 
@@ -565,10 +439,12 @@ public class CommunityController {
 		m.addAttribute("bottomLine", bottomLine);
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("maxPage", maxPage);
+		
+		
 
 		return "view/community/comSearchList";
 	}
-
+*/
 	// 이미지 업로드 ajax가 보내는 url 받는 메서드
 	@RequestMapping("comImageUpload")
 	public String comImageUpload(@RequestParam("file") MultipartFile file ) { //("file")은 jsp에서 form-data의 key명과 동일하게 적어야합니다

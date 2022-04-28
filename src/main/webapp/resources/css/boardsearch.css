@@ -43,11 +43,6 @@ body {
 	font-size: 13px;
 }
 
-.divide {
-	font-weight:700;
-    color: #777;
-}
-
 
 a {
 	color:black;
@@ -59,3 +54,8 @@ a:hover {
     text-decoration: none;
 }
 
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}

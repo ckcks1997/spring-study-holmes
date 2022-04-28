@@ -58,3 +58,9 @@ a:hover {
     color:#f55555;
     text-decoration: none;
 }
+
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}

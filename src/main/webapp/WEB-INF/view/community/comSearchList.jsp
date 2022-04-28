@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,9 +33,10 @@
 			
 			<div class="main col-lg-9">
 				<h2 style="font-weight: bold">${boardName}</h2>
-				<hr align="left" width="150px" style="border: 0.5px solid #c47100" />
+				<hr align="left" width="170px"
+					style="background-color: #c47100; height: 1px;" />
 				
-				<form action = "<%=request.getContextPath()%>/community/comSearch?boardid=${boardid}" method = post>
+				<form action = "<%=request.getContextPath()%>/community/comSearchList" method = post>
 					<input type = "hidden" name = "boardid" value = "${boardid}"/>
 					<div class="row">
 						<div class="col-xs-12 col-sm-11 col-md-10">
@@ -60,25 +61,49 @@
 				
 				<br />
 
-				<div class = "row col-sm-9 divide" style="float: left">
-					<a href ="<%=request.getContextPath()%>/community/comBoardList">최신순</a>
+				<div class="row col-sm-9" style="float: left">
+				<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
+					<p style="color:#777">"${searchData }" 검색결과 ${boardcount }개</p>
 					
 				</div>
-				<div class="mb-2" style="float: right">
-					<button type="button" class="btn btn-dark"
-						onclick="location.href='<%=request.getContextPath()%>/community/comWriteForm'">글쓰기
-					</button>
-				</div>
 
 
+				<c:choose>
+					<c:when test="${memberNickname != '관리자' }">
+						<%--만약 1)일반유저이고 --%>
+						<c:if test="${boardid != 4 }">
+							<%--공지게시판이 아니면 --%>
+							<%--글쓰기 버튼을 띄운다 --%>
+							<div class="mb-2" style="float: right">
+								<button type="button" class="btn btn-dark"
+									onclick="location.href='<%=request.getContextPath()%>/community/comWriteForm'">글쓰기
+								</button>
+							</div>
+						</c:if>
+					</c:when>
+
+					<c:otherwise>
+						<%--관리자이고 --%>
+						<c:if test="${boardid == 4 }">
+							<%--공지게시판이면 --%>
+							<%--글쓰기 버튼을 띄운다 --%>
+							<div class="mb-2" style="float: right">
+								<button type="button" class="btn btn-dark"
+									onclick="location.href='<%=request.getContextPath()%>/community/comWriteForm'">글쓰기
+								</button>
+							</div>
+						</c:if>
+					</c:otherwise>
+				</c:choose>
 				<br />
+
 				
 				
 	<!-- -------------------메인--------------------------------------------------- -->
 	<div class="container">
 					<table class="table">
 						<c:if test = "${empty searchList }"> <!-- list.size() 가 0이면 -->
-				
+								<hr align="left" />
 								<p>작성된 글이 없습니다.</p>
 				
 						</c:if>
@@ -95,8 +120,16 @@
 												<p style = "font-size: 17px; font-weight: bold;">
 													${com.title}
 												</p>
-												<br>
+												<br />
 												<h6 style = "color: gray;">
+												<c:if test="${com.picture eq null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+													</c:if>
+													<c:if test="${com.picture ne null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/imgupload/${com.picture}">
+													</c:if>
 													<small>${com.nickname} · ${com.regdate} </small>
 												</h6>
 											</a>
@@ -104,6 +137,9 @@
 										<div class="col-sm-3 reaction">
 											<div class="circle">
 												<div class="reactions">
+												
+													<c:if test="${boardid != 5}">
+														<%--문의 외의 게시판에 조회수 출력 | 문의 게시판 조회수 X --%>
 													<div class="readcnt">
 														<span> <svg xmlns="http://www.w3.org/2000/svg"
 																width="16" height="16" fill="currentColor"
@@ -114,6 +150,8 @@
 																	d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
 													</svg>
 														</span>${com.readcnt}읽음</div>
+													</c:if>
+													
 													<div class="comment">
 														<span> <svg xmlns="http://www.w3.org/2000/svg"
 																width="16" height="16" fill="currentColor"
