@@ -218,7 +218,7 @@ input[type=text]:placeholder {
 				<p class="nameholder">닉네임 <span class="span-info">(추후 변경이 불가합니다)</span></p>
 				<div class="alert mx-5 py-0 my-0" id="validation-view3" role="alert"  display="none"></div>
 				<div class="d-md-flex justify-content-center align-items-center mx-5">
-				    <input type="text" placeholder="닉네임" id="nickname" name="nickname" class=" " required > 
+				    <input type="text" placeholder="닉네임" id="nickname" name="nickname" value="${kakaonick}" class=" " required > 
 				    <button class="btn btn-color1" id="emailChk" type="button" onclick="nicknameChk()">확인</button>
                 </div>
 				<p class="nameholder">전화번호</p>

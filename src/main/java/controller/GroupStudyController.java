@@ -381,7 +381,7 @@ public class GroupStudyController {
 	@RequestMapping("imageUpload")
 	public String imageUpload(@RequestParam("file") MultipartFile multipartFile) {
 
-		String path = request.getServletContext().getRealPath("/") + "upload/";
+		String path = request.getServletContext().getRealPath("/") + "studyupload/";
 		String filename = null;
 		File folder = new File(path);
 		if (!folder.exists()) {

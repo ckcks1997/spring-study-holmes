@@ -4,54 +4,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.WebChat;
-import util.MybatisConnection;
 
+@Component
 public class ChatMybatisDao {
 
-  private static final String NS = "webchat.";
-  private Map<String, Object> map = new HashMap<>();
+	private static final String NS = "webchat.";
+	private Map<String, Object> map = new HashMap<>();
 
-  public int nextNum() {
-   
-      return sqlSession.selectOne(NS + "nextNum");
-  
+	  @Autowired
+	  MySqlSessionFactory sqlSessionFactory;
+	  SqlSession sqlSession;
+	  
+	  @PostConstruct
+	  public void setSqlSession() {
+		  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
+	  }
 
-  }
-  
-  public int insertWebChat(WebChat webchat) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    
-    try {
- 
-      return sqlSession.insert(NS + "insertWebChat", webchat);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
 
-    return 0;
+	public int nextNum() {
+		return sqlSession.selectOne(NS + "nextNum", map);
+	}
 
-  }
+	public int insertWebChat(WebChat webchat) {
 
-  
-  public List<WebChat> listWebChat(String groupId) {
-    SqlSession sqlSession = MybatisConnection.getConnection();
-    
-    try {
-      return sqlSession.selectList(NS + "listWebChat", groupId);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      MybatisConnection.close(sqlSession);
-    }
+		try {
+			return sqlSession.insert(NS + "insertWebChat", webchat);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.commit();
+		}
+		return 0;
+	}
 
-    return null;
+	public List<WebChat> listWebChat(String groupId) {
+		return sqlSession.selectList(NS + "listWebChat", groupId);
+	}
 
-  }
-
-  
 }

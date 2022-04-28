@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Community;
 import model.Reply;
 import service.CommunityBoardDao;
 import service.ReplyDao;
 import service.ReportDao;
+
 
 
 @Controller
@@ -187,6 +190,7 @@ public class CommunityController {
 		return "view/community/comBoardList";
 	}
 
+	//조회수순 나열
 	@RequestMapping("comBoardRead")
 	public String comBoardRead() {
 
@@ -314,27 +318,15 @@ public class CommunityController {
 	@RequestMapping("comWriteForm")
 	public String comWriteForm() {
 
-		String msg = "로그인이 필요합니다";
-		String url = "/studymember/loginForm";
-
-		if (session.getAttribute("memberNickname") != null) {
-			return "view/community/comWriteForm";
-		}
-
-		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
-		
-
-		return "redirect:/board/main";
+			return "view/community/comWriteForm";	
 	}
 
 	// 글쓰기
 	@RequestMapping("comWritePro")
-	public String comWritePro(Community com) {
+	public String comWritePro(Community com, RedirectAttributes redirect) {
 
-		// 세션에 저장된 닉네임 가져와서 커뮤니티 닉네임으로 저장하기
-		com.setNickname((String)session.getAttribute("memberNickname"));
 		
+		com.setNickname((String)session.getAttribute("memberNickname"));
 		com.setIp(request.getLocalAddr());
 
 		String boardid = (String) session.getAttribute("boardid");
@@ -342,9 +334,7 @@ public class CommunityController {
 			boardid = "1";
 		}
 		com.setBoardid(boardid);
-
 		com.setBoard_num(cbd.comNextNum());
-		
 		
 		//셋팅한 com으로 insert하기 
 		int num = cbd.comInsertBoard(com);
@@ -356,10 +346,8 @@ public class CommunityController {
 			url = "/community/comBoardList?pageNum=1";
 
 		}
-
-		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
-		
+		//m.addAttribute("msg",msg); 대신 사용, url에 msg 노출 x
+		redirect.addFlashAttribute("msg",msg);
 
 		return "redirect:"+url;
 	}
@@ -385,7 +373,7 @@ public class CommunityController {
 				//(String)session.getAttribute("memberNickname")==null --ok 
 				//(String)session.getAttribute("memberNickname").equals(null) -- 앞에꺼가 애초에 null이어서 equals를 못 부름 
 				msg = "로그인을 먼저 해주세요";
-				url = request.getContextPath() + "/studymember/loginForm";
+				url = "/studymember/loginForm";
 
 			}
 
@@ -406,10 +394,9 @@ public class CommunityController {
 
 			} else { //로그인은 되어있는데 글 작성자가 아닐 경우 
 				msg = "글 작성자만 열람가능합니다"; 
-				url = request.getContextPath() + "/community/comBoardList"; 
+				url = "/community/comBoardList"; 
 			}
 			m.addAttribute("msg", msg);
-			m.addAttribute("url", url);
 
 		} else { // 문의 게시판이 아닌 다른 게시판은 검증 거치지 않고 바로 열람 가능 
 			System.out.println("---문의 게시판이 아닌 다른 게시판 ---");
@@ -431,7 +418,7 @@ public class CommunityController {
 		}
 		//System.out.println(msg); //확인
 		//System.out.println(url); //확인
-		return "view/alert";
+		return "redirect:"+url;
 
 	}
 
@@ -457,18 +444,15 @@ public class CommunityController {
 	
 		if (cbd.comBoardUpdate(com) > 0) {
 			msg = "수정되었습니다";
-			url = request.getContextPath() + "/community/comBoardInfo?board_num=" + com.getBoard_num();
+			url = "/community/comBoardInfo?board_num=" + com.getBoard_num();
 
 		} else {
 			msg = "수정이 실패하였습니다";
-			url = request.getContextPath()+"/community/comBoardInfo?board_num=" + com.getBoard_num();
+			url = "/community/comBoardInfo?board_num=" + com.getBoard_num();
 		}
 
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
-	
-
-		return "view/alert";
+		return "redirect:"+url;
 
 	}
 
@@ -485,16 +469,15 @@ public class CommunityController {
 		if (cbd.comBoardDelete(board_num) > 0) {
 
 			msg = "게시글이 삭제되었습니다.";
-			url = request.getContextPath() + "/community/comBoardList";
+			url = "/community/comBoardList";
 		} else {
 			msg = "삭제가 불가능합니다";
-			url = request.getContextPath() + "/community/comBoardInfo?board_num=" + com.getBoard_num();
+			url = "/community/comBoardInfo?board_num=" + com.getBoard_num();
 		}
 
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
 
-		return "view/alert";
+		return "redirect:"+url;
 
 	}
 
@@ -507,7 +490,6 @@ public class CommunityController {
 			e.printStackTrace();
 		}
 
-		
 		cbd.comSearch(part, searchData, boardid);
 		System.out.println("part:" + part);
 		System.out.println("searchData:" + searchData);
@@ -588,7 +570,6 @@ public class CommunityController {
 	}
 
 	// 이미지 업로드 ajax가 보내는 url 받는 메서드
-	//@ResponseBody //
 	@RequestMapping("comImageUpload")
 	public String comImageUpload(@RequestParam("file") MultipartFile file ) { //("file")은 jsp에서 form-data의 key명과 동일하게 적어야합니다
 		
