@@ -26,38 +26,35 @@
 	font-size: 0.5rem;
 }
 
-.c-border{
-    border:2px solid #F55555;
-    border-radius: 10px;
+.c-border {
+	border: 2px solid #F55555;
+	border-radius: 10px;
 }
 
 /* 게시글 , 댓글 작성자 날짜*/
-.postInfo, #replyInfo { 
+.postInfo, #replyInfo {
 	font-size: 15px;
 	font-weight: 600;
-	color : gray;
-
+	color: gray;
 }
-
 
 /*댓글 textarea 출력시 css*/
 .replyTxt {
-	 word-wrap : break-word; /*영역 넘어가면 줄바꿈하기*/
-	 word-break: break-word; /* 영문의 경우 단어단위로 줄바꿈하기 */
-	
+	word-wrap: break-word; /*영역 넘어가면 줄바꿈하기*/
+	word-break: break-word; /* 영문의 경우 단어단위로 줄바꿈하기 */
 }
 
-
-a{
-    color:black;
-}
-a:hover{
-    color:black;
-}
-.white, .white:hover{
-    color:white;
+a {
+	color: black;
 }
 
+a:hover {
+	color: black;
+}
+
+.white, .white:hover {
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -66,27 +63,35 @@ a:hover{
 			<input type="hidden" id="board_num" name="board_num"
 				value="${s.board_num}">
 
-<!-- --------------------------------------------------------------정보배너------------------------------------------------------------ -->
+			<!-- --------------------------------------------------------------정보배너------------------------------------------------------------ -->
 			<div style="float: left; margin: 20px">
 
-                      <c:if test="${s.menuid == 2 }">
-                          <img src="<%=request.getContextPath()%>/img/studymenu/programming.jpg" alt="" width=260>
-                      </c:if>
-                      <c:if test="${s.menuid == 3 }">
-                         <img src="<%=request.getContextPath()%>/img/studymenu/security.jpg" alt="" width=260>
-                     </c:if>
-                      <c:if test="${s.menuid == 4 }">
-                         <img src="<%=request.getContextPath()%>/img/studymenu/creative.jpg" alt="" width=260>
-                      </c:if>
-                      <c:if test="${s.menuid == 5 }">
-                        <img src="<%=request.getContextPath()%>/img/studymenu/marketing.jpg" alt=""width=260>
-                     </c:if>
-                     <c:if test="${s.menuid == 6 }">
-                        <img src="<%=request.getContextPath()%>/img/studymenu/language.jpg" alt="" width=260>
-                    </c:if>
-                    <c:if test="${s.menuid == 7 }">
-                       <img src="<%=request.getContextPath()%>/img/studymenu/etc.jpg" alt="" width=260>
-                    </c:if>
+				<c:if test="${s.menuid == 2 }">
+					<img
+						src="<%=request.getContextPath()%>/img/studymenu/programming.jpg"
+						alt="" width=260>
+				</c:if>
+				<c:if test="${s.menuid == 3 }">
+					<img src="<%=request.getContextPath()%>/img/studymenu/security.jpg"
+						alt="" width=260>
+				</c:if>
+				<c:if test="${s.menuid == 4 }">
+					<img src="<%=request.getContextPath()%>/img/studymenu/creative.jpg"
+						alt="" width=260>
+				</c:if>
+				<c:if test="${s.menuid == 5 }">
+					<img
+						src="<%=request.getContextPath()%>/img/studymenu/marketing.jpg"
+						alt="" width=260>
+				</c:if>
+				<c:if test="${s.menuid == 6 }">
+					<img src="<%=request.getContextPath()%>/img/studymenu/language.jpg"
+						alt="" width=260>
+				</c:if>
+				<c:if test="${s.menuid == 7 }">
+					<img src="<%=request.getContextPath()%>/img/studymenu/etc.jpg"
+						alt="" width=260>
+				</c:if>
 
 			</div>
 
@@ -105,31 +110,36 @@ a:hover{
 				<br>
 				<h4>${s.title}</h4>
 				<h6>
-				<c:choose>
-					<c:when test="${repVal.point > 50  }">
-						<small> &#11088;&#11088;&#11088;&#11088;&#11088;   ${repVal.point}점 </small>
-					 </c:when>
-					 <c:when test="${repVal.point > 40  }">
-	                    <small> &#11088;&#11088;&#11088;&#11088;  ${repVal.point}점  </small>
-	                 </c:when>
-	                 <c:when test="${repVal.point > 30  }">
-                        <small> &#11088;&#11088;&#11088;  ${repVal.point}점  </small>
-                     </c:when>
-                     <c:when test="${repVal.point > 20  }">
-                        <small> &#11088;&#11088;  ${repVal.point}점  </small>
-                     </c:when>
-                     <c:when test="${repVal.point > 10  }">
-                        <small> &#11088; ${repVal.point}점  </small>
-                     </c:when>
-	                  <c:otherwise>
+					<c:choose>
+						<c:when test="${repVal.point > 50  }">
+							<small> &#11088;&#11088;&#11088;&#11088;&#11088;
+								${repVal.point}점 </small>
+						</c:when>
+						<c:when test="${repVal.point > 40  }">
+							<small> &#11088;&#11088;&#11088;&#11088; ${repVal.point}점
+							</small>
+						</c:when>
+						<c:when test="${repVal.point > 30  }">
+							<small> &#11088;&#11088;&#11088; ${repVal.point}점 </small>
+						</c:when>
+						<c:when test="${repVal.point > 20  }">
+							<small> &#11088;&#11088; ${repVal.point}점 </small>
+						</c:when>
+						<c:when test="${repVal.point > 10  }">
+							<small> &#11088; ${repVal.point}점 </small>
+						</c:when>
+						<c:otherwise>
 					  점수가 없습니다.
 					 </c:otherwise>
-				</c:choose>
+					</c:choose>
 
 				</h6>
 				<br>
 				<h6>
-					<small>&nbsp; 작성자: <a class="white" href="<%=request.getContextPath()%>/studymember/userinfo?usernick=${s.nickname}"> <span>${s.nickname}</span></a>
+					<small>&nbsp; 작성자: <a class="white"
+						href="<%=request.getContextPath()%>/studymember/userinfo?usernick=${s.nickname}">
+							<span>${s.nickname}</span>
+					</a>
 					</small>
 				</h6>
 				<br>
@@ -142,48 +152,50 @@ a:hover{
 
 	<div class="container">
 		<div class="row pt-5">
-<!-- --------------------------------------------------------------사이드------------------------------------------------------------ -->
+			<!-- --------------------------------------------------------------사이드------------------------------------------------------------ -->
 			<%--aside부분 --%>
 			<%@include file="/WEB-INF/common/offstudy_menu.jsp"%>
-<!-- --------------------------------------------------------------게시글------------------------------------------------------------ -->
+			<!-- --------------------------------------------------------------게시글------------------------------------------------------------ -->
 
 			<div class="col-sm-9">
-				<h2 style = "font-weight: bold;">상세보기</h2>
-				<hr align="left" width="150px" style="background-color: #c47100; height:1px;" />
+				<h2 style="font-weight: bold;">상세보기</h2>
+				<hr align="left" width="150px"
+					style="background-color: #c47100; height: 1px;" />
 				<br>
-                
-				<h4>${s.title}</h4> 
+
+				<h4>${s.title}</h4>
 				<div class="container p-0 my-2 bg-white text-white">
-                    <hr>
+					<hr>
 				</div>
 				<div class="postInfo">
 					<p>
-						<a href="<%=request.getContextPath()%>/studymember/userinfo?usernick=${s.nickname}"> ${s.nickname}</a> · ${s.regdate}
+						<a
+							href="<%=request.getContextPath()%>/studymember/userinfo?usernick=${s.nickname}">
+							${s.nickname}</a> · ${s.regdate}
 
 
 						<c:if test="${loginNick eq s.nickname}">
 							<span class="txt_bar">|</span>
 							<a
 								href="<%=request.getContextPath()%>/studymenu/offStudyUpdateForm?board_num=${s.board_num}"
-								style = "color: gray"> 수정</a>
+								style="color: gray"> 수정</a>
 						</c:if>
 					</p>
 				</div>
 
-				<br> ${s.content } <br> 
+				<br> ${s.content } <br> <br>
 
 
-				<br>
+				<!-- --------------------------------------------------------------지도------------------------------------------------------------ -->
 
 
-<!-- --------------------------------------------------------------지도------------------------------------------------------------ -->
+				<h6>
+					<strong>스터디 장소</strong>
+				</h6>
+				<p style="font-size: 15px;">주소: ${s.region}</p>
 
-				
-                <h6><strong>스터디 장소</strong></h6>
-                <p style= "font-size: 15px;">주소: ${s.region}</p>
-                
 				<div class="container ">
-					<div class="c-border" id="map" style="width: 70%; height: 300px;"></div>	 
+					<div class="c-border" id="map" style="width: 70%; height: 300px;"></div>
 				</div>
 
 
@@ -206,87 +218,90 @@ a:hover{
 					</script>
 
 
-                <br>
-                <br> 전체 스터디 인원: ${s.pernum} 명 <br>
-                <c:if test="${loginNick != null && loginNick ne s.nickname}">
-                <form action="<%=request.getContextPath()%>/studymenu/studyIn" method="post">
-                    <input type="hidden" name="board_name" value="offStudyMenuList">
-	                <input type="hidden" name="board_num" value="${s.board_num}">
-	                <input type="hidden" name="t_nickname" value="${s.nickname}">
-	                <input type="hidden" name="f_nickname" value="${loginNick}">
-					<input type="submit" class=" btn fadeIn fourth my-1" value="참가신청"
-					style="background-color: #c47100; color: white; border-color: white;">
-                </form>
-                </c:if>
+				<br> <br> 전체 스터디 인원: ${s.pernum} 명 <br>
+				<c:if test="${loginNick != null && loginNick ne s.nickname}">
+					<form action="<%=request.getContextPath()%>/studymenu/studyIn"
+						method="post">
+						<input type="hidden" name="board_name" value="offStudyMenuList">
+						<input type="hidden" name="board_num" value="${s.board_num}">
+						<input type="hidden" name="t_nickname" value="${s.nickname}">
+						<input type="hidden" name="f_nickname" value="${loginNick}">
+						<input type="submit" class=" btn fadeIn fourth my-1" value="참가신청"
+							style="background-color: #c47100; color: white; border-color: white;">
+					</form>
+				</c:if>
 
 				<br> <br>
 
-<!-- --------------------------------------------------------------댓글------------------------------------------------------------ -->
-			
-				<div class = "col-md-10">
-					<h5 style="font-weight: bold">댓글 ${reply_count}</h5>
-					<hr align="left" style="background-color: #c47100; height:0.7px;" />
-					<div id="replyList">
-						<c:forEach var="reply" items="${reply_list}">						
-								<div class = "reply"  id="r${reply.reply_num}">
-									<div class="row">
-										<div class="col-md-10" id = "replyInfo">
-											<input type="hidden" id="reply_num" name="reply_num"
-												value="${reply.reply_num}">
-											<p>${reply.nickname} · ${reply.regdate2}</p>
-										</div>
+				<!-- --------------------------------------------------------------댓글------------------------------------------------------------ -->
 
-										<c:if test="${loginNick eq reply.nickname}">
-											<div class="col-md-2">
-												<input type="button" class="btn btn-light"
-													onclick="deleteReply('${reply.reply_num}')" value="삭제" />
-											</div>
-										</c:if>
+				<div class="col-md-10">
+					<h5 style="font-weight: bold">댓글 ${reply_count}</h5>
+					<hr align="left" style="background-color: #c47100; height: 0.7px;" />
+					<div id="replyList">
+						<c:forEach var="reply" items="${reply_list}">
+							<div class="reply" id="r${reply.reply_num}">
+								<div class="row">
+									<div class="col-md-10" id="replyInfo">
+										<input type="hidden" id="reply_num" name="reply_num"
+											value="${reply.reply_num}">
+										<p>
 										
+										${reply.nickname}·${reply.regdate2}</p>
 									</div>
-									<div class = "col-md-12 replyTxt">
-									<p>${reply.content}</p>
-									</div>
-									<hr align="left" style="background-color: 333b3d; height:0.7px;" />
+
+									<c:if test="${loginNick eq reply.nickname}">
+										<div class="col-md-2">
+											<input type="button" class="btn btn-light"
+												onclick="deleteReply('${reply.reply_num}')" value="삭제" />
+										</div>
+									</c:if>
 
 								</div>
-							
+								<div class="col-md-12 replyTxt">
+									<p>${reply.content}</p>
+								</div>
+								<hr align="left"
+									style="background-color: 333b3d; height: 0.7px;" />
+
+							</div>
+
 						</c:forEach>
 
 					</div>
-					
-					
-					
+
+
+
 					<!-- 로그인이 되어있으면 댓글 이용 가능 -->
-					<c:if test ="${sessionScope.memberNickname != null}">
-					
-					<div class="row">
-						<div class="col-md-10">
-							<input type="hidden" id="board_num" name="board_num"
-								value="${s.board_num}"> <input type="hidden"
-								name="reply_nickname" id="reply_nickname"
-								value="${sessionScope.memberNickname}">
+					<c:if test="${sessionScope.memberNickname != null}">
 
-							<textarea class = "col-md-12" rows="5" cols="80" name="reply_content"
-								placeholder="댓글을 달아주세요" id="reply_content"></textarea>
-						</div>
-						<div class="col-md-2">
-							<input type="button" id="writeReply" class="btn btn-danger"
-								value="등록" />
-						</div>
-					</div>
-					
-				</c:if>
+						<div class="row">
+							<div class="col-md-10">
+								<input type="hidden" id="board_num" name="board_num"
+									value="${s.board_num}"> <input type="hidden"
+									name="reply_nickname" id="reply_nickname"
+									value="${sessionScope.memberNickname}">
 
-				
-				<!-- 로그인이 안되어있으면 댓글 이용 불가 -->
-				<c:if test = "${sessionScope.memberNickname == null}">
-					<div class = "row">
-						<div class = "col-md-10">
-							<p style ="font-weight: bold;">로그인 후 댓글 이용이 가능합니다</p>
+								<textarea class="col-md-12" rows="5" cols="80"
+									name="reply_content" placeholder="댓글을 달아주세요" id="reply_content"></textarea>
+							</div>
+							<div class="col-md-2">
+								<input type="button" id="writeReply" class="btn btn-danger"
+									value="등록" />
+							</div>
 						</div>
-					</div>
-				</c:if>
+
+					</c:if>
+
+
+					<!-- 로그인이 안되어있으면 댓글 이용 불가 -->
+					<c:if test="${sessionScope.memberNickname == null}">
+						<div class="row">
+							<div class="col-md-10">
+								<p style="font-weight: bold;">로그인 후 댓글 이용이 가능합니다</p>
+							</div>
+						</div>
+					</c:if>
 
 
 
@@ -300,7 +315,7 @@ a:hover{
 					</c:if>
 
 				</div>
-<!-- --------------------------------- 댓글 끝-------------------------------------------------------------------- -->
+				<!-- --------------------------------- 댓글 끝-------------------------------------------------------------------- -->
 
 
 
@@ -309,8 +324,8 @@ a:hover{
 		</div>
 	</div>
 	<br>
-	
-	
+
+
 	<div class="modal fade" id="deleteModal" aria-hidden="true"
 		tabindex="-1" aria-labelledby="deleteBoardLabel">
 		<div class="modal-dialog">
@@ -343,10 +358,10 @@ a:hover{
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 <!-- -------------------------------댓글 자바스크립트----------------------------------------------------------------------------- -->
-	
+
 	<script>
 //댓글입력
 $("#writeReply").on("click", function(){
@@ -358,13 +373,12 @@ $("#writeReply").on("click", function(){
 			"reply_content" : reply_content.value			
 	}
 
-
-
 	$.ajax({ 
 		type: "post",
 		url: "<%=request.getContextPath()%>/reply/writeReply",
-		data: reply,
+		data: JSON.stringify(reply),
 		dataType: 'text',
+		contentType: 'application/json',
 		success : function(result){
 			result = result.trim()
 			result.replace(" ","")
@@ -373,16 +387,19 @@ $("#writeReply").on("click", function(){
 			//alert(result);
 		
 			var newReply = document.querySelector('#replyList')
-			var reply_num = result
+			var reply_num = JSON.parse(result).reply_num;
 			var nickname = document.querySelector('#reply_nickname').value
 			var content = document.querySelector('#reply_content').value
 			var today = new Date();
 			var year =today.getFullYear();
 			var month = today.getMonth()+1; 
+			month = (month < 10 ? '0'+month:month);
 			var date = today.getDate();
 			var regdate = year + '-' + month + '-' + date;
 			
 			let temp = 'id="r'+reply_num+'"'
+			
+			
 			
 			
 			let line =  '<div class = "reply"       '+temp+' >'
@@ -401,14 +418,8 @@ $("#writeReply").on("click", function(){
 			            +  '<hr align="left" style="background-color: 333b3d; height:0.7px;" />'
 			        	+ '</div>' ;
 			
-			
-			            
+					        
 			 newReply.innerHTML +=line
-							
-				
-			
-			
-			
 
 		},
 		error: function (result){
@@ -417,27 +428,22 @@ $("#writeReply").on("click", function(){
 		}	
 	}); //end ajax
 
-	
 })
-
-
-
-
 
 //댓글삭제
 function deleteReply(num){
 
 	//alert(num)
 	var deleteReply = {
+					"board_num" : "${s.board_num}",
 					"reply_num" :num
 	}
-
-	
 	$.ajax({
 		type: 'post',
 		url : "<%=request.getContextPath()%>/reply/deleteReply",
-				data : deleteReply,
+				data : JSON.stringify(deleteReply),
 				dataType : 'text',
+				contentType: 'application/json',
 				success : function(result) {
 					alert("댓글이 삭제됩니다");
 					//alert(result)
@@ -459,10 +465,6 @@ function deleteReply(num){
 
 		})
 	</script>
-	
-	
-	
-	
-	
+
 </body>
 </html>

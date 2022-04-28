@@ -491,17 +491,8 @@ public class StudyMenuDao {
 	 
 	 public StudyMenu studyMenuOne(int board_num) {
 		 
-		 
-			try {
 				return sqlSession.selectOne(NS+"studyMenuOne",board_num);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
 			
-			return null;
-		  
 	  }
 	 
 	 public int studyDelete (int board_num) {

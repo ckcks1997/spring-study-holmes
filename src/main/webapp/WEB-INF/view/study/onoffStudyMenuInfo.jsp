@@ -324,13 +324,12 @@ $("#writeReply").on("click", function(){
 			"reply_content" : reply_content.value			
 	}
 
-
-
 	$.ajax({ 
 		type: "post",
 		url: "<%=request.getContextPath()%>/reply/writeReply",
-		data: reply,
+		data: JSON.stringify(reply),
 		dataType: 'text',
+		contentType: 'application/json',
 		success : function(result){
 			result = result.trim()
 			result.replace(" ","")
@@ -339,16 +338,19 @@ $("#writeReply").on("click", function(){
 			//alert(result);
 		
 			var newReply = document.querySelector('#replyList')
-			var reply_num = result
+			var reply_num = JSON.parse(result).reply_num;
 			var nickname = document.querySelector('#reply_nickname').value
 			var content = document.querySelector('#reply_content').value
 			var today = new Date();
 			var year =today.getFullYear();
 			var month = today.getMonth()+1; 
+			month = (month < 10 ? '0'+month:month);
 			var date = today.getDate();
 			var regdate = year + '-' + month + '-' + date;
 			
 			let temp = 'id="r'+reply_num+'"'
+			
+			
 			
 			
 			let line =  '<div class = "reply"       '+temp+' >'
@@ -367,14 +369,8 @@ $("#writeReply").on("click", function(){
 			            +  '<hr align="left" style="background-color: 333b3d; height:0.7px;" />'
 			        	+ '</div>' ;
 			
-			
-			            
+					        
 			 newReply.innerHTML +=line
-							
-				
-			
-			
-			
 
 		},
 		error: function (result){
@@ -383,27 +379,22 @@ $("#writeReply").on("click", function(){
 		}	
 	}); //end ajax
 
-	
 })
-
-
-
-
 
 //댓글삭제
 function deleteReply(num){
 
 	//alert(num)
 	var deleteReply = {
+					"board_num" : "${s.board_num}",
 					"reply_num" :num
 	}
-
-	
 	$.ajax({
 		type: 'post',
 		url : "<%=request.getContextPath()%>/reply/deleteReply",
-				data : deleteReply,
+				data : JSON.stringify(deleteReply),
 				dataType : 'text',
+				contentType: 'application/json',
 				success : function(result) {
 					alert("댓글이 삭제됩니다");
 					//alert(result)
@@ -425,13 +416,6 @@ function deleteReply(num){
 
 		})
 	</script>
-	
-	
-	
-	
-	
-	
-	
 	
 </body>
 </html>
