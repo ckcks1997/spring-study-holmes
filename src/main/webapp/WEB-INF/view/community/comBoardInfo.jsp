@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<%=request.getContextPath() %>/css/boardinfo.css" rel="stylesheet" type="text/css"> 
+<link href="<%=request.getContextPath() %>/css/boardinfo.css"
+	rel="stylesheet" type="text/css">
 
 <title>Insert title here</title>
 
@@ -69,10 +70,9 @@
 									<img class="pic_mini"
 										src="<%=request.getContextPath()%>/imgupload/${com.picture}">
 								</c:if>
-								<a href = "<%=request.getContextPath() %>/studymember/userinfo?usernick=${com.nickname}"> 
-								${com.nickname} </a>
-								
-								· ${com.regdate}
+								<a
+									href="<%=request.getContextPath() %>/studymember/userinfo?usernick=${com.nickname}">
+									${com.nickname} </a> · ${com.regdate}
 
 
 								<c:if test="${memberNickname eq com.nickname}">
@@ -205,12 +205,11 @@
 							</div>
 						</c:if>
 					</c:if>
-					<%--공지게시판은 댓글 사용불가로 막아놓음 --%>
-
-
-					<button type="button" class="btn btn-dark mt-3"
-						onclick="location.href ='comBoardList'">목록으로</button>
-
+					
+					
+							<button type="button" class="btn btn-dark mt-3"			
+								onclick="location.href ='comBoardList?boardid=${boardid }&pageNum=${pageNum }&sort=${sort}&part=${part}&searchData=${searchData}'">목록으로</button>
+						
 					<%--공지, 문의게시판 외에서만 신고 사용가능 || 공지, 문의게시판은 신고 불가--%>
 					<c:if test="${com.boardid != 4 && com.boardid != 5}">
 
@@ -428,7 +427,7 @@ $("#writeReply").on("click", function(){
 						+ '<div class = "row">'
 						+ '<div class = "col-md-10" id = "replyInfo">'
 						+ '<input type = "hidden" id = "reply_num" name = "reply_num" value= '+reply_num+'>'
-						+ '<p> '+ pic + nickname+' · '+ regdate +'</p>'
+						+ '<p> '+ pic +' '+ nickname+' · '+ regdate +'</p>'
 			          	+ '</div>'
 			          	+ '<div class = "col-md-2">'
 			          	+ '<input type = "button" class = "btn btn-light"       onclick="deleteReply(\''+reply_num +'\')" value = "삭제"/>'

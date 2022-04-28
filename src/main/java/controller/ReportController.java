@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,9 +85,7 @@ public class ReportController {
 			com = cbd.comBoardOne(board_num);
 			//원 게시글 정보에서 작성자 닉네임만 가져오기 
 			String writer_nickname = com.getNickname();
-														//System.out.println(com); 정보확인
-														//System.out.println(writer_nickname); 닉네임 확인
-			
+																	
 			String from = "관리자";
 			String info = "신고요청에 의한 게시물 삭제";
 			//알림테이블에 등록하기

@@ -33,16 +33,28 @@
 
 			<!-- ---------------------------메인검색-------------------------------------------------------- -->
 			<div class="main col-lg-9">
-				<div class="main col-lg-9">
-					<h2 style="font-weight: bold">${boardName}</h2>
+				
+					<div class="col-md-4">
+					<c:if test="${searchData != null && searchData != '' }">
+						<p style="font-size: 15px; font-weight: lighter;">
+							<i class="fa-solid fa-magnifying-glass" style=""></i>
+							&nbsp;
+							" ${searchData } " 검색결과 ${boardcount}개
+						</p>
+					</c:if>
+						<h2 style="font-weight: bold">${boardName}</h2>
+
+						<hr align="left" width="170px"
+							style="background-color: #c47100; height: 1px;" />
+					</div>
 					
+					
+					
+				
 
 
 
-					<hr align="left" width="170px"
-						style="background-color: #c47100; height: 1px;" />
-						<c:if test="${searchData != null }"><p>검색결과 ${boardcount} 개</p></c:if>
-				</div>
+
 
 				<form
 					action="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid}&part=${part}&searchData=${searchData}">
@@ -136,7 +148,7 @@
 										<div class="col-sm-9">
 											<input type="hidden" name="board_num"
 												value="${com.board_num}"> <a
-												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}"
+												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}&sort=${sort }&part=${part}&searchData=${searchData}"
 												style="color: black">
 												<p style="font-size: 17px; font-weight: bold;">
 													${com.title}</p> <br />

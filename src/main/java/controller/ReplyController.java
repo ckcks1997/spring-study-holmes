@@ -1,10 +1,9 @@
 package controller;
 
-import java.util.List;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import model.Community;
 import model.Reply;
 import service.ReplyDao;
 
@@ -44,7 +41,7 @@ public class ReplyController {
 	@RequestMapping(value="writeReply", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Reply writeReply(@RequestBody Map<String, String> rep ) { //RequestBody : http요청 바디내용을 자바객체로 받음
 		
-		System.out.println(rep);//board_num과 reply_content값이 오는지 확인
+		//System.out.println(rep);//board_num과 reply_content값이 오는지 확인
 		
 		Reply reply = new Reply(); //글 저장을 위한 객체 생성 
 		reply.setNickname((String) session.getAttribute("memberNickname")); //닉네임
@@ -55,9 +52,9 @@ public class ReplyController {
 		int reply_num = rd.replyNextNum(); 
 		reply.setReply_num(reply_num);
 		
-		rd.insertReply(reply); //댓글 저장하기
+		rd.insertReply(reply); //댓글 저장
 		
-		//원글의 replycnt 업데이트 하기 
+		//원글의 replycnt 업데이트
 		rd.comReplyCount(Integer.parseInt(rep.get("board_num")));
 
 		return reply;	
@@ -72,8 +69,10 @@ public class ReplyController {
 		
 		reply =  rd.replyOne(reply_num);
 		m.addAttribute("reply", reply);
-		rd.deleteReply(reply_num);
-		//원글 replycnt 업데이트 하기
+		
+		rd.deleteReply(reply_num); //댓글 삭제
+		
+		//원글 replycnt 업데이트 
 		rd.comReplyCount(board_num);
 	
 		return "view/alert";

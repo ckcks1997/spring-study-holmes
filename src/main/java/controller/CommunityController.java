@@ -51,8 +51,7 @@ public class CommunityController {
 
 	//나열
 	@RequestMapping("comBoardList")
-	public String comBoardList(String sort, String boardid, String part, String searchData ) {
-		System.out.println("리스트====sort:"+sort +" boardid:"+boardid+" part:"+part+" searchData:"+searchData);
+	public String comBoardList(String sort, String boardid, String part, String searchData ,String pageNum) {
 
 		int pageInt = 1;
 		int limit = 4;
@@ -66,24 +65,24 @@ public class CommunityController {
 		if (boardid == null) {
 			boardid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-
-		String pageNum = (String) session.getAttribute("pageNum");
+		 pageNum = (String) session.getAttribute("pageNum");
+		
 		if (pageNum == null) {
 			pageNum = "1";
 		}
 
 		pageInt = Integer.parseInt(pageNum);
 
-		
 		int boardcount = cbd.comBoardCount(boardid);
 		List<Community> list;
 		
 		if(sort != "" && sort != null && sort.equals("replycnt")) { // 댓글순 목록
 			list = cbd.comBoardReply(pageInt, limit, boardcount, boardid);
-			if(part != null && part != "" && searchData !=null && searchData != "") {
+			if(part != null && part != "" && searchData !=null && searchData != "") {  //검색어가 있으면
 				boardcount = cbd.comSearchCount(boardid,part,searchData);
 				list  = cbd.comSearchListReply(pageInt,limit,boardcount,boardid, part, searchData);
 			}
@@ -98,9 +97,9 @@ public class CommunityController {
 			
 		} else { // 최신순 목록
 			list = cbd.comBoardList(pageInt, limit, boardcount, boardid);
-			if(part != null && part != "" && searchData !=null && searchData != "") { //검색어가 있으면
+			if(part != null && part != "" && searchData !=null && searchData != "") {
 				boardcount = cbd.comSearchCount(boardid, part, searchData);
-				list = cbd.comSearchList(pageInt, limit, boardcount, boardid, part, searchData); //검색어 목록
+				list = cbd.comSearchList(pageInt, limit, boardcount, boardid, part, searchData); 
 			}
 		}
 		int boardnum = boardcount - limit * (pageInt - 1);
@@ -113,17 +112,13 @@ public class CommunityController {
 
 		String boardName = "질문 & 답변";
 		switch (boardid) {
-		case "5":
-			boardName = "문의사항";
+		case "5": boardName = "문의사항";
 			break;
-		case "4":
-			boardName = "공지";
+		case "4": boardName = "공지";
 			break;
-		case "3":
-			boardName = "정보를 나눠요";
+		case "3": boardName = "정보를 나눠요";
 			break;
-		case "2":
-			boardName = "자유";
+		case "2": boardName = "자유";
 			break;
 
 		}
@@ -141,8 +136,6 @@ public class CommunityController {
 		m.addAttribute("part",part);
 		m.addAttribute("searchData",searchData);
 		
-		
-
 		return "view/community/comBoardList";
 	}
 
@@ -212,7 +205,6 @@ public class CommunityController {
 	// 글쓰기
 	@RequestMapping("comWritePro")
 	public String comWritePro(Community com, RedirectAttributes redirect) {
-
 		
 		com.setNickname((String)session.getAttribute("memberNickname"));
 		com.setIp(request.getLocalAddr());
@@ -224,7 +216,7 @@ public class CommunityController {
 		com.setBoardid(boardid);
 		com.setBoard_num(cbd.comNextNum());
 		
-		//셋팅한 com으로 insert하기 
+		
 		int num = cbd.comInsertBoard(com);
 
 		String msg = "게시물이 등록되지 않습니다.";
@@ -242,22 +234,19 @@ public class CommunityController {
 
 	// 게시글 상세보기
 	@RequestMapping("comBoardInfo")
-	public String comBoardInfo(Community com, int board_num) {
-
+	public String comBoardInfo(Community com, int board_num,String sort, String part, String searchData) {
+		
+		//board_id와 pageNum은 session에 저장되어 있기 때문에 파라미터로 받아서 보내지 않아도 comBoardInfo.jsp의 목록보기에서 EL로 바로 받을 수 있습니다 
 		com = cbd.comBoardOne(board_num);
 		m.addAttribute("com", com);
-	
+
 		String msg;
 		String url;
 
 		String boardid = com.getBoardid();
-		//System.out.println(boardid + "---글:" + com.getNickname() + "---현재:" + session.getAttribute("memberNickname")); // 값 확인
-			
-		
 		
 		if (boardid.equals("5")) {// 문의 게시판이면
-			//System.out.println("------문의게시판------");// 확인
-			if (session.getAttribute("memberNickname")==null) {// 로그인이 아예 안 되어있으면
+			if (session.getAttribute("memberNickname")==null) {// 비로그인 시 
 				//(String)session.getAttribute("memberNickname")==null --ok 
 				//(String)session.getAttribute("memberNickname").equals(null) -- 앞에꺼가 애초에 null이어서 equals를 못 부름 
 				msg = "로그인을 먼저 해주세요";
@@ -265,7 +254,7 @@ public class CommunityController {
 
 			}
 
-			// 로그인 되어있는데 1)닉네임과 게시글 작성자가 같거나 2)관리자이면
+			// 로그인 후 1)닉네임과 게시글 작성자가 같거나 2)관리자이면
 			else if (com.getNickname().equals(session.getAttribute("memberNickname"))
 					|| session.getAttribute("memberNickname").equals("관리자")) {
 
@@ -301,6 +290,9 @@ public class CommunityController {
 
 			m.addAttribute("reply_list", reply_list);
 			m.addAttribute("reply_count", reply_count);
+			m.addAttribute("sort",sort);
+			m.addAttribute("part",part);
+			m.addAttribute("searchData",searchData);
 			return "view/community/comBoardInfo"; // 바로 jsp로 보내주기
 
 		}
@@ -323,11 +315,10 @@ public class CommunityController {
 	// 게시글 수정
 	@RequestMapping("comBoardUpdatePro")
 	public String comBoardUpdatePro(Community com) {
-		//System.out.println("---컨트롤러 Update확인--");
+		
 		String msg = "";
 		String url = "";
 
-	
 		if (cbd.comBoardUpdate(com) > 0) {
 			msg = "수정되었습니다";
 			url = "/community/comBoardInfo?board_num=" + com.getBoard_num();
@@ -373,7 +364,7 @@ public class CommunityController {
 	public String comImageUpload(@RequestParam("file") MultipartFile file ) { //("file")은 jsp에서 form-data의 key명과 동일하게 적어야합니다
 		
 		String path = request.getServletContext().getRealPath("/") + "comboardupload";
-																//System.out.println(path); //확인
+															
 		File comBoardFile = new File(path); // comBoardFile은 path경로로 만들어지는 File객체입니다 
 		if (!comBoardFile.exists()) { //comBoardFile이 아예 없으면 
 			comBoardFile.mkdir(); // 새로 폴더를 생성합니다.
@@ -392,8 +383,7 @@ public class CommunityController {
 				e.printStackTrace();
 			}
 		}
-	
-		System.out.println("------controller확인 filename=" + filename);
+			
 		m.addAttribute("filename", filename);
 		return "single/comBoardPicture";
 
