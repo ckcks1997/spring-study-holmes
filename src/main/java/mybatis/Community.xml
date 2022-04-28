@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 검색수 -->
 <select id = "comSearchCount" resultType = "int" parameterType = "map">
-	select count(*) from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%')
+	select count(*) from community where boardid = #{boardid} and ${part} like '%${searchData}%'
 </select> 
 
 
@@ -93,7 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id = "comSearchList" resultType = "community"  parameterType = "map">
 	select * from 
 	(select rownum rnum, a.* from 
-	(select * from (select * from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%') order by board_num desc) com
+	(select * from (select * from community where boardid = #{boardid} and ${part} like '%${searchData}%' order by board_num desc) com
   	left join 
   	(select picture, nickname from study_member) study on com.nickname = study.nickname ) a)
 	where rnum between #{start} and #{end}
@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id = "comSearchListReply" resultType = "community"  parameterType = "map">
 	select * from 
 	(select rownum rnum, a.* from 
-	(select * from (select * from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%') order by replycnt desc) com
+	(select * from (select * from community where boardid = #{boardid} and ${part} like '%${searchData}%' order by replycnt desc) com
   	left join 
   	(select picture, nickname from study_member) study on com.nickname = study.nickname ) a)
 	where rnum between #{start} and #{end}
@@ -113,7 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id = "comSearchListRead" resultType = "community"  parameterType = "map">
 	select * from 
 	(select rownum rnum, a.* from 
-	(select * from (select * from community where boardid = #{boardid} and (#{part}) like ('%'||#{searchData}||'%') order by readcnt desc) com
+	(select * from (select * from community where boardid = #{boardid} and ${part} like '%${searchData}%' order by readcnt desc) com
   	left join 
   	(select picture, nickname from study_member) study on com.nickname = study.nickname ) a)
 	where rnum between #{start} and #{end}
