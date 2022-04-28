@@ -343,15 +343,15 @@ public class StudyMenuController {
 	public String offStudyWriteForm() {
 
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "/view/study/offStudyWriteForm";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	@RequestMapping("offWritePro")
@@ -376,17 +376,17 @@ public class StudyMenuController {
 		gm.groupInsert(gmem, 1);
 
 		String msg = "게시물 등록 실패";
-		String url = request.getContextPath() + "/studymenu/offStudyWriteForm";
+		String url = "/studymenu/offStudyWriteForm";
 
 		if (num == 1) {
 			msg = "게시물 등록 성공";
-			url = request.getContextPath() + "/studymenu/offStudyMenuList?pageNum=1";
+			url = "/studymenu/offStudyMenuList?pageNum=1";
 
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	/* 온라인글쓰기 */
@@ -394,15 +394,15 @@ public class StudyMenuController {
 	public String onStudyWriteForm() {
 
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "/view/study/onStudyWriteForm";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	@RequestMapping("onWritePro")
@@ -426,17 +426,17 @@ public class StudyMenuController {
 		gm.groupInsert(gmem, 1);
 
 		String msg = "게시물 등록 실패";
-		String url = request.getContextPath() + "/studymenu/onStudyWriteForm";
+		String url = "/studymenu/onStudyWriteForm";
 
 		if (num == 1) {
 			msg = "게시물 등록 성공";
-			url = request.getContextPath() + "/studymenu/onStudyMenuList?pageNum=1";
+			url =  "/studymenu/onStudyMenuList?pageNum=1";
 
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	/* 온라인글쓰기 */
@@ -444,15 +444,15 @@ public class StudyMenuController {
 	public String onoffStudyWriteForm() {
 
 		String msg = "로그인이 필요합니다";
-		String url = request.getContextPath() + "/studymember/loginForm";
+		String url = "/studymember/loginForm";
 
 		if (session.getAttribute("memberNickname") != null) {
 			return "/view/study/onoffStudyWriteForm";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	/* 온오프라인글쓰기 */
@@ -476,16 +476,16 @@ public class StudyMenuController {
 		gm.groupInsert(gmem, 1);
 
 		String msg = "게시물 등록 실패";
-		String url = request.getContextPath() + "/studymenu/onoffStudyWriteForm";
+		String url =  "/studymenu/onoffStudyWriteForm";
 
 		if (num == 1) {
 			msg = "게시물 등록 성공";
-			url = request.getContextPath() + "/studymenu/onoffStudyMenuList?pageNum=1";
+			url = "/studymenu/onoffStudyMenuList?pageNum=1";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	/*---------------------------------------------------------------------------*/
@@ -1018,15 +1018,15 @@ public class StudyMenuController {
 		String url = "";
 		if (smd.studyUpdate(sm) > 0) {
 			msg = "수정되었습니다";
-			url = request.getContextPath() + "/studymenu/onStudyMenuInfo?board_num=" + sm.getBoard_num();
+			url = "/studymenu/onStudyMenuInfo?board_num=" + sm.getBoard_num();
 
 		} else {
 			msg = "수정이 실패하였습니다";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	/*---------------------------------------------------------------------------*/
@@ -1046,14 +1046,14 @@ public class StudyMenuController {
 		String url = "";
 		if (smd.studyUpdate(sm) > 0) {
 			msg = "수정되었습니다";
-			url = request.getContextPath() + "/studymenu/offStudyMenuInfo?board_num=" + sm.getBoard_num();
+			url = "/studymenu/offStudyMenuInfo?board_num=" + sm.getBoard_num();
 		} else {
 			msg = "수정이 실패하였습니다";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	/*---------------------------------------------------------------------------*/
@@ -1073,15 +1073,15 @@ public class StudyMenuController {
 		String url = "";
 		if (smd.studyUpdate(sm) > 0) {
 			msg = "수정되었습니다";
-			url = request.getContextPath() + "/studymenu/onoffStudyMenuInfo?board_num=" + sm.getBoard_num();
+			url =  "/studymenu/onoffStudyMenuInfo?board_num=" + sm.getBoard_num();
 
 		} else {
 			msg = "수정이 실패하였습니다";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 
 	}
 
@@ -1098,15 +1098,15 @@ public class StudyMenuController {
 		if (smd.studyDelete(board_num) > 0) {
 
 			msg = "게시글이 삭제되었습니다.";
-			url = request.getContextPath() + "/studymenu/onStudyMenuList";
+			url = "/studymenu/onStudyMenuList";
 		} else {
 			msg = "삭제가 불가능합니다";
-			url = request.getContextPath() + "/studymenu/onStudyMenuInfo";
+			url = "/studymenu/onStudyMenuInfo";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	@RequestMapping("offStudyDelete")
@@ -1121,15 +1121,15 @@ public class StudyMenuController {
 		if (smd.studyDelete(board_num) > 0) {
 
 			msg = "게시글이 삭제되었습니다.";
-			url = request.getContextPath() + "/studymenu/offStudyMenuList";
+			url =  "/studymenu/offStudyMenuList";
 		} else {
 			msg = "삭제가 불가능합니다";
-			url = request.getContextPath() + "/studymenu/offStudyMenuInfo";
+			url =  "/studymenu/offStudyMenuInfo";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	@RequestMapping("onoffStudyDelete")
@@ -1144,15 +1144,15 @@ public class StudyMenuController {
 		if (smd.studyDelete(board_num) > 0) {
 
 			msg = "게시글이 삭제되었습니다.";
-			url = request.getContextPath() + "/studymenu/onoffStudyMenuList";
+			url = "/studymenu/onoffStudyMenuList";
 		} else {
 			msg = "삭제가 불가능합니다";
-			url = request.getContextPath() + "/studymenu/onoffStudyMenuInfo";
+			url =  "/studymenu/onoffStudyMenuInfo";
 		}
 		m.addAttribute("msg", msg);
-		m.addAttribute("url", url);
+//		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 
 	// 내가쓴 커뮤니티 게시글//
@@ -1223,11 +1223,11 @@ public class StudyMenuController {
 		nd.noticeWrite(board_num, nickname_from, nickname_to);
 
 		String msg = "참가 요청이 전송되었습니다";
-		String url = request.getContextPath() + "/studymenu/" + board_name;
+		String url =  "/studymenu/" + board_name;
 
 		m.addAttribute("msg", msg);
 		m.addAttribute("url", url);
 
-		return "/view/alert";
+		return "redirect:"+url;
 	}
 }
