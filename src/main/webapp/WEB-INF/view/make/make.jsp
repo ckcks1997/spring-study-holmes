@@ -71,7 +71,7 @@ a:hover {
 	font-size: 15px;
 }
 
-
+ 
 </style>
 <body>
 
@@ -95,11 +95,11 @@ a:hover {
 						<strong>스터디홈즈</strong>
 					</h4>
 					<div class="aside-content">
-						<a href="<%=request.getContextPath()%>/view/make/make.jsp"><li>
+						<a href="<%=request.getContextPath()%>/board/make"><li>
 							소개
 							</li>
 						</a> 
-						<a href="<%=request.getContextPath()%>/view/make/whoMade.jsp"><li>만든 이
+						<a href="<%=request.getContextPath()%>/board/whoMade"><li>만든 이
 							</li>
 						</a>
 

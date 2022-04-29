@@ -48,6 +48,8 @@ public class GroupMemberDao {
 			return sqlSession.insert(NS + "groupInsert", map);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			sqlSession.commit();
 		}
 		return 0;
 	}

@@ -107,9 +107,9 @@ a:hover {
 						<strong>스터디홈즈</strong>
 					</h4>
 					<div class="aside-content">
-						<a href="<%=request.getContextPath()%>/view/make/make.jsp"><li>
+						<a href="<%=request.getContextPath()%>/board/make"><li>
 								소개</li> </a> <a
-							href="<%=request.getContextPath()%>/view/make/whoMade.jsp"><li>만든
+							href="<%=request.getContextPath()%>/board/whoMade"><li>만든
 								이</li> </a>
 
 					</div>
@@ -147,8 +147,8 @@ a:hover {
 								<br>	
 								<p>류찬혁 · 이재성 · 김은지 · 최준현
 								<br>	
-								 22/03/10 &nbsp;-&nbsp; 22/03/25</p>						 
-							
+								 MVC2: 22/03/10 &nbsp;-&nbsp; 22/03/25 <br>			 
+								 Spring: 22/04/21 &nbsp;-&nbsp; </p>	
 								</div>
 							
 							</div>

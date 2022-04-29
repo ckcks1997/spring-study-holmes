@@ -72,8 +72,14 @@ public class BoardController {
   }
   
   
-  
-  
+  @RequestMapping("make")
+  public String make( ) {
+    return "view/make/make";
+  }
+  @RequestMapping("whoMade")
+  public String whoMade( ) {
+    return "view/make/whoMade";
+  }
   
 }
  

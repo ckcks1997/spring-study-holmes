@@ -49,7 +49,7 @@
 					
 						</div></li>
 					
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/view/make/make.jsp">홈즈</a></li>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/board/make">홈즈</a></li>
 
 				</ul>
 
