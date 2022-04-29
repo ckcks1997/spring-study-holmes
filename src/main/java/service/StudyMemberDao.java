@@ -143,6 +143,22 @@ public class StudyMemberDao {
     return 0;
   }
   
+  public int changePic( String nickname, String pic) {
+    
+    try { 
+      map.clear();
+      map.put("picture", pic);
+      map.put("nickname", nickname);
+      return sqlSession.update(NS + "changePic", map);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+    	sqlSession.commit();
+    }
+
+    return 0;
+  }
+  
  public StudyMember getPoint(String nickname) {
      
     try {  

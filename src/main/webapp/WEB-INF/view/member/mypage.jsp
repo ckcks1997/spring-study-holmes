@@ -105,13 +105,17 @@ a:hover {
                                      <img class="pic_box_pic"src="<%=request.getContextPath() %>/img/profile_empty.jpg">
                                  </c:if>
                                  <c:if test="${memberInfo.picture != null }">
-                                    <img class="pic_box_pic"src="<%=request.getContextPath()%>/upload/${memberInfo.picture}">
+                                    <img class="pic_box_pic"src="<%=request.getContextPath()%>/imgupload/${memberInfo.picture}">
                                  </c:if>
                                  </div>
                                  <br>
-                                 <div class="d-flex justify-content-center">
-                                     <button class="btn btn-primary">사진 변경</button>
+                             <form action="<%=request.getContextPath()%>/studymember/pictureChange" method="post" enctype="multipart/form-data">
+                                 <div class="  justify-content-center">
+                                 	<label className="input-file-button" for="input-file" class="btn btn-danger">이미지 변경</label>
+	                                 <input type="file" name="picture" id="input-file" style='display:none' onchange="form.submit()" />
+	                                  
                                  </div>
+                             </form>
                              </div>
                               <div class="constainer col-md-9">
                                   <div class="container m-1">

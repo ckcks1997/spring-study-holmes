@@ -370,6 +370,35 @@ public class StudyMemberController {
       
       return "/view/member/myprofile";
   }
+  /*
+   * 사진변경
+   * */
+  @RequestMapping("pictureChange")
+  public String pictureChange(@RequestParam("picture") MultipartFile file) {
+    
+    String path = request.getServletContext().getRealPath("/")+"imgupload/";
+    System.out.println(path);
+    File folder = new File(path);
+    if(!folder.exists()) {
+    	folder.mkdir();
+    }
+    String filename = file.getOriginalFilename();
+
+    if(!file.isEmpty()) {
+    	File file2 = new File(path, file.getOriginalFilename());
+    	try {
+    		file.transferTo(file2); 
+		} catch (IllegalStateException e) { 
+			e.printStackTrace();
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}
+    }
+    
+    md.changePic((String)session.getAttribute("memberNickname"), filename);
+ 
+    return "redirect:/studymember/mypage";
+  }
   
   /*
    * 내 프로필 정보-자기소개 수정칸
