@@ -416,11 +416,11 @@ $("#writeReply").on("click", function(){
 			
 			let temp = 'id="r'+reply_num+'"'
 			
-			let pic = 	<c:if test="${com.picture eq null }">
+			let pic = 	<c:if test="${memberPicture eq null }">
 							'<img class="pic_mini" src="<%=request.getContextPath()%>/img/profile_empty.jpg">'
 						</c:if>
-						<c:if test="${com.picture ne null }">
-							'<img class="pic_mini" src="<%=request.getContextPath()%>/imgupload/${com.picture}">'
+						<c:if test="${memberPicture ne null }">
+							'<img class="pic_mini" src="<%=request.getContextPath()%>/imgupload/${memberPicture}">'
 						</c:if>;
 			
 			let line =  '<div class = "reply"       '+temp+' >'
