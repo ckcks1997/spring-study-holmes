@@ -51,25 +51,23 @@ public class StudyMenuController {
 	}
 
 	@RequestMapping("onStudyMenuList")
-	public String onStudyMenuList() {
+	public String onStudyMenuList(String menuid, String pageNum, String menuName) {
 
-		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
-
 		if (menuid == null) {
 			menuid = "8";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -99,7 +97,6 @@ public class StudyMenuController {
 		if (a_endPage > a_maxPage)
 			a_endPage = a_maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "8":
 			menuName = "전체 스터디";
@@ -147,14 +144,13 @@ public class StudyMenuController {
 	}
 
 	@RequestMapping("offStudyMenuList")
-	public String offstudyMenuList() {
+	public String offstudyMenuList(String menuid, String pageNum, String menuName) {
 
-		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
@@ -162,20 +158,20 @@ public class StudyMenuController {
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
 		pageInt = Integer.parseInt(pageNum);
 
 		int menucount = sd.menuCount(menuid);
-		List<StudyMenu> list = sd.menuList2(pageInt, limit, menucount, menuid);
+		List<StudyMenu> list = sd.menuList(pageInt, limit, menucount, menuid);
 
 		int menuAllCount = sd.offAllCount(pageNum);
-		List<StudyMenu> allList = sd.offallList2(pageInt, limit, menuAllCount, menuid);
+		List<StudyMenu> allList = sd.offallList(pageInt, limit, menuAllCount, menuid);
 
 		int menunum = menucount - (pageInt - 1) * limit;
 
@@ -194,8 +190,6 @@ public class StudyMenuController {
 		int a_maxPage = (menuAllCount / limit) + (menuAllCount % limit == 0 ? 0 : 1);
 		if (a_endPage > a_maxPage)
 			a_endPage = a_maxPage;
-
-		String menuName = "";
 		switch (menuid) {
 		case "1":
 			menuName = "전체 스터디";
@@ -221,7 +215,6 @@ public class StudyMenuController {
 			menuName = "교양";
 			break;
 		}
-
 		m.addAttribute("menuName", menuName);
 		m.addAttribute("menuid", menuid);
 		m.addAttribute("pageInt", pageInt);
@@ -243,14 +236,13 @@ public class StudyMenuController {
 	}
 
 	@RequestMapping("onoffStudyMenuList")
-	public String onoffStudyMenuList() {
+	public String onoffStudyMenuList(String menuid, String pageNum, String menuName) {
 
-		String menuid = "";
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
@@ -258,10 +250,10 @@ public class StudyMenuController {
 		if (menuid == null) {
 			menuid = "15";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -291,7 +283,6 @@ public class StudyMenuController {
 		if (a_endPage > a_maxPage)
 			a_endPage = a_maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "15":
 			menuName = "전체 스터디";
@@ -317,7 +308,6 @@ public class StudyMenuController {
 			menuName = "교양";
 			break;
 		}
-
 		m.addAttribute("menuName", menuName);
 		m.addAttribute("menuid", menuid);
 		m.addAttribute("pageInt", pageInt);
@@ -461,13 +451,13 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onSearch")
-	public String onSearch(String part, String searchData, String menuid) {
+	public String onSearch(String part, String searchData, String menuid, String pageNum, String menuName) {
 
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 
@@ -475,10 +465,10 @@ public class StudyMenuController {
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -497,7 +487,6 @@ public class StudyMenuController {
 		if (endPage > maxPage)
 			endPage = maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "8":
 			menuName = "전체 스터디";
@@ -538,23 +527,23 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("offSearch")
-	public String offSearch(String part, String searchData, String menuid) {
+	public String offSearch(String part, String searchData, String menuid, String pageNum, String menuName) {
 
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -573,7 +562,6 @@ public class StudyMenuController {
 		if (endPage > maxPage)
 			endPage = maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "1":
 			menuName = "전체 스터디";
@@ -614,23 +602,23 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onoffSearch")
-	public String onoffSearch(String part, String searchData, String menuid) {
+	public String onoffSearch(String part, String searchData, String menuid, String pageNum, String menuName) {
 
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -649,7 +637,6 @@ public class StudyMenuController {
 		if (endPage > maxPage)
 			endPage = maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "15":
 			menuName = "전체 스터디";
@@ -690,23 +677,23 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onAllSearch")
-	public String onAllSearch(String part, String searchData, String menuid) {
+	public String onAllSearch(String part, String searchData, String menuid, String pageNum, String menuName) {
 
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -725,7 +712,6 @@ public class StudyMenuController {
 		if (endPage > maxPage)
 			endPage = maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "8":
 			menuName = "전체 스터디";
@@ -765,23 +751,23 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("offAllSearch")
-	public String offAllSearch(String part, String searchData, String menuid) {
+	public String offAllSearch(String part, String searchData, String menuid, String pageNum, String menuName) {
 
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -800,7 +786,6 @@ public class StudyMenuController {
 		if (endPage > maxPage)
 			endPage = maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "8":
 			menuName = "전체 스터디";
@@ -841,23 +826,23 @@ public class StudyMenuController {
 
 	/*---------------------------------------------------------------------------*/
 	@RequestMapping("onoffAllSearch")
-	public String onoffAllSearch(String part, String searchData, String menuid) {
+	public String onoffAllSearch(String part, String searchData, String menuid, String pageNum, String menuName) {
 
 		int pageInt = 1;
 		int limit = 9;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
@@ -876,7 +861,6 @@ public class StudyMenuController {
 		if (endPage > maxPage)
 			endPage = maxPage;
 
-		String menuName = "";
 		switch (menuid) {
 		case "8":
 			menuName = "전체 스터디";
@@ -1129,25 +1113,24 @@ public class StudyMenuController {
 	// 내가쓴 커뮤니티 게시글//
 
 	@RequestMapping("mylist2")
-	public String mylist2() {
+	public String mylist2(String menuid, String pageNum) {
 
 		String nickname = (String) session.getAttribute("memberNickname");
-		String menuid = "";
 		int pageInt = 1;
 		int limit = 4;
 
-		if (request.getParameter("menuid") != null) {
-			session.setAttribute("menuid", request.getParameter("menuid"));
+		if (menuid != null) {
+			session.setAttribute("menuid", menuid);
 			session.setAttribute("pageNum", "1");
 		}
 		menuid = (String) session.getAttribute("menuid");
 		if (menuid == null) {
 			menuid = "1";
 		}
-		if (request.getParameter("pageNum") != null) {
-			session.setAttribute("pageNum", request.getParameter("pageNum"));
+		if (pageNum != null) {
+			session.setAttribute("pageNum", pageNum);
 		}
-		String pageNum = (String) session.getAttribute("pageNum");
+		pageNum = (String) session.getAttribute("pageNum");
 		if (pageNum == null) {
 			pageNum = "1";
 		}
