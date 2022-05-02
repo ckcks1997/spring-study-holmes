@@ -59,7 +59,7 @@ public class ChatController {
 
 	@ResponseBody
 	@RequestMapping("upload")
-	public String upload(@RequestParam("f") MultipartFile multipartFile, String groupId, String userId) {
+	public String upload(@RequestParam("file") MultipartFile multipartFile) {
 
 		String filename = "";
 		String path = request.getServletContext().getRealPath("/studyupload");
