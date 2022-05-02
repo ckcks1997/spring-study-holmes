@@ -80,7 +80,7 @@
 									<div class="dropdown">
 										<button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${memberNickname} 님</button>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-											<img class="profile" src="<%=request.getContextPath()%>/WEB-INF/upload/${memberPicture}" width="200" height="200" id="pic" onerror="this.onerror=null; this.src='<%=request.getContextPath()%>/img/profile_empty.jpg'" />
+											<img class="profile" src="<%=request.getContextPath()%>/imgupload/${memberPicture}" width="200" height="200" id="pic" onerror="this.onerror=null; this.src='<%=request.getContextPath()%>/img/profile_empty.jpg'" />
 											<li class="nav-item"><a class="dropdown-item" href="<%=request.getContextPath()%>/studymember/logout">로그아웃</a></li> 
 											<a class="dropdown-item"
 												href="<%=request.getContextPath()%>/studymember/mypage">마이페이지</a>
