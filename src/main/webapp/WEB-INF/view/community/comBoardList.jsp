@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="<%=request.getContextPath()%>/css/boardlist.css"
 	rel="stylesheet" type="text/css">
-<title>스터디 홈즈</title>
+<title>커뮤니티</title>
 </head>
 <body>
 

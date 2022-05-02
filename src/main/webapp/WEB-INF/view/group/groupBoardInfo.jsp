@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="<%=request.getContextPath() %>/css/boardinfo.css" rel="stylesheet" type="text/css"> 
-<title>Insert title here</title>
+<title>게시판 정보</title>
 
 </head>
  
