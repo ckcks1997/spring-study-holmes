@@ -60,22 +60,25 @@
      			 <mvc:mapping path="/community/comBoardDelete"/>
      			 
      			 <!-- studymenu -->
-     			 <mvc:mapping path="/studymenu/mylist2"/>
-     			 <mvc:mapping path="/studymenu/onStudyWriteForm" />	
-     			 <mvc:mapping path="/studymenu/offStudyWriteForm" />
-     			 <mvc:mapping path="/studymenu/onoffStudyWriteForm" />
-     			 
-     			 <mvc:mapping path="/studymenu/onStudyUpdateForm" />	
-     			 <mvc:mapping path="/studymenu/offStudyUpdateForm" />
-     			 <mvc:mapping path="/studymenu/onoffStudyUpdateForm" />
-     			 
-     			 <mvc:mapping path="/studymenu/onStudyDelete" />	
-     			 <mvc:mapping path="/studymenu/offStudyDelete" />
-     			 <mvc:mapping path="/studymenu/onoffStudyDelete" />
+     			 <mvc:mapping path="/studymemu/myList2"/>
+		      <!-- off -->
+		       <mvc:mapping path="/studymemu/offSearchList"/>
+		       <mvc:mapping path="/studymemu/offStudy**"/>
+		       <!-- onoff -->
+		 		 <mvc:mapping path="/studymemu/onoffSearchList"/>
+		       <mvc:mapping path="/studymemu/onoffStudyMenu**"/>
+		       <!--  on -->
+		        <mvc:mapping path="/studymemu/onSearchList"/>
+		       <mvc:mapping path="/studymemu/onStudyMenu**"/>
      			 
      			 <mvc:mapping path="/studymenu/studyIn" />
 		       	<bean class = "interceptor.LoginInterceptor"/>
 	         </mvc:interceptor>
+
+
+
+    
+
          </mvc:interceptors> 
 
         <bean id="multipartResolver" 
