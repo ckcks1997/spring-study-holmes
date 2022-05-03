@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Community {
- 
 	private int board_num;
 	private String title;
 	private String content;
@@ -23,15 +22,10 @@ public class Community {
 	private String nickname;
 	private int replycnt;
 	private String picture; //left join 할때 사용
-	
-	
-	
+		
 	public Community() {
 		
 	}
-
-	
-
 
 	public Community(int board_num, String title, String content, String boardid, Date regdate, String ip, int readcnt,
 			String nickname, int replycnt, String picture) {

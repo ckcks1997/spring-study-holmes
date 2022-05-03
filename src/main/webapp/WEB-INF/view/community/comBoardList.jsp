@@ -83,9 +83,10 @@
 				</form>
 				<br />
 				<!-- ------------------------------------------------------------------------------------ -->
-
+				
 				<div class="row col-sm-9 divide" style="float: left">
 					<%--community컨트롤러 comBoardList()에 의해 boardid 가져오기 가능 --%>
+				
 					<c:if test="${boardid != 4 && boardid != 5}">
 						<%--공지와 문의게시판이 아닌 곳에만 적용 --%>
 						<a
@@ -96,14 +97,13 @@
 					&nbsp;&nbsp;<strong> · </strong>&nbsp;&nbsp; <a
 							href="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid }&sort=readcnt&part=${part}&searchData=${searchData}">조회수순</a>
 					</c:if>
-
 				</div>
 
 
 				<c:choose>
 					<c:when test="${memberNickname != '관리자' }">
 						<%--만약 1)일반유저이고 --%>
-						<c:if test="${boardid != 4 }">
+						<c:if test="${boardid != 4}">
 							<%--공지게시판이 아니면 --%>
 							<%--글쓰기 버튼을 띄운다 --%>
 							<div class="mb-2" style="float: right">
@@ -215,6 +215,7 @@
 						class='page-item <c:if test ="${startPage <= bottomLine }"> disabled </c:if> '><a
 						class="page-link"
 						href="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid }&pageNum=${startPage-bottomLine}&sort=${sort }&part=${part}&searchData=${searchData}">이전</a></li>
+					
 					<c:forEach var="i" begin="${startPage}" end="${endPage}">
 						<li
 							class='page-item <c:if test = "${i==pageInt}" > active active2</c:if> '>
@@ -222,6 +223,7 @@
 							href="<%=request.getContextPath()%>/community/comBoardList?boardid=${boardid }&pageNum=${i}&sort=${sort }&part=${part}&searchData=${searchData}">${i}</a>
 						</li>
 					</c:forEach>
+					
 					<li
 						class='page-item <c:if test ="${endPage >= maxPage}"> disabled </c:if>  '>
 						<a class="page-link"

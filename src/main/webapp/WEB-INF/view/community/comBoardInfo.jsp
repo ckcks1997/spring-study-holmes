@@ -161,7 +161,7 @@
 										</c:if>
 
 									</div>
-									<div class="col-md-12 replyTxt">
+									<div class="col-md-12 replyTxt" id = "replyTxt">
 										<p>${reply.content}</p>
 									</div>
 									<hr align="left"
@@ -380,10 +380,10 @@
 	<script>
 <!--댓글 달기 -->
 $("#writeReply").on("click", function(){
-	var reply_content = document.querySelector("#reply_content")
+	let reply_content = document.querySelector("#reply_content")
 	
   //alert(reply_content.value)
-	var reply = {
+	let reply = {
 			"board_num" : "${com.board_num}",
 			"reply_content" : reply_content.value			
 	}
@@ -403,16 +403,16 @@ $("#writeReply").on("click", function(){
 			//alert("["+result+"]");
 			//alert(result);
 		
-			var newReply = document.querySelector('#replyList')
-			var reply_num = JSON.parse(result).reply_num;
-			var nickname = document.querySelector('#reply_nickname').value
-			var content = document.querySelector('#reply_content').value
-			var today = new Date();
-			var year =today.getFullYear();
-			var month = today.getMonth()+1; 
+			let newReply = document.querySelector('#replyList')
+			let reply_num = JSON.parse(result).reply_num;
+			let nickname = document.querySelector('#reply_nickname').value
+			let content = document.querySelector('#reply_content').value
+			let today = new Date();
+			let year =today.getFullYear();
+			let month = today.getMonth()+1; 
 			month = (month < 10 ? '0'+month:month);
-			var date = today.getDate();
-			var regdate = year + '-' + month + '-' + date;
+			let date = today.getDate();
+			let regdate = year + '-' + month + '-' + date;
 			
 			let temp = 'id="r'+reply_num+'"'
 			
@@ -440,6 +440,9 @@ $("#writeReply").on("click", function(){
 			        	+ '</div>' ;
 			            
 			 newReply.innerHTML +=line
+			 
+			 alert(reply_content.value);
+			 reply_content.value = "";
 
 		},
 		error: function (result){
@@ -447,7 +450,6 @@ $("#writeReply").on("click", function(){
 			alert("error");
 		}	
 	}); <!-- end ajax -->
-
 	
 })
 
@@ -493,17 +495,8 @@ $('#deleteReply').on("click", function() {
 
 	})
 		
-	
-//신고 전달 --------------------------------------------------------------------------
-//자바스크립트 질문 ㅠㅠ 
-function reasonOption(){
-			let reasonOption = document.getElementByName("reportReason");
-			for (var i = 0; i < reasonOption.length; i++) {
-				if(reasonOption[i].checked)
-					return reasonOption[i].value;
-			}
-		}
-//----------------------------------------------
+
+//신고전달----------------------------------------------
 $("#sendReport").on("click",function(){
 	let report_reason = $('input[name=reportReason]:checked').val();
 	

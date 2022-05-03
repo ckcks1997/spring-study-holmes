@@ -89,7 +89,7 @@ public class CommunityController {
 			
 		} else if(sort != "" && sort != null && sort.equals("readcnt")) { // 조회수순 목록
 			list = cbd.comBoardRead(pageInt, limit, boardcount, boardid);
-			if(part != null && part != "" && searchData !=null && searchData != "") {
+			if(part != null && part != "" && searchData !=null && searchData != "") { //검색어가 있으면
 				boardcount = cbd.comSearchCount(boardid,part,searchData);
 				list  = cbd.comSearchListRead(pageInt,limit,boardcount,boardid, part, searchData);
 			}
@@ -97,7 +97,7 @@ public class CommunityController {
 			
 		} else { // 최신순 목록
 			list = cbd.comBoardList(pageInt, limit, boardcount, boardid);
-			if(part != null && part != "" && searchData !=null && searchData != "") {
+			if(part != null && part != "" && searchData !=null && searchData != "") { //검색어가 있으면
 				boardcount = cbd.comSearchCount(boardid, part, searchData);
 				list = cbd.comSearchList(pageInt, limit, boardcount, boardid, part, searchData); 
 			}
