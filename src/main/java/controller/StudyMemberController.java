@@ -134,8 +134,7 @@ public class StudyMemberController {
   @ResponseBody
   @RequestMapping(value="noticeDelete", produces = MediaType.TEXT_PLAIN_VALUE)
   public String noticeDelete(@RequestBody Map<String, String> req) { 
-	  Integer noticeNum = Integer.parseInt(req.get("noticeNum"));
-	  System.out.println(noticeNum+"===");
+	  Integer noticeNum = Integer.parseInt(req.get("noticeNum")); 
 	  int result= nd.noticeDelete(noticeNum);
 	   return result == 1 ? "1" : "0";
   }
@@ -211,7 +210,7 @@ public class StudyMemberController {
     String msg = "아이디를 확인하세요";
     String url = "/studymember/loginForm";
     if (mem != null) {
-      if (passwordEncoder.matches(pass, mem.getPassword()) || pass.equals(mem.getPassword())) {
+      if (pass.equals(mem.getPassword()) || passwordEncoder.matches(pass, mem.getPassword())) {
         request.getSession().setAttribute("memberID", mem.getEmail());
         request.getSession().setAttribute("memberNickname", mem.getNickname());
         request.getSession().setAttribute("memberPicture", mem.getPicture());

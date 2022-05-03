@@ -37,7 +37,7 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
-		<dependency> <!-- 비밀번호 암호화 저장을 위한 디펜던시 -->
+		<dependency> 
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-crypto</artifactId>
 		    <version>5.6.3</version>
