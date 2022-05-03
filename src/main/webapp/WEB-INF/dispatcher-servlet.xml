@@ -46,6 +46,7 @@
 		         <mvc:mapping path="/studymember/passwordChangePro"/>
 		         <mvc:mapping path="/studymember/goodbye"/>
 		         <mvc:mapping path="/studymember/goodbyePro"/>
+		         <mvc:mapping path="/studymember/noticeDelete"/>
 		         <mvc:mapping path="/group/**"/>
 		         <!-- 그룹게시판 첨부파일위치용, 로그인 해야 열람가능 -->
      			 <mvc:mapping path="/studyupload/**"/> 

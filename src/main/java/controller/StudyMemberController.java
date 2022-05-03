@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,6 +82,7 @@ public class StudyMemberController {
     String id = (String) session.getAttribute("memberNickname");
 
       List<Notice> noticeList = nd.noticeGet(id); //알림 리스트 가져옴
+      nd.noticeRead(id);
       model.addAttribute("noticeList", noticeList);
       session.setAttribute("noticeCount", 0);
       return "/view/member/memberNotice";      
@@ -127,6 +130,16 @@ public class StudyMemberController {
     model.addAttribute("msg", "오류 발생");  
     return "redirect:/board/main";
   }
+  
+  @ResponseBody
+  @RequestMapping(value="noticeDelete", produces = MediaType.TEXT_PLAIN_VALUE)
+  public String noticeDelete(@RequestBody Map<String, String> req) { 
+	  Integer noticeNum = Integer.parseInt(req.get("noticeNum"));
+	  System.out.println(noticeNum+"===");
+	  int result= nd.noticeDelete(noticeNum);
+	   return result == 1 ? "1" : "0";
+  }
+  
   
   /*
    * 알림-그룹초대 수락
