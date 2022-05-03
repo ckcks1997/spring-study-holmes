@@ -89,5 +89,10 @@
     		<property name="maxInMemorySize" value="200000000" />
         	-->
         </bean>
+        
+        <!-- Spring Security-Password Encoder -->
+        <bean id="bcryptPasswordEncoder"
+        class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+        
 
 </beans>

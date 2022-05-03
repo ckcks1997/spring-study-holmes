@@ -378,7 +378,7 @@ public class GroupStudyController {
 
 	/* 이미지 업로드 */
 	@ResponseBody
-	@RequestMapping("imageUpload")
+	@RequestMapping(value ="imageUpload",  produces = "application/text; charset=utf8" )
 	public String imageUpload(@RequestParam("file") MultipartFile multipartFile) {
 
 		String path = request.getServletContext().getRealPath("/") + "studyupload/";

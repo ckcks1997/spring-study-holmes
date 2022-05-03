@@ -45,30 +45,42 @@ public class StudyMemberDao {
     
   }
   
-   
-  public int insertStudyMember(HttpServletRequest req) {
+//   임시
+	/*
+	 * public int insertStudyMember(HttpServletRequest req) {
+	 * 
+	 * try {
+	 * 
+	 * StudyMember m = new StudyMember(); m.setEmail(req.getParameter("email"));
+	 * m.setName(req.getParameter("name"));
+	 * m.setNickname(req.getParameter("nickname"));
+	 * m.setPassword(req.getParameter("password"));
+	 * m.setTel(req.getParameter("tel")); m.setPicture(req.getParameter("picture"));
+	 * 
+	 * System.out.println(m);
+	 * 
+	 * return sqlSession.insert(NS + "insertStudyMember", m ); } catch (Exception e)
+	 * { e.printStackTrace(); } finally { sqlSession.commit(); } return 0;
+	 * 
+	 * }
+	 */
+  public int insertStudyMember(StudyMember m) {
 
-    try {
-
-      StudyMember m = new StudyMember();
-      m.setEmail(req.getParameter("email"));
-      m.setName(req.getParameter("name"));
-      m.setNickname(req.getParameter("nickname"));
-      m.setPassword(req.getParameter("password"));
-      m.setTel(req.getParameter("tel"));
-      m.setPicture(req.getParameter("picture"));
-      
-      System.out.println(m);
-      
-      return sqlSession.insert(NS + "insertStudyMember", m );
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
-    }
-    return 0;
-    
-  }
+	    try {
+       
+	      System.out.println(m);
+	      
+	      return sqlSession.insert(NS + "insertStudyMember", m );
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	    	sqlSession.commit();
+	    }
+	    return 0;
+	    
+	  }
+  
+  
   public int studyMemberIdExist(String id) {
     
 	  return sqlSession.selectOne(NS + "studyMemberIdExist", id);
@@ -134,6 +146,22 @@ public class StudyMemberDao {
       map.put("point", point);
       map.put("nickname", nickname);
       return sqlSession.update(NS + "changePoint", map);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+    	sqlSession.commit();
+    }
+
+    return 0;
+  }
+  
+  public int changePic( String nickname, String pic) {
+    
+    try { 
+      map.clear();
+      map.put("picture", pic);
+      map.put("nickname", nickname);
+      return sqlSession.update(NS + "changePic", map);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {

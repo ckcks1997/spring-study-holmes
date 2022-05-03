@@ -104,7 +104,7 @@ a:hover {
                                      <img class="pic_box_pic"src="<%=request.getContextPath() %>/img/profile_empty.jpg">
                                  </c:if>
                                  <c:if test="${memberInfo.picture != null }">
-                                    <img class="pic_box_pic"src="<%=request.getContextPath()%>/upload/${memberInfo.picture}">
+                                    <img class="pic_box_pic"src="<%=request.getContextPath()%>/imgupload/${memberInfo.picture}">
                                  </c:if>
                                  </div>
                                  <br>

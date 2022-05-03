@@ -56,8 +56,6 @@ public class StudyMenuDao {
 			return sqlSession.selectOne(NS + "onoffAllCount");
 	}
 
-	
-	
 	public List<StudyMenu> menuList(int pageInt, int limit, int menucount, String menuid) {
 		
 		try {
@@ -66,23 +64,6 @@ public class StudyMenuDao {
 			map.put("start", (pageInt - 1) * limit + 1);
 			map.put("end", pageInt * limit);
 			return sqlSession.selectList(NS + "menuList", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
-		return null;
-	}
-	
-	/*추가됨*/
-	public List<StudyMenu> menuList2(int pageInt, int limit, int menucount, String menuid) {
-		
-		try {
-			map.clear();
-			map.put("menuid", menuid);
-			map.put("start", (pageInt - 1) * limit + 1);
-			map.put("end", pageInt * limit);
-			return sqlSession.selectList(NS + "menuList2", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -401,7 +382,6 @@ public class StudyMenuDao {
 	 }	 
 	 
 
-	 
 	 public List<StudyMenu> offallList(int pageInt, int limit, int menuAllCount, String menuid) {
 			
 			try {
@@ -410,23 +390,6 @@ public class StudyMenuDao {
 				map.put("start", (pageInt - 1) * limit + 1);
 				map.put("end", pageInt * limit);
 				return sqlSession.selectList(NS + "offallList", map);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
-			return null;
-	 }	 
- 
-	 /*추가*/
-	 public List<StudyMenu> offallList2(int pageInt, int limit, int menuAllCount, String menuid) {
-			
-			try {
-				map.clear();
-				map.put("menuid", menuid);
-				map.put("start", (pageInt - 1) * limit + 1);
-				map.put("end", pageInt * limit);
-				return sqlSession.selectList(NS + "offallList2", map);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {

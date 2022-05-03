@@ -10,10 +10,8 @@
 	<url>http://maven.apache.org</url>
 	
 	<properties>
-		<project.build.sourceEncoding> utf-8</project.build.sourceEncoding>
-		<spring.version>5.3.19</spring.version>
-		<spring.version2>4.3.30.RELEASE</spring.version2>
-		<org.aspectj-version>1.9.8</org.aspectj-version>
+		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+		<spring.version>5.3.19</spring.version> 
 		<org.slf4j-version>1.7.36</org.slf4j-version>
 	</properties>
 	<dependencies>
@@ -53,6 +51,24 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+       <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+        <!--스프링시큐리티 core 라이브러리-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+        <!--스프링시큐리티 config 라이브러리-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.6.3</version>
+        </dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,9 +55,12 @@ public class StudyMemberController {
 	ReportDao rd;
 	@Autowired
 	ReputationEstimateDao red;
+	
     @Autowired
     KakaoService kakaoService;
-	
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    
 	HttpServletRequest request;
 	HttpSession session;
 	
@@ -188,12 +192,13 @@ public class StudyMemberController {
 
     String id = request.getParameter("id"); // email
     String pass = request.getParameter("password"); 
-     
+    
     StudyMember mem = md.studyMemberOne(id);
+    
     String msg = "아이디를 확인하세요";
     String url = "/studymember/loginForm";
     if (mem != null) {
-      if (pass.equals(mem.getPassword())) {
+      if (passwordEncoder.matches(pass, mem.getPassword()) || pass.equals(mem.getPassword())) {
         request.getSession().setAttribute("memberID", mem.getEmail());
         request.getSession().setAttribute("memberNickname", mem.getNickname());
         request.getSession().setAttribute("memberPicture", mem.getPicture());
@@ -265,9 +270,10 @@ public class StudyMemberController {
    * 
    * */
   @RequestMapping("joinPro")
-  public String memberJoinPro(Model model) {
-
-    int result = md.insertStudyMember(request);
+  public String memberJoinPro(StudyMember m, Model model) {
+	String encPass= passwordEncoder.encode(m.getPassword());
+	m.setPassword(encPass);
+    int result = md.insertStudyMember(m);
     
     String msg = "가입 실패";
     String url = "/studymember/loginForm";
@@ -370,6 +376,35 @@ public class StudyMemberController {
       
       return "/view/member/myprofile";
   }
+  /*
+   * 사진변경
+   * */
+  @RequestMapping("pictureChange")
+  public String pictureChange(@RequestParam("picture") MultipartFile file) {
+    
+    String path = request.getServletContext().getRealPath("/")+"imgupload/";
+    System.out.println(path);
+    File folder = new File(path);
+    if(!folder.exists()) {
+    	folder.mkdir();
+    }
+    String filename = file.getOriginalFilename();
+
+    if(!file.isEmpty()) {
+    	File file2 = new File(path, file.getOriginalFilename());
+    	try {
+    		file.transferTo(file2); 
+		} catch (IllegalStateException e) { 
+			e.printStackTrace();
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}
+    }
+    
+    md.changePic((String)session.getAttribute("memberNickname"), filename);
+ 
+    return "redirect:/studymember/mypage";
+  }
   
   /*
    * 내 프로필 정보-자기소개 수정칸
@@ -455,7 +490,7 @@ public class StudyMemberController {
        
       StudyMember mem = md.studyMemberOne(memberID);
       
-      if(mem.getPassword().equals(pw)) {
+      if(passwordEncoder.matches(pw, mem.getPassword()) || pw.equals(mem.getPassword())) {
         int deleted = md.studyMemberDelete(memberID);
         
         if(deleted == 1) {

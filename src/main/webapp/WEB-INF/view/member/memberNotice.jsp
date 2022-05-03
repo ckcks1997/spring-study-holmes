@@ -52,7 +52,7 @@
 	                                          from: ${i.nickname_from} 
 	                                        </div> 
 	                                        <div class="col text-right">
-	                                        date: <fmt:formatDate value="${i.regdate }" pattern="MM/d hh시 mm분"/>
+	                                        <fmt:formatDate value="${i.regdate }" pattern="YYYY/MM/dd hh시 mm분"/>
 	                                        </div>
 	                                    </div>
 	                                    <div class="">

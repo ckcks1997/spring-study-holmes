@@ -50,7 +50,7 @@
                            			<p style = "color: gray;">
                            			삭제된 게시글 : <span style = "font-weight: bold; color: black;">" ${report.board_num_title } " </span> 
                            			<br />
-                           			게시글 작성일자 : ${report.board_num_regdate } <br />
+                           			게시글 작성일자 : <fmt:formatDate value="${report.board_num_regdate }" pattern="YYYY/MM/dd"/><br/>
                            			</p>
                            			
       								누적 신고수가 3회 이상이면 자동으로 삭제됩니다. <br />

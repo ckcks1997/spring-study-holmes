@@ -288,10 +288,10 @@ function init(){
     	formData.append("file", files[0]);
     	formData.append("boardnum",' ${boardnum}');
     	formData.append("memberNickname", '${memberNickname}');
-        
+    	
     	let httpreq = new XMLHttpRequest();
     	
-    	httpreq.open("POST", "<%=request.getContextPath()%>/chat/upload", true);
+    	httpreq.open("POST", "<%=request.getContextPath()%>/socket/upload", true);
     	httpreq.send(formData);
     	httpreq.onload = function(e){
     		if(httpreq.status == 200){ 
@@ -304,7 +304,7 @@ function init(){
     
     function sendFile(filename){ 
     	msgarea.innerHTML += "<div class='right'><div id='me'>"
-    	+ "<img src='<%=request.getContextPath()%>/upload/"+ filename + "' width='200px' />"
+    	+ "<img src='<%=request.getContextPath()%>/studyupload/"+ filename + "' width='200px' />"
     	+" </div></div>" ;
     	webSocket.send('${boardnum}:${memberNickname}:-:' + filename);
         msgarea.scrollTop=msgarea.scrollHeight;
