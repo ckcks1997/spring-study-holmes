@@ -117,9 +117,11 @@
 
 	<div class="container">
 		<div class="container py-5">
-			<form class="row-vh mx-auto text-center position-relative" style="width: 100%">
+			<form class="row-vh mx-auto text-center position-relative" style="width: 100%"  
+			action = "<%=request.getContextPath()%>/studymenu/offAllSearch" method="post">
 				<div class=" d-flex flex-row search-div">
-					<input id="bar" class="form-control" type="search" placeholder="스터디 검색.." aria-label="Search"   />
+				<input type = "hidden" name = "part" value = "title"/>
+					<input id="bar" class="form-control" type="search" placeholder="스터디 검색.." aria-label="Search" name="searchData"  />
 					<button class="custom-btn">
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</button>
