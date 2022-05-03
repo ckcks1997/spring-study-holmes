@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.Community;
+import model.MainRecentStudy;
 import model.Notice;
 import model.StudyMenu;
 import service.CommunityBoardDao;
@@ -48,7 +49,7 @@ public class BoardController {
     model.addAttribute("list1", list1);
     model.addAttribute("list2", list2);
     model.addAttribute("list3", list3);
-    List<StudyMenu> slist = sd.mainNewStudy3();
+    List<MainRecentStudy> slist = sd.mainNewStudy3();
     model.addAttribute("slist", slist);
     
     

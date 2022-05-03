@@ -163,7 +163,9 @@ public class StudyMemberController {
         gmd.groupInsert(gm, 0);
        
         /*TODO: 스터디에 참가한 사람에게 알림 전송*/
-
+        //수락한 알림 삭제
+        nd.noticeDelete(noticeNum);
+        
         msg = "등록되었습니다";
         url = "/studymember/notice";   
     }

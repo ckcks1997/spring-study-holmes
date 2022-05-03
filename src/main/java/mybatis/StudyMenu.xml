@@ -148,18 +148,32 @@
 	
 	<delete id="studyDelete" parameterType= "int">
 	delete from study_menu where board_num = #{board_num}
-</delete>
+	</delete>
 	
 
 	<!-- 내가 쓴 게시물 리스트 -->
-<select id="mylist2" resultType="studymenu" parameterType="map">
+	<select id="mylist2" resultType="studymenu" parameterType="map">
 		select * from ( select rownum rnum, a.* from (
 		select * from study_menu where nickname = #{nickname} order by board_num desc) a)
 		where rnum BETWEEN #{start} and #{end}
 	</select>
 	
-    <select id="mainNewStudy3" resultType = "studymenu">   
-        SELECT ROWNUM, A.* FROM (SELECT * FROM STUDY_MENU ORDER BY REGDATE DESC ) A WHERE ROWNUM &lt; 4
+	<!-- 메인화면 - 최신컨텐츠 3개 (3개 테이블 조인)-->
+    <select id="mainNewStudy3" resultType = "mainRecentStudy">   
+		select d.*, e.count
+		from (select rownum rn, c.*
+		      from (select a.TITLE,a.nickname, a.board_num, a.menuid, a.pernum, a.region, b.point
+		            from study_menu a,
+		                 study_member b
+		            where a.nickname = b.nickname
+		            order by a.regdate desc) c
+		      where rownum &lt; 4 ) d
+		left join
+		     (select boardnum, count(*) as count
+		      from group_member
+		      group by boardnum) e
+		on d.board_num = e.boardnum
+		order by d.rn asc
     </select>
 
 	

@@ -28,10 +28,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         
         <typeAlias type="model.ReputationEstimate" alias = "reputationestimate" />
         
-
         <typeAlias type="model.Report" alias = "Report" />
 
         <typeAlias type="model.GroupBoard" alias = "groupBoard" />
+        
+        <typeAlias type="model.MainRecentStudy" alias = "mainRecentStudy" />
         
 
         

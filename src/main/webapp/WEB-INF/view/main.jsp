@@ -165,9 +165,18 @@
                                 <img src="<%=request.getContextPath()%>/img/studymenu/etc.jpg"  width="100%" height="200px">
                              </c:if>
 					
-					<h4 class="py-3">${i.title}</h4>
-					<p class="my-0">${i.region}</p>
-					<div class=" ">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
+					<h4 class="pt-3">${i.title}</h4>
+					
+					<p class="my-0"><i class="fa-solid fa-user-group"></i> ${i.pernum} / ${i.count}</p>
+					<p class="my-0">지역: ${i.region}</p>
+					<p class="my-0">작성자: ${i.nickname}</p>
+					<div class="px-0">
+					&#11088;
+					<c:if test="${i.point > 20}">&#11088;</c:if> 
+					<c:if test="${i.point > 30}">&#11088;</c:if>
+					<c:if test="${i.point > 40}">&#11088;</c:if>
+					<c:if test="${i.point > 50}">&#11088;</c:if>
+					</div>
 				</div>
 				</a>
 			</c:forEach>
@@ -181,8 +190,8 @@
 						<hr align="left" width="150px" style="border: 0.5px solid #c47100" />
 						<table class="table table-sm table-borderless shadow-sm rounded boardtable">
 				    		<tr class="border-bottom">
-							   <th width="70%">제목</td>
-	                           <th width="30%">날짜</td>
+							   <th width="80%">제목</td>
+	                           <th width="20%">날짜</td>
 							</tr>
 							<c:forEach var="i" items="${list1}">
 								<tr style='cursor:pointer;' onclick="location.href='<%=request.getContextPath()%>/community/comBoardInfo?board_num=${i.board_num}'">
@@ -236,10 +245,7 @@
 	<br />
 	<br />
 	<br />
-	<br />
-	<br></br>
-	<br></br>
-	<br></br>
+	<br /> 
 
 <script>
 

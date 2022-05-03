@@ -324,15 +324,15 @@ a {
 										
 					<li 
 						class='page-item <c:if test="${startPage <= bottomLine}"> disabled </c:if>'>
-						<a class="page-link " href="<%=request.getContextPath()%>/studymenu/onSearchList?pageNum=${startPage - bottomLine}">이전</a></li>
+						<a class="page-link " href="<%=request.getContextPath()%>/studymenu/onSearch?pageNum=${startPage - bottomLine}">이전</a></li>
 						
 					<c:forEach var="i" begin="${ startPage }" end="${endPage}">
 						<li class='page-item <c:if test = "${i == pageInt}" > active active2 </c:if>' >
-						<a class="page-link " href="<%=request.getContextPath()%>/studymenu/onSearchList?pageNum=${i}&searchData=${searchData}&part=${part}">${i}</a></li>
+						<a class="page-link " href="<%=request.getContextPath()%>/studymenu/onSearch?pageNum=${i}&searchData=${searchData}&part=${part}">${i}</a></li>
 					
 					</c:forEach>
 						<li class='page-item <c:if test = "${endPage >= maxPage}"> disabled </c:if>'>
-						<a class="page-link" href="<%=request.getContextPath()%>/studymenu/onSearchList?pageNum=${startPage + bottomLine}">다음</a></li>
+						<a class="page-link" href="<%=request.getContextPath()%>/studymenu/onSearch?pageNum=${startPage + bottomLine}">다음</a></li>
 					</ul>
 				</nav>
 				</c:if>

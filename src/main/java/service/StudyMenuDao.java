@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import model.MainRecentStudy;
 import model.Search;
 import model.StudyMenu;
 
@@ -472,11 +473,11 @@ public class StudyMenuDao {
 	 
 
 	 
-     public List<StudyMenu> mainNewStudy3() {
+     public List<MainRecentStudy> mainNewStudy3() {
 
        
        
-       List<StudyMenu> list = null;
+       List<MainRecentStudy> list = null;
        try {
        list = sqlSession.selectList(NS + "mainNewStudy3");
        return list;
