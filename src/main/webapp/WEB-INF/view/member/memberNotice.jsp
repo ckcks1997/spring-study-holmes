@@ -20,7 +20,9 @@
     background-color: #fff; 
     border-bottom: 1px solid #ddd; 
 }
-
+.cursor{
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -44,18 +46,21 @@
                             <h4 class="col text-right">날짜</h4>
                          </div>
                          <c:forEach  items="${noticeList}" var="i">
-                            <a href="<%=request.getContextPath()%>/studymember/noticeInfo?noticeNum=${i.notice_num}">
-                                <div class="row box-css"> 
-                                    <div class="col n_info ">
-	                                    <div class="row">
-	                                        <div class="col">
-	                                          from: ${i.nickname_from} 
-	                                        </div> 
-	                                        <div class="col text-right">
-	                                        <fmt:formatDate value="${i.regdate }" pattern="YYYY/MM/dd hh시 mm분"/>
+                            	
+                                <div class="col box-css"> 
+                                <div class="row "> 
+                                    <div class="col-sm-11 n_info py-2">
+                           			 <a href="<%=request.getContextPath()%>/studymember/noticeInfo?noticeNum=${i.notice_num}">
+	                                    <div class="row n_info">
+	                                        <div class="col n_info">
+		                                          from: ${i.nickname_from} 
+		                                         
 	                                        </div>
+	                                        <div class="col n_info text-right">
+			                                     <fmt:formatDate value="${i.regdate }" pattern="YYYY/MM/dd hh시 mm분"/>
+		                                     </div>
 	                                    </div>
-	                                    <div class="">
+	                                    <div class="n_info">
 	                                    <c:if test="${i.info != null}">
 	                                        내용: ${i.info}
 	                                    </c:if>
@@ -63,11 +68,14 @@
 	                                        내용: 스터디 초대요청 
 	                                    </c:if>
 	                                    </div>
+                           			 </a>
                                     </div>
-                                    
+	                                <div class="col-sm-1 text-center py-2 my-auto cursor" onclick="noti_del(${i.notice_num})" style="color:black" >
+	                                	삭제
+	                                </div>
+	                              </div>
                                 </div>  
-                            </a>
-                            <hr>
+                            <hr class="my-0">
                          </c:forEach>
                          <c:if test="${empty noticeList}"> <br><h5>알림이 없습니다.</h5> </c:if>
                          </div>
@@ -78,6 +86,31 @@
         </div>
  
  <br><br><br>
-
+<script>
+ function noti_del(num){
+	console.log(num)
+	var str = '{"noticeNum" :' +num+'}';
+	 $.ajax({ 
+	        type: "post",
+	        url: "<%=request.getContextPath()%>/studymember/noticeDelete",
+	        data: str,
+	        dataType: 'text',
+	        contentType:'application/json',
+	        success : function(result){
+	        	if(result == 1){
+	            alert("삭제되었습니다"); 
+	        	}else{
+	        		alert("오류");
+	        	}
+	            location.reload();
+	        },
+	        error: function (result){
+	            console.log(result)
+	            alert("error");
+	        }   
+	    }); //end ajax
+	 
+ }
+ </script>
 </body>
 </html>

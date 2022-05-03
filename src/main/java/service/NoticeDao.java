@@ -80,5 +80,18 @@ public class NoticeDao {
 		return sqlSession.selectOne(NS + "noticeGetByNoticeNum", noticeNum);
 
 	}
+	
+	public int noticeDelete(int noticeNum) {
+		int n=0;
+		try {
+			n=sqlSession.delete(NS + "noticeDelete", noticeNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sqlSession.commit();
+		}
+		return n;
+
+	}
 
 }

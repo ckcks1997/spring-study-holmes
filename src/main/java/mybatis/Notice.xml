@@ -41,5 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="noticeGetByNoticeNum" parameterType="int" resultType="notice">
         select * from notice where notice_num = #{notice_num} 
     </select>
+    
+    <delete id="noticeDelete" parameterType="int">
+    	delete from notice where notice_num = #{notice_num}
+    </delete>
 
 </mapper>

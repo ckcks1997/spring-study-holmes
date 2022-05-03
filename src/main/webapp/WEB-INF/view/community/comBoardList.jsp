@@ -7,9 +7,19 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <link href="<%=request.getContextPath()%>/css/boardlist.css"
 	rel="stylesheet" type="text/css">
-<title>커뮤니티</title>
+<style>
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}
+</style>
+
+
+<title>스터디 홈즈</title>
 </head>
 <body>
 
