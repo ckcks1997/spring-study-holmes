@@ -59,6 +59,8 @@
 								<h5 style="font-weight: bold">${com.title}</h5>
 							</c:if>
 						</div>
+						
+						
 						<div class="postInfo">
 
 							<p>

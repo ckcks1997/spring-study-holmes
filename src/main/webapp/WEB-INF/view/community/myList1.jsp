@@ -1,119 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
+
+<link href="<%=request.getContextPath() %>/css/groupinfo.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath()%>/css/boardlist.css"
+	rel="stylesheet" type="text/css">
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
-<style>
-
-body {
-	color: #454545;
-	font-size: 1rem;
-	font-weight: 500;
-	line-height: 1.5;
-}
-
-/* 명언 */
-.famous-saying-box {
-	height: 150px;
-	background-color: #333b3d;
-}
-
-.color-white {
-	color: white;
-}
-
-.footer-content {
-	padding-top: 50px;
-}
-
-/* aside */
-ul, li {
-	list-style: none;
-}
-
-li>a {
-	color: rgb(10, 10, 10);
-}
-
-
-
-
-/* 아래서부터는 페이지 종속css, 다른페이지에 복붙할 필요 x */ 
-            .pic_box{ 
-                width: 150px;
-                height: 150px; 
-                border-radius: 70%;
-                overflow: hidden;
-            }
-            .pic_box_pic{
-                width: 100%;
-                height:100%;
-                object-fit: cover;
-            }
-            .face_img{
-                width: 100%;
-                height: 100%;
-            }
-            .face_img > img{
-                width: 50px;
-                height: 50px;
-            }
-            .font-sm{
-                font-size: 0.8rem;
-            }
-            h2,h3,h5{
-                font-weight: bold;
-            }
-            .container-css{
-                background: #f8f8f8;
-                border-radius: 20px;
-            }
-            .icon-red{
-                color:white;
-                background: red;
-                padding: 2px;
-                border-radius:10px;
-            }
-        }
-        
-.page-link{
-    color: #f55555
-}
-.page-item > a{
-   	 color:#f55555; 
-}
-.page-item > a:hover{
-    color:#f55555; 
-}
-.active2 > a{
-    background-color:#f55555 !important; 
-    border: 1px solid #f55555 !important; 
-} 
-
-.reactions {
-	font-size: 13px;
-}
-
-.divide {
-	font-weight:700;
-    color: #777;
-}
-
-a {
-	color:black;
-}
-
-a:hover {
-	text-decoration: none;
-	color:#f55555;
-}
-</style>
 <title>스터디 홈즈</title>
 </head>
 <body>
@@ -160,24 +59,44 @@ a:hover {
 				
 				<div class="container">
 					<table class="table">
+						<c:if test="${empty list }">
+							<!-- list.size() 가 0이면 -->
+							<hr align="left" />
+							<p>작성된 글이 없습니다.</p>
+
+						</c:if>
+
 						<c:forEach var="com" items="${list}">
 							<tr>
 								<td>
 									<div class="row">
 
 										<div class="col-sm-9">
-											<a
-												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}"
+											<input type="hidden" name="board_num"
+												value="${com.board_num}"> <a
+												href="<%=request.getContextPath() %>/community/comBoardInfo?board_num=${com.board_num}&sort=${sort }&part=${part}&searchData=${searchData}"
 												style="color: black">
-												<p style = "font-size: 17px; font-weight: bold;">
-													${com.title}
-												</p>
-												 <br />
-												<h6 style = "color: gray;">
-													<small>${com.nickname} · ${com.regdate} </small>
+												<p style="font-size: 17px; font-weight: bold;">
+													${com.title}</p> <br />
+												<h6 style="color: gray;">
+													<c:if test="${com.picture eq null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+													</c:if>
+													<c:if test="${com.picture ne null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/imgupload/${com.picture}">
+													</c:if>
+													<small> ${com.nickname} · ${com.regdate} </small>
 												</h6>
 											</a>
+
+
 										</div>
+										
+										
+										
+										
 										<div class="col-sm-3 reaction">
 											<div class="circle">
 												<div class="reactions">
