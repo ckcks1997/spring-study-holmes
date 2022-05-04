@@ -67,20 +67,22 @@ public class ReportController {
 	report.setNickname(memberNickname);
 	report.setReport_reason(reason);
 	report.setBoard_num(board_num);
-			//원 게시글 정보 report에 넣기
+			//원 게시글 정보 report테이블에 넣기
 			com = cbd.comBoardOne(board_num); 
 	report.setWriter_nickname(com.getNickname());
 	report.setBoard_num_title(com.getTitle());
 	report.setBoard_num_regdate(com.getRegdate());
 	
-		//신고테이블에 등록하기 
+		//신고테이블에 등록하기 	
 		int num = report_d.insertReport(report);
+		
 		if(num ==1) {
 			System.out.println("신고 정상 등록");
 		} else {
 			System.out.println("신고 DB등록 에러");
 		}
-		
+	
+	
 		//3번째 신고가 들어오면 알림주고 게시글 삭제 
 		List<String> nicknameList = report_d.reportNickname(board_num);
 		if(nicknameList.size()==3) {
@@ -98,6 +100,7 @@ public class ReportController {
 		} 
 		
 	return "single/num";
+		
 	}
 
 } //end class

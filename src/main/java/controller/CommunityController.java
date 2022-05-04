@@ -278,7 +278,6 @@ public class CommunityController {
 			m.addAttribute("msg", msg);
 
 		} else { // 문의 게시판이 아닌 다른 게시판은 검증 거치지 않고 바로 열람 가능 
-			System.out.println("---문의 게시판이 아닌 다른 게시판 ---");
 			// 조회수 올리기
 			cbd.comReadCountUp(board_num);
 
