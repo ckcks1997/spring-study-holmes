@@ -15,11 +15,13 @@ public class StudyMemberDao {
   private static final String NS = "studymember.";
   private Map<String, Object> map = new HashMap<>();
 
-  @Autowired 
   SqlSession sqlSession;
- 
 
-  public StudyMember studyMemberOne(String id) {
+  public StudyMemberDao(SqlSession sqlSession) {
+	this.sqlSession = sqlSession;
+  }
+
+public StudyMember studyMemberOne(String id) {
 
       return sqlSession.selectOne(NS + "studyMemberOne", id);
 

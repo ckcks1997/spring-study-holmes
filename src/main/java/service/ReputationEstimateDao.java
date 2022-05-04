@@ -14,10 +14,11 @@ public class ReputationEstimateDao {
 	private static final String NS = "reputationestimate.";
 	private Map<String, Object> map = new HashMap<>();
 
-	@Autowired 
 	SqlSession sqlSession;
 
-	 
+	public ReputationEstimateDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 
 	public int insertReputation(ReputationEstimate rep) {
 		try {

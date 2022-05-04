@@ -26,8 +26,11 @@ public class ChatController {
 	HttpServletRequest request;
 	Model m;
 	HttpSession session;
-	@Autowired
 	ChatMybatisDao dao;
+
+	public ChatController(ChatMybatisDao dao) {
+		this.dao = dao;
+	}
 
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {

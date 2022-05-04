@@ -28,21 +28,23 @@ public class StudyMenuController {
 	Model m;
 	HttpSession session;
 
-	@Autowired
 	StudyMenuDao sd;
-	@Autowired
 	GroupMemberDao gm;
-	@Autowired
 	NoticeDao nd;
-	@Autowired
 	StudyMemberDao md;
-	@Autowired
 	StudyMenuDao sm;
-	@Autowired
 	StudyMenuDao smd;
 	
-	
-	
+	public StudyMenuController(StudyMenuDao sd, GroupMemberDao gm, NoticeDao nd, StudyMemberDao md, StudyMenuDao sm,
+			StudyMenuDao smd) {
+		this.sd = sd;
+		this.gm = gm;
+		this.nd = nd;
+		this.md = md;
+		this.sm = sm;
+		this.smd = smd;
+	}
+
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;

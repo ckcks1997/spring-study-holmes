@@ -23,13 +23,16 @@ import service.ReplyDao;
 @RequestMapping("/reply/")
 public class ReplyController {
 	
+	ReplyDao rd;
+
+	public ReplyController(ReplyDao rd) {
+		this.rd = rd;
+	}
+	
 	HttpServletRequest request;
 	Model m;
 	HttpSession session;
 	
-	@Autowired
-	ReplyDao rd;
-
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;

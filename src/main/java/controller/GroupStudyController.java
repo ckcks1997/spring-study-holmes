@@ -45,20 +45,26 @@ public class GroupStudyController {
 	HttpServletRequest request;
 	Model m;
 	HttpSession session;
-	@Autowired
+	
+
 	StudyMenuDao mud;
-	@Autowired
 	GroupMemberDao gmd;
-	@Autowired
 	ReplyDao rd;
-	@Autowired
 	ReportDao report_d;
-	@Autowired
 	ReputationEstimateDao red;
-	@Autowired
 	StudyMemberDao sd;
-	@Autowired
 	GroupBoardDao gbd;
+
+	public GroupStudyController(StudyMenuDao mud, GroupMemberDao gmd, ReplyDao rd, ReportDao report_d,
+			ReputationEstimateDao red, StudyMemberDao sd, GroupBoardDao gbd) {
+		this.mud = mud;
+		this.gmd = gmd;
+		this.rd = rd;
+		this.report_d = report_d;
+		this.red = red;
+		this.sd = sd;
+		this.gbd = gbd;
+	}
 
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {

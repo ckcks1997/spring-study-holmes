@@ -28,14 +28,18 @@ public class BoardController {
   /*
    * 메인 화면입니다.
    * */
-	@Autowired
 	CommunityBoardDao cbd;
-	@Autowired
 	NoticeDao nd;
-	@Autowired
 	StudyMenuDao sd;
 	
-  @RequestMapping("main")
+  public BoardController(CommunityBoardDao cbd, NoticeDao nd, StudyMenuDao sd) {
+		this.cbd = cbd;
+		this.nd = nd;
+		this.sd = sd;
+	}
+
+
+@RequestMapping("main")
   public String main(HttpServletRequest request, Model model) {
  
     HttpSession s = request.getSession();

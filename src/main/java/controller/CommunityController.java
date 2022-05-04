@@ -33,14 +33,16 @@ public class CommunityController {
 	Model m;
 	HttpSession session;
 	
-	@Autowired
 	CommunityBoardDao cbd;
-	@Autowired
 	ReplyDao rd;
-	@Autowired
 	ReportDao report_d;
 	
-	
+	public CommunityController(CommunityBoardDao cbd, ReplyDao rd, ReportDao report_d) {
+		this.cbd = cbd;
+		this.rd = rd;
+		this.report_d = report_d;
+	}
+
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;

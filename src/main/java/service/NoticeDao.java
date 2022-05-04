@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,10 +16,12 @@ public class NoticeDao {
 	private static final String NS = "notice.";
 	private Map<String, Object> map = new HashMap<>();
 
-	@Autowired 
 	SqlSession sqlSession;
 
- 
+	public NoticeDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+
 	public int noticeNew(String id) {
 
 		return sqlSession.selectOne(NS + "noticeNew", id);

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,10 +16,13 @@ import model.StudyMenu;
 public class StudyMenuDao {
 	private static final String NS = "studymenu.";
 	private Map<String, Object> map = new HashMap<>();
+ 
+	SqlSession sqlSession;
+	 
+	public StudyMenuDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 
-	 @Autowired 
-	  SqlSession sqlSession;
-	
 	public int menuCount(String menuid) {
 	
 			return sqlSession.selectOne(NS + "menuCount", menuid);

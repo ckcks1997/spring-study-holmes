@@ -43,26 +43,32 @@ import service.StudyMenuDao;
 @RequestMapping("/studymember/") 
 public class StudyMemberController {
 
-	@Autowired
 	StudyMemberDao md;
-	@Autowired
 	StudyMenuDao mud;
-	@Autowired
 	CommunityBoardDao cbd;
-	@Autowired
 	GroupMemberDao gmd;
-	@Autowired
 	NoticeDao nd;
-	@Autowired
 	ReportDao rd;
-	@Autowired
 	ReputationEstimateDao red;
 	
-    @Autowired
     KakaoService kakaoService;
-    @Autowired
     PasswordEncoder passwordEncoder;
-    
+
+	public StudyMemberController(StudyMemberDao md, StudyMenuDao mud, CommunityBoardDao cbd, GroupMemberDao gmd,
+			NoticeDao nd, ReportDao rd, ReputationEstimateDao red, KakaoService kakaoService,
+			PasswordEncoder passwordEncoder) {
+		this.md = md;
+		this.mud = mud;
+		this.cbd = cbd;
+		this.gmd = gmd;
+		this.nd = nd;
+		this.rd = rd;
+		this.red = red;
+		this.kakaoService = kakaoService;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	
 	HttpServletRequest request;
 	HttpSession session;
 	

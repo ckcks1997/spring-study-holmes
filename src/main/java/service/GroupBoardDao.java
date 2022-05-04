@@ -6,18 +6,20 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import model.GroupBoard;
 
-@Component
+@Repository 
 public class GroupBoardDao {
 
 	private static final String NS = "groupBoard.";
 	private Map<String, Object> map = new HashMap<>();
-
-	@Autowired
 	SqlSession sqlSession;
+
+	public GroupBoardDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 
 	public int groupBoardCount(String boardnum, String boardid) {
 		try {

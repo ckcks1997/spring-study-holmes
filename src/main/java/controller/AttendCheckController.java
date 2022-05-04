@@ -21,11 +21,13 @@ public class AttendCheckController  {
 	HttpServletRequest request;
 	Model m;
 	HttpSession session;
-	
-	@Autowired
 	AttendDao ad;
+
 	
-	
+	public AttendCheckController(AttendDao ad) {
+		this.ad = ad;
+	}
+
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;

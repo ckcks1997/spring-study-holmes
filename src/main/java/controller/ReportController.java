@@ -27,14 +27,18 @@ public class ReportController {
 	HttpServletRequest request;
 	Model m;
 	HttpSession session;
-	
-	@Autowired
+
 	CommunityBoardDao cbd;
-	@Autowired
 	ReportDao report_d;
-	@Autowired
 	NoticeDao nd;
 	
+	public ReportController(CommunityBoardDao cbd, ReportDao report_d, NoticeDao nd) {
+		this.cbd = cbd;
+		this.report_d = report_d;
+		this.nd = nd;
+	}
+
+
 	@ModelAttribute
 	void init(HttpServletRequest request, Model m) {
 		this.request = request;

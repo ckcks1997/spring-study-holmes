@@ -14,11 +14,15 @@ public class ReplyDao {
 	
 	private static final String NS = "reply.";
 	 // private Map<String, Object> map = new HashMap<>();
-	
-	@Autowired 
+
 	SqlSession sqlSession;
-   
-	  /*댓글등록*/
+
+	  public ReplyDao(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+
+
+	/*댓글등록*/
 	  public int insertReply(Reply reply) {
 		 
 			try {
