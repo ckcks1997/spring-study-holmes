@@ -89,7 +89,7 @@
 
 
 					<div class="col-sm-2">
-
+						<c:if test="${com.boardid != 5 }">
 						<div class="readcnt">
 							<span> <svg xmlns="http://www.w3.org/2000/svg" width="16"
 									height="16" fill="currentColor" class="bi bi-eye"
@@ -100,6 +100,7 @@
 										d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
 													</svg>
 							</span>${com.readcnt}</div>
+							</c:if>
 						<div class="comment">
 							<span> <svg xmlns="http://www.w3.org/2000/svg" width="16"
 									height="16" fill="currentColor" class="bi bi-chat-square-text"
@@ -442,8 +443,7 @@ $("#writeReply").on("click", function(){
 			        	+ '</div>' ;
 			            
 			 newReply.innerHTML +=line
-			 
-			 alert(reply_content.value);
+			 			 
 			 reply_content.value = "";
 
 		},
