@@ -130,7 +130,7 @@
 			</form>
 		</div>
 		<div class="container">
-			<h2>최신 컨텐츠</h2>
+			<h2>최신 스터디</h2>
 			<hr align="left" width="200px" style="border: 0.5px solid #c47100" />
 			<div class="d-flex justify-content-between " >
 			<c:forEach items="${slist}" var="i">

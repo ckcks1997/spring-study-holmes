@@ -21,6 +21,6 @@ public class GroupBoard {
 	  private String file1;
 	  private int readcnt;
 	  private String nickname;
-	  
+	  private String picture;
 	  
 }

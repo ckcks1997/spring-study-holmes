@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="<%=request.getContextPath() %>/css/boardlist.css" rel="stylesheet" type="text/css"> 
+<style>
+.pic_mini {
+	width: 25px;
+	height: 25px;
+	border-radius: 70%;
+}
+</style>
 <title>스터디 홈즈</title>
 </head>
 <body>
@@ -78,7 +86,16 @@
 												
 												 <br />
 												<h6 style = "color: gray;">
-													<small>${com.nickname} · ${com.regdate} </small>
+												<c:if test="${com.picture eq null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/img/profile_empty.jpg">
+													</c:if>
+													<c:if test="${com.picture ne null }">
+														<img class="pic_mini"
+															src="<%=request.getContextPath()%>/imgupload/${com.picture}">
+													</c:if>
+													
+													<small>${com.nickname} · <fmt:formatDate value="${com.regdate}" pattern="yyyy-MM-dd HH:ss"/> </small>
 												</h6>
 											</a>
 										</div>

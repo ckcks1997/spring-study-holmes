@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +55,7 @@
 						<div class="postInfo">
 						
 							<p>
-								${groupBoard.nickname} · ${groupBoard.regdate}
+								${groupBoard.nickname} · <fmt:formatDate value="${groupBoard.regdate}" pattern="yyyy-MM-dd HH:ss"/>
 
 
 								<c:if test="${memberNickname eq groupBoard.nickname}">
