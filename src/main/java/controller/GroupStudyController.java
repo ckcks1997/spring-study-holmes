@@ -46,7 +46,6 @@ public class GroupStudyController {
 	Model m;
 	HttpSession session;
 	
-
 	StudyMenuDao mud;
 	GroupMemberDao gmd;
 	ReplyDao rd;
@@ -72,18 +71,16 @@ public class GroupStudyController {
 		this.m = m;
 		this.session = request.getSession();
 	}
-
+	/*참가중 스터디 리스트*/
 	@RequestMapping("studylist")
 	public String studyList(Model model) {
-
+		
 		String nickname = (String) session.getAttribute("memberNickname");
-
 		List<GroupInList> list = gmd.groupInList(nickname);
 		model.addAttribute("list", list);
 		return "/view/group/groupStudyList";
-
 	}
-
+	/*스터디 정보 메뉴*/
 	@RequestMapping("studyinfo")
 	public String studyInfo(@RequestParam String boardnum, Model model) {
 
@@ -106,8 +103,8 @@ public class GroupStudyController {
 	public String groupExit(@RequestParam String boardnum, Model model) {
 
 		String nickname = (String) session.getAttribute("memberNickname");
-
 		List<GroupMember> groupMemberList = gmd.groupListByBoardnum(boardnum);
+		
 		model.addAttribute("groupMemberList", groupMemberList);
 		return "/view/group/groupStudyExit";
 	}
@@ -117,7 +114,6 @@ public class GroupStudyController {
 	public String groupExitPro(@RequestParam String boardnum, Model model) {
 
 		String nickname = (String) session.getAttribute("memberNickname");
-
 		String msg = "스터디가 종료되었습니다.";
 		String url = "redirect:/board/main";
 
@@ -128,7 +124,6 @@ public class GroupStudyController {
 	}
 
 	/* ajax 점수평가 */
-
 	@ResponseBody
 	@RequestMapping("score")
 	public String score(@RequestParam("nickname") String nickname_to, @RequestParam String info_value,
@@ -156,9 +151,7 @@ public class GroupStudyController {
 
 	/*
 	 * 그룹 게시판
-	 * 
 	 * Study_menu(=group_member)의 board_num은 s_board_num으로 선언하여 처리하고 있으니 참고하세요..
-	 * 
 	 */
 	@RequestMapping("groupBoard")
 	public String groupBoard(Model model, String boardnum, @RequestParam(defaultValue = "1") String boardid) {
@@ -206,14 +199,12 @@ public class GroupStudyController {
 
 			String boardName = "질문 & 답변";
 			switch (boardid) {
-
 			case "1":
 				boardName = "질문 답변";
 				break;
 			case "2":
 				boardName = "자료공유";
 				break;
-
 			}
 			model.addAttribute("boardName", boardName);
 			model.addAttribute("pageInt", pageInt);
@@ -242,7 +233,6 @@ public class GroupStudyController {
 			session.setAttribute("boardnum", boardnum);
 
 		boardnum = (String) session.getAttribute("boardnum");
-		System.out.println(nickname + ":" + boardnum);
 		String msg = "권한이 없습니다.";
 		String url = "redirect:/board/main"; // main으로 보내기, alert.jsp파일 참고
 
@@ -275,7 +265,6 @@ public class GroupStudyController {
 			pageInt = Integer.parseInt(pageNum);
 
 			int boardcount = gbd.groupBoardCount(boardnum, boardid);
-			System.out.println("boardcount=" + boardcount);
 
 			List<GroupBoard> list = gbd.groupBoardList(pageInt, limit, boardcount, boardid, boardnum);
 			int boardListnum = boardcount - limit * (pageInt - 1);
@@ -288,14 +277,12 @@ public class GroupStudyController {
 
 			String boardName = "질문 & 답변";
 			switch (boardid) {
-
 			case "1":
 				boardName = "질문 답변";
 				break;
 			case "2":
 				boardName = "자료공유";
 				break;
-
 			}
 			model.addAttribute("boardName", boardName);
 			model.addAttribute("pageInt", pageInt);
@@ -323,7 +310,6 @@ public class GroupStudyController {
 			session.setAttribute("boardid", boardid);
 			return "/view/group/groupBoardWriteForm";
 		}
-
 		model.addAttribute("msg", "권한이 없습니다.");
 		return "redirect:/board/main";
 	}
@@ -419,7 +405,6 @@ public class GroupStudyController {
 				(String) session.getAttribute("memberNickname")); // 그룹에 있는지 확인, 있다면 1
 		if (res1 > 0) {
 			GroupBoard gb = gbd.groupBoardOne2(board_num);
-
 			if (gb.getNickname().equals(session.getAttribute("memberNickname"))) {
 				request.setAttribute("gb", gb);
 				return "/view/group/groupBoardUpdateForm";
@@ -441,6 +426,7 @@ public class GroupStudyController {
 		String url = "redirect:/board/main";
 		int res1 = gmd.isMemberInGroup((String) session.getAttribute("boardnum"),
 				(String) session.getAttribute("memberNickname")); // 그룹에 있는지 확인, 있다면 1
+		
 		if (res1 > 0) {
 			if (gbd.groupBoardUpdate(gb) > 0) {
 				msg = "수정되었습니다";

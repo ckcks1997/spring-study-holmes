@@ -85,10 +85,10 @@ public class StudyMemberController {
   @RequestMapping("notice")
   public String memberNotice(Model model) {
 
-    String id = (String) session.getAttribute("memberNickname");
-
+	  String id = (String) session.getAttribute("memberNickname");
       List<Notice> noticeList = nd.noticeGet(id); //알림 리스트 가져옴
       nd.noticeRead(id);
+      
       model.addAttribute("noticeList", noticeList);
       session.setAttribute("noticeCount", 0);
       return "/view/member/memberNotice";      
@@ -101,9 +101,7 @@ public class StudyMemberController {
   @RequestMapping("noticeInfo")
   public String noticeInfo(Model model) {
  
-    String id = (String) session.getAttribute("memberNickname"); 
-    
- 
+	  String id = (String) session.getAttribute("memberNickname"); 
       int noticeNum = Integer.parseInt(request.getParameter("noticeNum"));
       
       //noticeNum에 해당하는 notice정보 가져오기
@@ -128,7 +126,6 @@ public class StudyMemberController {
 
     	  }
       // notice 보내기
-     
     	  model.addAttribute("notice", n);  
     	  return "/view/member/memberNoticeInfo";
       }      
@@ -142,7 +139,7 @@ public class StudyMemberController {
   public String noticeDelete(@RequestBody Map<String, String> req) { 
 	  Integer noticeNum = Integer.parseInt(req.get("noticeNum")); 
 	  int result= nd.noticeDelete(noticeNum);
-	   return result == 1 ? "1" : "0";
+	  return result == 1 ? "1" : "0"; //알림 삭제 성공시 1
   }
   
   
@@ -152,11 +149,11 @@ public class StudyMemberController {
   @RequestMapping("groupAccept")
   public String groupAccept(Model model) {
 
-    String id = (String) session.getAttribute("memberNickname");
-
-    String msg = "오류발생";
-    String url = "/board/main"; 
-      
+	  String id = (String) session.getAttribute("memberNickname");
+	
+	  String msg = "오류발생";
+	  String url = "/board/main"; 
+	      
       int noticeNum = Integer.parseInt(request.getParameter("notice_num")); //알림번호 가져옴
       Notice n = nd.noticeGetByNoticeNum(noticeNum); //알림정보 조회
       StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
@@ -168,7 +165,6 @@ public class StudyMemberController {
         gm.setNickname(n.getNickname_from()); 
         gmd.groupInsert(gm, 0);
        
-        /*TODO: 스터디에 참가한 사람에게 알림 전송*/
         //수락한 알림 삭제
         nd.noticeDelete(noticeNum);
         
@@ -186,19 +182,6 @@ public class StudyMemberController {
   @RequestMapping("loginForm")
   public String memberloginForm() {
     return "view/member/login";
-  }
-  
-  /*
-   * 비밀번호 찾기
-   * */
-  @RequestMapping("findPassword")
-  public String memberfindPassword(Model model) {
-    
-    String msg = "기능개발진행중..";
-    String url = "/studymember/loginForm";
-    
-    model.addAttribute("msg", msg);  
-    return "redirect:"+url;
   }
 
   /*
@@ -328,6 +311,7 @@ public class StudyMemberController {
       
     return Integer.toString(mem);
   }
+  
   /*
    * 회원가입 내 사진등록 창
    * */
@@ -396,6 +380,7 @@ public class StudyMemberController {
       
       return "/view/member/myprofile";
   }
+  
   /*
    * 사진변경
    * */
@@ -403,7 +388,6 @@ public class StudyMemberController {
   public String pictureChange(@RequestParam("picture") MultipartFile file) {
     
     String path = request.getServletContext().getRealPath("/")+"imgupload/";
-    System.out.println(path);
     File folder = new File(path);
     if(!folder.exists()) {
     	folder.mkdir();
@@ -422,7 +406,6 @@ public class StudyMemberController {
     }
     
     md.changePic((String)session.getAttribute("memberNickname"), filename);
- 
     return "redirect:/studymember/mypage";
   }
   
@@ -431,19 +414,17 @@ public class StudyMemberController {
    * */
   @PostMapping("myprofileEdit1")
   public String myprofileEdit1(Model model, RedirectAttributes redirect) { 
-    String msg="오류 발생"; 
-    String url= "redirect:/studymember/myprofile";
+	  String msg="오류 발생"; 
+	  String url= "redirect:/studymember/myprofile";
       String s_id = (String)session.getAttribute("memberID");
       String profile_intro = (String) request.getParameter("profile_intro");
  
       int result = md.studyMemberIntroUpdate(s_id, profile_intro);
-      System.out.println(result);
       if(result == 1) {
         msg="수정되었습니다"; 
       }
      //메세지 값을 post방식으로 보냅니다.
-    redirect.addFlashAttribute("msg", msg); //redirect후 뒤로가기 하면 컨트롤러로 요청이 들어오지는 않는데
-    										//브라우져에는 msg값이 남아있는지 alert가 뜨네요..
+    redirect.addFlashAttribute("msg", msg); 
     return url;
   }
   
@@ -532,10 +513,8 @@ public class StudyMemberController {
    * */
   @RequestMapping("userinfo")
   public String userinfo(Model model) {
-
     //유저정보
       String usernick = request.getParameter("usernick");
-       
       StudyMember mem = md.studyMemberOneByNick(usernick);
       model.addAttribute("memberInfo", mem);
       //유저 평판
