@@ -15,9 +15,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert> 
   
  <select id = "groupBoardList" resultType = "groupBoard"  parameterType = "map">
-	select  * from (select rownum rnum, a.* from (
-	select * from group_board where boardid = #{boardid} and s_board_num = #{s_board_num} order by board_num desc) a)
+	select  * from
+  	 (select rownum rnum, a.* from (
+	select * from (select * from group_board where boardid = #{boardid} and s_board_num = #{s_board_num} order by board_num desc) a
+	 left join (select nickname, PICTURE from STUDY_MEMBER) s on a.NICKNAME = s.NICKNAME)a)
 	where rnum between #{start} and #{end}
+
 </select> 
 
  <select id = "groupBoardOne" resultType = "groupBoard" parameterType ="map">
