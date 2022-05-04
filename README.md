@@ -4,7 +4,7 @@
  
 #### 프로젝트 이름(project name) : spring-study-holmes 
 
-#### 프로젝트 기간 : 2022.04.21 ~ 2022. 
+#### 프로젝트 기간 : 2022.04.21 ~ 2022.05.
 
 #### 프로젝트 인원 : 4명
 
@@ -60,16 +60,16 @@ Link
 #### IDE/Editor : Eclipse, VSCode
 #### 웹서버 : Apache Tomcat 9.0
 #### DB : Oracle
-#### 프레임워크/라이브러리/API : MyBatis, Bootstrap 4, jQuery, 카카오맵 API, 카카오 로그인 API, SummerNote, FontAwesome 6, lombok
+#### 프레임워크/라이브러리/API : MyBatis, Bootstrap 4, jQuery, 카카오맵 / 로그인 API, SummerNote, FontAwesome 6, lombok
 #### 협업 : Github
 
 Image
 =========
 ### ERD
-<img width="764" alt="image (2)" src="https://user-images.githubusercontent.com/51532254/166196674-1d83c57a-f860-492f-abd3-36ab4a532f95.png">
+<img width="764" alt="image (2)" src="https://user-images.githubusercontent.com/51532254/166196674-1d83c57a-f860-492f-abd3-36ab4a532f95.png"><br/><br/>
 
 ### 메뉴 구조도
-<img width="764" alt="image (3)" src="https://user-images.githubusercontent.com/51532254/166196897-df3f903b-4fed-4127-8b39-d8522c3fa113.jpg">
+<img width="764" alt="image (3)" src="https://user-images.githubusercontent.com/51532254/166196897-df3f903b-4fed-4127-8b39-d8522c3fa113.jpg"><br/><br/>
 
 Screenshot
 =========
@@ -77,22 +77,28 @@ Screenshot
  메인화면
 -------------
  
-<img width="764" alt="image (4)" src="https://user-images.githubusercontent.com/51532254/166199006-28fead39-a78d-420a-8e6f-681c51e3d7d8.jpg">
+<img width="764" alt="image (5)" src="https://user-images.githubusercontent.com/51532254/166634936-6b8f2c8a-7f8f-4676-a368-d3373de76896.jpg"><br/><br/>
+
 
  스터디 메뉴
 -------------
 <img width="764" alt="image (5)" src="https://user-images.githubusercontent.com/51532254/166197005-64e754b8-c6c8-4163-b275-910bacac7145.jpg">
 <img width="764" alt="image (6)" src="https://user-images.githubusercontent.com/51532254/166197013-fbd57ad2-2b93-42d4-92b9-3bc98c4416b6.jpg">
-<img width="764" alt="image (7)" src="https://user-images.githubusercontent.com/51532254/166197016-3b6f400f-bdc9-47af-9064-ea08e35f4002.jpg">
+<img width="764" alt="image (7)" src="https://user-images.githubusercontent.com/51532254/166197016-3b6f400f-bdc9-47af-9064-ea08e35f4002.jpg"><br/><br/>
 
 유저 정보
 -------------
-<img width="764" alt="image (8)" src="https://user-images.githubusercontent.com/51532254/166197018-6b07c6ef-0774-4cb2-9c58-591c35f1906e.jpg">
+<img width="764" alt="image (8)" src="https://user-images.githubusercontent.com/51532254/166197018-6b07c6ef-0774-4cb2-9c58-591c35f1906e.jpg"><br/><br/>
 
  커뮤니티
 -------------
 <img width="764" alt="image (9)" src="https://user-images.githubusercontent.com/51532254/166197329-f907cd66-f286-48d6-956e-03ac94cd561c.jpg">
-<img width="764" alt="image (10)" src="https://user-images.githubusercontent.com/51532254/166197618-5facb7da-d5a7-4c9b-8574-b575d8da953d.jpg">
+<img width="764" alt="image (10)" src="https://user-images.githubusercontent.com/51532254/166197618-5facb7da-d5a7-4c9b-8574-b575d8da953d.jpg"><br/><br/>
+
+알림 기능
+-------------
+<img width="764" alt="image (10)" src="https://user-images.githubusercontent.com/51532254/166636511-e8eb8114-6984-4ff2-85cf-e20235469f46.jpg"><br/><br/>
+
 
 그룹 기능
 -------------
@@ -101,6 +107,5 @@ Screenshot
 <img width="764" alt="image (12)" src="https://user-images.githubusercontent.com/51532254/166197966-7f31cc2e-aa08-4be2-a2da-a754ebc05433.png">
 <img width="764" alt="image (13)" src="https://user-images.githubusercontent.com/51532254/166198413-e20da1f9-8538-4607-9bbb-51c5770a5cec.png">
 <img width="764" alt="image (14)" src="https://user-images.githubusercontent.com/51532254/166198729-024bee3e-711b-4c7d-a594-0cc0a52cd406.jpg">
-<img width="764" alt="image (15)" src="https://user-images.githubusercontent.com/51532254/166198922-730f811b-6a7e-4199-b646-9016068f483c.png">
-
+<img width="764" alt="image (15)" src="https://user-images.githubusercontent.com/51532254/166198922-730f811b-6a7e-4199-b646-9016068f483c.png"><br/><br/>
 
