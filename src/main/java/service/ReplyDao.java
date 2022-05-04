@@ -1,17 +1,13 @@
 package service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.PostConstruct;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Reply;
-import util.MybatisConnection;
 
 @Component
 public class ReplyDao {
@@ -19,19 +15,9 @@ public class ReplyDao {
 	private static final String NS = "reply.";
 	 // private Map<String, Object> map = new HashMap<>();
 	
-	@Autowired
-	MySqlSessionFactory sqlSessionFactory;
+	@Autowired 
 	SqlSession sqlSession;
-	
-	@PostConstruct
-	public void setSqlSession() {
-		this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-	}
-			
-	
-	
-	
-	  
+   
 	  /*댓글등록*/
 	  public int insertReply(Reply reply) {
 		 
@@ -39,9 +25,7 @@ public class ReplyDao {
 			return sqlSession.update(NS+"insertReply", reply);	
 			} catch(Exception e ) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return 0;
 			}
 	  
@@ -74,9 +58,7 @@ public class ReplyDao {
 			  return sqlSession.update(NS+"deleteReply",reply_num);
 		  } catch(Exception e) {
 				 e.printStackTrace();
-		  } finally {
-				sqlSession.commit();
-		  }
+		  } 
 			  return 0;
 		  
 	  }
@@ -96,9 +78,7 @@ public class ReplyDao {
 			  return communityTable+groupTable;
 		  } catch(Exception e) {
 			  e.printStackTrace();
-		  } finally {
-			  sqlSession.commit();
-		  }
+		  } 
 		  return 0;		  
 		  
 	  }

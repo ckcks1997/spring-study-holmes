@@ -1,18 +1,15 @@
 package service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Report;
-import util.MybatisConnection;
 
 @Component
 public class ReportDao {
@@ -20,25 +17,17 @@ public class ReportDao {
 	private static final String NS = "report.";
 	private Map<String, Object> map = new HashMap<>();
 	
-	@Autowired
-	MySqlSessionFactory sqlSessionFactory;
+	@Autowired 
 	SqlSession sqlSession;
 	
-	@PostConstruct
-	public void setSqlSession() {
-		this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-	}
-	
-	
+ 
 	public int insertReport(Report report){
 		
 		try {
 			return sqlSession.update(NS+"insertReport",report);			
 		} catch(Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return 0;
 	}
 	

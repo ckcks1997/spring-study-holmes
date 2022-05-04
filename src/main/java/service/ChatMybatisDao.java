@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,15 +19,9 @@ public class ChatMybatisDao {
 	private static final String NS = "webchat.";
 	private Map<String, Object> map = new HashMap<>();
 
-	  @Autowired
-	  MySqlSessionFactory sqlSessionFactory;
+	  @Autowired 
 	  SqlSession sqlSession;
-	  
-	  @PostConstruct
-	  public void setSqlSession() {
-		  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-	  }
-
+	   
 
 	public int nextNum() {
 		return sqlSession.selectOne(NS + "nextNum", map);
@@ -38,9 +33,7 @@ public class ChatMybatisDao {
 			return sqlSession.insert(NS + "insertWebChat", webchat);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return 0;
 	}
 

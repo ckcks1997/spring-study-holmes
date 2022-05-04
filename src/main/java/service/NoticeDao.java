@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Notice;
-import util.MybatisConnection;
 
 @Component
 public class NoticeDao {
@@ -19,15 +18,10 @@ public class NoticeDao {
 	private static final String NS = "notice.";
 	private Map<String, Object> map = new HashMap<>();
 
-	@Autowired
-	MySqlSessionFactory sqlSessionFactory;
+	@Autowired 
 	SqlSession sqlSession;
 
-	@PostConstruct
-	public void setSqlSession() {
-		this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-	}
-
+ 
 	public int noticeNew(String id) {
 
 		return sqlSession.selectOne(NS + "noticeNew", id);
@@ -46,9 +40,7 @@ public class NoticeDao {
 			return sqlSession.update(NS + "noticeRead", id);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return 0;
 	}
 
@@ -87,9 +79,7 @@ public class NoticeDao {
 			n=sqlSession.delete(NS + "noticeDelete", noticeNum);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return n;
 
 	}

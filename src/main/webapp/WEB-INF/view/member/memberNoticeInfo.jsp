@@ -64,7 +64,7 @@
                           <c:if test="${notice.info == null }">
                           	 &nbsp; "${notice.nickname_from }" 님이 "${title}" 스터디에 참가요청을 보냈습니다.<br>
                                 <div class="container text-center mt-5">
-                                   <button class="btn btn-primary" onclick="location.href=' <%=request.getContextPath()%>/studymember/groupAccept?notice_num=${notice.notice_num}'">참가 수락</button> 
+                                   <button class="btn btn-danger" onclick="location.href=' <%=request.getContextPath()%>/studymember/groupAccept?notice_num=${notice.notice_num}'">참가 수락</button> 
                                    <button class="btn btn-secondary" onclick="location.href='<%=request.getContextPath()%>/studymember/notice'">알림 목록</button> 
                                 </div>
                            </c:if>

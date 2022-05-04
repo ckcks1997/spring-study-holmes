@@ -3,15 +3,11 @@ package service;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.StudyMember;
-import util.MybatisConnection;
  
 @Component
 public class StudyMemberDao {
@@ -19,14 +15,9 @@ public class StudyMemberDao {
   private static final String NS = "studymember.";
   private Map<String, Object> map = new HashMap<>();
 
-  @Autowired
-  MySqlSessionFactory sqlSessionFactory;
+  @Autowired 
   SqlSession sqlSession;
-  
-  @PostConstruct
-  public void setSqlSession() {
-	  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-  }
+ 
 
   public StudyMember studyMemberOne(String id) {
 
@@ -45,25 +36,6 @@ public class StudyMemberDao {
     
   }
   
-//   임시
-	/*
-	 * public int insertStudyMember(HttpServletRequest req) {
-	 * 
-	 * try {
-	 * 
-	 * StudyMember m = new StudyMember(); m.setEmail(req.getParameter("email"));
-	 * m.setName(req.getParameter("name"));
-	 * m.setNickname(req.getParameter("nickname"));
-	 * m.setPassword(req.getParameter("password"));
-	 * m.setTel(req.getParameter("tel")); m.setPicture(req.getParameter("picture"));
-	 * 
-	 * System.out.println(m);
-	 * 
-	 * return sqlSession.insert(NS + "insertStudyMember", m ); } catch (Exception e)
-	 * { e.printStackTrace(); } finally { sqlSession.commit(); } return 0;
-	 * 
-	 * }
-	 */
   public int insertStudyMember(StudyMember m) {
 
 	    try {
@@ -73,9 +45,7 @@ public class StudyMemberDao {
 	      return sqlSession.insert(NS + "insertStudyMember", m );
 	    } catch (Exception e) {
 	      e.printStackTrace();
-	    } finally {
-	    	sqlSession.commit();
-	    }
+	    } 
 	    return 0;
 	    
 	  }
@@ -102,9 +72,7 @@ public class StudyMemberDao {
       return sqlSession.update(NS + "studyMemberIntroUpdate", map);
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
-    }
+    } 
 
     return 0;
   }
@@ -115,8 +83,6 @@ public class StudyMemberDao {
       return sqlSession.update(NS + "studyMemberDelete", email);
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
     }
 
     return 0;
@@ -131,9 +97,7 @@ public class StudyMemberDao {
       return sqlSession.update(NS + "changePassword", map);
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
-    }
+    } 
 
     return 0;
   }
@@ -148,8 +112,6 @@ public class StudyMemberDao {
       return sqlSession.update(NS + "changePoint", map);
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
     }
 
     return 0;
@@ -164,9 +126,7 @@ public class StudyMemberDao {
       return sqlSession.update(NS + "changePic", map);
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
-    }
+    } 
 
     return 0;
   }
@@ -177,9 +137,7 @@ public class StudyMemberDao {
       return sqlSession.selectOne(NS + "getPoint", nickname); 
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-    	sqlSession.commit();
-    }
+    } 
 
     return null;
   }

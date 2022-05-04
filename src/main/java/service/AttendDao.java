@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,21 +19,11 @@ public class AttendDao {
 	private static final String NS = "attend.";
 	  private Map<String, Object> map = new HashMap<>();
 	 
-	  @Autowired
-	  MySqlSessionFactory sqlSessionFactory;
+	  @Autowired 
 	  SqlSession sqlSession;
-	  
-	  @PostConstruct
-	  public void setSqlSession() {
-		  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-	  }
-	  
-	 
-	  
-	   public List<Attend> attendGet(String id) {
 
+	   public List<Attend> attendGet(String id) {
            return sqlSession.selectList(NS+"attendGet", id);
-        
      }
 	  
 	   
@@ -43,11 +34,7 @@ public class AttendDao {
 		return sqlSession.insert(NS+"attendInsert",attend);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-
-    	sqlSession.commit();
-
-			} 
+			}
 			return 0;
 	  }
 	  

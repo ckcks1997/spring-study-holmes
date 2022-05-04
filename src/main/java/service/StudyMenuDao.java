@@ -19,15 +19,8 @@ public class StudyMenuDao {
 	private static final String NS = "studymenu.";
 	private Map<String, Object> map = new HashMap<>();
 
-	 @Autowired
-	  MySqlSessionFactory sqlSessionFactory;
+	 @Autowired 
 	  SqlSession sqlSession;
-	  
-	  @PostConstruct
-	  public void setSqlSession() {
-		  this.sqlSession = sqlSessionFactory.sqlmap.openSession();
-	  }
-	
 	
 	public int menuCount(String menuid) {
 	
@@ -67,9 +60,7 @@ public class StudyMenuDao {
 			return sqlSession.selectList(NS + "menuList", map);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return null;
 	}
 	
@@ -81,9 +72,7 @@ public class StudyMenuDao {
 			return sqlSession.selectOne(NS + "menuNextNum");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return 0;
 	}
 
@@ -95,9 +84,7 @@ public class StudyMenuDao {
 			return sqlSession.update(NS + "insertMenu", studymenu);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return 0;
 	}
 	
@@ -110,9 +97,7 @@ public class StudyMenuDao {
 		list = sqlSession.selectList(NS + "studySearch", sh);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			sqlSession.commit();
-		}
+		} 
 		return list;
 	}
 	
@@ -124,8 +109,6 @@ public class StudyMenuDao {
 				return sqlSession.selectOne(NS+"menuBoardOne",board_num);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
 			}
 			return null;
 	  }
@@ -142,10 +125,7 @@ public class StudyMenuDao {
 			
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
 			}
-			
 			return list;
 
 		}
@@ -163,9 +143,7 @@ public class StudyMenuDao {
 				searchlist = sqlSession.selectList(NS + "studySearch", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return searchlist;
 		}
 	 
@@ -180,8 +158,6 @@ public class StudyMenuDao {
 				return sqlSession.selectOne(NS + "studySearchCount", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
 			}
 			return 0;
 		}
@@ -198,9 +174,7 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "studySearchList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return null;
 		}
 	 
@@ -216,8 +190,6 @@ public class StudyMenuDao {
 				searchlist = sqlSession.selectList(NS + "onAllSearch", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
 			}
 			return searchlist;
 		}
@@ -233,9 +205,7 @@ public class StudyMenuDao {
 				return sqlSession.selectOne(NS + "onAllSearchCount", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return 0;
 		}
 	 
@@ -251,9 +221,7 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "onAllSearchList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return null;
 		}
 	 	 	 
@@ -270,9 +238,7 @@ public class StudyMenuDao {
 				searchlist = sqlSession.selectList(NS + "offAllSearch", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return searchlist;
 		}
 	 
@@ -286,9 +252,7 @@ public class StudyMenuDao {
 				return sqlSession.selectOne(NS + "offAllSearchCount", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return 0;
 		}
 	 
@@ -304,8 +268,6 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "offAllSearchList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
 			}
 			return null;
 		}
@@ -323,9 +285,7 @@ public class StudyMenuDao {
 				searchlist = sqlSession.selectList(NS + "onoffAllSearch", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return searchlist;
 		}
 	 
@@ -340,9 +300,7 @@ public class StudyMenuDao {
 				return sqlSession.selectOne(NS + "onoffAllSearchCount", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return 0;
 		}
 	 
@@ -358,9 +316,7 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "onoffAllSearchList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return null;
 		}
 	 	 	 
@@ -376,9 +332,7 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "onallList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return null;
 	 }	 
 	 
@@ -393,9 +347,7 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "offallList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return null;
 	 }	
 	 
@@ -409,9 +361,7 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "onoffallList", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
-			}
+			} 
 			return null;
 	 }	 
 	 
@@ -427,27 +377,17 @@ public class StudyMenuDao {
 				return sqlSession.selectList(NS + "mylist2", map);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				sqlSession.commit();
 			}
 			return null;
 		}
-	 
-	 
-	 
-
-	 
 
 	 public int studyUpdate(StudyMenu sm) {
-		 
-		  
+
 		  try {
 		  return sqlSession.update(NS+"studyUpdate",sm);
 		  } catch (Exception e) {
 			  e.printStackTrace();
-		  } finally {
-			  sqlSession.commit();
-		  }
+		  } 
 		  
 		  return 0;
 		  
@@ -455,7 +395,7 @@ public class StudyMenuDao {
 	 
 	 public StudyMenu studyMenuOne(int board_num) {
 		 
-				return sqlSession.selectOne(NS+"studyMenuOne",board_num);
+		return sqlSession.selectOne(NS+"studyMenuOne",board_num);
 			
 	  }
 	 
@@ -465,18 +405,13 @@ public class StudyMenuDao {
 		  return sqlSession.update(NS+"studyDelete", board_num);
 		 } catch(Exception e) {
 			 e.printStackTrace();
-		 } finally {
-			 sqlSession.commit();
-		 }
+		 } 
 		  return 0;
 	  }
-	 
 
 	 
      public List<MainRecentStudy> mainNewStudy3() {
 
-       
-       
        List<MainRecentStudy> list = null;
        try {
        list = sqlSession.selectList(NS + "mainNewStudy3");
@@ -484,10 +419,7 @@ public class StudyMenuDao {
 
        } catch (Exception e) {
            e.printStackTrace();
-       } finally {
-           sqlSession.commit();
-       }
-
+       } 
        return null;
 }   
 
