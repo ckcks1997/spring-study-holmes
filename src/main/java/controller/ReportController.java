@@ -48,24 +48,13 @@ public class ReportController {
 	
 	
 	@RequestMapping("sendReport")
-	public String sendReport(@RequestBody Map<String, Integer> rep, Report report, Community com) {
+	public String sendReport(@RequestBody Map<String, String> rep, Report report, Community com) {
 	
-	int board_num = rep.get("board_num");
-	//신고사유 한번 정리-----------
-	String reason = "영리목적/스팸홍보성";
-	switch (rep.get("report_reason")) {
-	case 2 :   reason = "음란성/선정성"; break;
-	case 3 :   reason = "욕설/비방/혐오"; break;
-	case 4 :   reason = "개인정보 노출"; break;
-	case 5 :   reason = "도배성(같은 내용의 반복 게시)"; break;
-	}
-	//---------------------------------
-	
-	
+	int board_num = Integer.parseInt(rep.get("board_num"));
 	String memberNickname = (String) session.getAttribute("memberNickname");
 	
 	report.setNickname(memberNickname);
-	report.setReport_reason(reason);
+	report.setReport_reason(rep.get("report_reason"));
 	report.setBoard_num(board_num);
 			//원 게시글 정보 report테이블에 넣기
 			com = cbd.comBoardOne(board_num); 

@@ -341,28 +341,29 @@
 
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="reportReason"
-							id="reportReason1" value="1" checked> <label
+							id="reportReason1" value="영리목적/스팸홍보성" checked> <label
 							class="form-check-label" for="reportReason1"> 영리목적/스팸홍보성
 						</label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="reportReason"
-							id="reportReason2" value="2"> <label
+							id="reportReason2" value="음란성/선정성"> <label
 							class="form-check-label" for="reportReason2"> 음란성/선정성 </label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="reportReason"
-							id="reportReason3" value="3"> <label
+							id="reportReason3" value="욕설/비방/혐오"> <label
 							class="form-check-label" for="reportReason3"> 욕설/비방/혐오 </label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="reportReason"
-							id="reportReason4" value="4"> <label
+							id="reportReason4" value="개인정보 노출"> <label
 							class="form-check-label" for="reportReason4"> 개인정보 노출 </label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="reportReason"
-							id="reportReason5" value="5"> <label
+							id="reportReason5" value="도배성(같은 내용의
+							반복 게시)"> <label
 							class="form-check-label" for="reportReason5"> 도배성(같은 내용의
 							반복 게시) </label>
 					</div>
@@ -498,7 +499,7 @@ $('#deleteReply').on("click", function() {
 	})
 		
 
-//신고전달----------------------------------------------
+<!--신고 전달 ---------------------------------------------------------------------------------------------------------------------->
 $("#sendReport").on("click",function(){
 	let report_reason = $('input[name=reportReason]:checked').val();
 	
@@ -516,7 +517,7 @@ $("#sendReport").on("click",function(){
 				contentType: "application/json",
 				success : function(result) {
 					alert("신고되었습니다");
-						//alert(report_reason); //option값 잘 들어오는지 확인
+						alert(report_reason); //option값 잘 들어오는지 확인
 						let button = document.querySelector("#reportButton");
 						button.disabled = true;
 						
@@ -524,7 +525,7 @@ $("#sendReport").on("click",function(){
 				},
 				error : function(result) {
 					console.log(result);
-					alert("error");
+					alert("신고처리가 되지 않습니다.");
 				}
 			})
 		})
