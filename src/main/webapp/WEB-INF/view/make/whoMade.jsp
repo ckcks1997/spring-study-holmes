@@ -148,7 +148,7 @@ a:hover {
 								<p>류찬혁 · 이재성 · 김은지 · 최준현
 								<br>	
 								 MVC2: 22/03/10 &nbsp;-&nbsp; 22/03/25 <br>			 
-								 Spring: 22/04/21 &nbsp;-&nbsp; </p>	
+								 Spring: 22/04/21 &nbsp;-&nbsp; 22/05/04</p>	
 								</div>
 							
 							</div>

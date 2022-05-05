@@ -6,17 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor; 
 
-public class LoginInterceptor extends HandlerInterceptorAdapter{
-	
+public class LoginInterceptor implements HandlerInterceptor{
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-	throws Exception{
-		//TODO Auto-generated method stub
+	throws Exception{ 
 		HttpSession session = request.getSession();
 		String login = (String) session.getAttribute("memberNickname");
-		
 		
 		if(login == null) {
 			String msg = URLEncoder.encode("로그인이 필요합니다.","UTF-8");
