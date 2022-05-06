@@ -4,7 +4,7 @@
  
 #### 프로젝트 이름(project name) : spring-study-holmes 
 
-#### 프로젝트 기간 : 2022.04.21 ~ 2022.05.
+#### 프로젝트 기간 : 2022.04.21 ~ 2022.05.04
 
 #### 프로젝트 인원 : 4명
 
@@ -54,13 +54,16 @@ Link
 사용된 기술
 -------------
 
-#### 개발 패턴 : Spring 5.3
 #### 모델링 툴 : Figma, Whimsical
-#### 사용 언어 : HTML, CSS, Java, Javascript
 #### IDE/Editor : Eclipse, VSCode
 #### 웹서버 : Apache Tomcat 9.0
 #### DB : Oracle
-#### 프레임워크/라이브러리/API : MyBatis, Bootstrap 4, jQuery, 카카오맵 / 로그인 API, SummerNote, FontAwesome 6, lombok
+#### 개발 패턴 : Spring MVC
+#### 빌드 툴 : Maven
+#### 사용 언어 : HTML, CSS, Javascript, Java, JSP
+#### 프론트 프레임워크/라이브러리 : Bootstrap 4, jQuery, SummerNote, FontAwesome 6
+#### 백엔드 프레임워크/라이브러리 : Spring 5.3, MyBatis, Lombok, Spring Security Crypto Module
+#### 사용 API : 카카오 API(지도, 로그인)
 #### 협업 : Github
 
 Image
