@@ -110,7 +110,7 @@ a:hover {
 
 
 			<div class="main col-sm-9">
-				<h5>스터디홈즈를 소개합니다</h5>
+				<h5>스터디홈즈를 &nbsp;소개합니다</h5>
 				<hr align="left" width="250px" style="background-color: #c47100; height:1px;" />
 				<div class="main col-sm-9">
 					<h6><strong>스터디 홈즈는 이렇게 만들어졌어요</strong></h6>
@@ -190,7 +190,7 @@ a:hover {
 					
 					<br><br><br><br>
 					<div class = make2 col-sm-9>
-					<h5><strong>스터디 홈즈로 모임을 시작해보세요!</strong></h5>
+					<h6><strong>스터디 홈즈로 모임을 시작해보세요!</strong></h6>
 						<div class = "row">
 							<div class = "main col-sm-5">
 								<img class = "make-img" src = "<%=request.getContextPath()%>/img/make2.jpg" alt ="make2"/>

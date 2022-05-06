@@ -112,7 +112,7 @@ body {
 					})
 				},
 				 error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
-                     alert("통신 실패")
+                     alert("이미지 첨부를 할 수 없습니다")
                  }
 				
 			})
