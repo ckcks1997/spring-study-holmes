@@ -30,7 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into notice 
         values(notice_seq.nextval, #{to}, #{from}, null, #{boardid}, 0, sysdate )
 	</insert>
-	
+		<insert id="noticeWriteAll" parameterType="map">
+        insert into notice 
+        values(notice_seq.nextval, #{to}, #{from}, #{info}, #{info2}, 0, sysdate )
+	</insert>
 	<!-- 신고알림  -->
 	<insert id="noticeReportWrite" parameterType="map">
         insert into notice 

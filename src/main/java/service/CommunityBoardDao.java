@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import model.Community;
 
@@ -158,7 +159,7 @@ public class CommunityBoardDao {
 		return sqlSession.selectOne(NS + "comNextNum");
 
 	}
-
+    @Transactional
 	public int comBoardUpdate(Community com) {
 
 		try {

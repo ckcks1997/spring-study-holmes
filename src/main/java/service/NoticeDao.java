@@ -54,7 +54,17 @@ public class NoticeDao {
 		return sqlSession.insert(NS + "noticeWrite", map);
 
 	}
+	public int noticeWriteAll(String to, String from, String info, String info2) {
 
+		map.clear();
+		map.put("info2", info2);
+		map.put("info", info);
+		map.put("from", from);
+		map.put("to", to);
+
+		return sqlSession.insert(NS + "noticeWriteAll", map);
+
+	}
 	public int noticeReportWrite(String info, String from, String to, int board_num) {
 
 		map.clear();

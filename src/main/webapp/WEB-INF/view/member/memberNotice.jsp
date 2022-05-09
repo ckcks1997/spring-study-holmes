@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <title>알림 목록</title>
@@ -62,7 +63,7 @@
 	                                    </div>
 	                                    <div class="n_info">
 	                                    <c:if test="${i.info != null}">
-	                                        내용: ${i.info}
+	                                        내용: ${fn:substringAfter(i.info, ':')} 
 	                                    </c:if>
 	                                    <c:if test="${i.info == null}">
 	                                        내용: 스터디 초대요청 

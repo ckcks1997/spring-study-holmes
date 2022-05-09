@@ -114,7 +114,7 @@ public class StudyMemberController {
     		  String title = menu.getTitle();  
     		  model.addAttribute("title", title);
          
-    	  }  else { //Info가 있으면
+    	  }  else if(n.getInfo().contains("report")) { //Info가 있으면
     		  //신고사유 가져오기
     		  int board_num = Integer.parseInt(n.getInfo2());
     		  List<String> reportReason = rd.reportReason(board_num);
@@ -147,32 +147,36 @@ public class StudyMemberController {
    * 알림-그룹초대 수락
    * */
   @RequestMapping("groupAccept")
-  public String groupAccept(Model model) {
+  public String groupAccept(RedirectAttributes redirect, Integer notice_num, Integer accept) {
 
 	  String id = (String) session.getAttribute("memberNickname");
 	
 	  String msg = "오류발생";
 	  String url = "/board/main"; 
-	      
-      int noticeNum = Integer.parseInt(request.getParameter("notice_num")); //알림번호 가져옴
-      Notice n = nd.noticeGetByNoticeNum(noticeNum); //알림정보 조회
-      StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
- 
-      if(n.getNickname_to().equals(id)) { //세션과 알림 받은사람 비교, 본인확인
-        //group에 초대하는 과정
-        GroupMember gm = new GroupMember();
-        gm.setBoardnum(menu.getBoard_num());
-        gm.setNickname(n.getNickname_from()); 
-        gmd.groupInsert(gm, 0);
-       
-        //수락한 알림 삭제
-        nd.noticeDelete(noticeNum);
-        
-        msg = "등록되었습니다";
-        url = "/studymember/notice";   
-    }
-
-    model.addAttribute("msg", msg);  
+	  if(notice_num != null && accept != null) {
+	      int noticeNum = notice_num; //알림번호 가져옴
+	      Notice n = nd.noticeGetByNoticeNum(noticeNum); //알림정보 조회
+	      StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2())); //알림정보에 있는 스터디 보드번호로 보드조회
+	 
+	      if(n.getNickname_to().equals(id)) { //세션과 알림 받은사람 비교, 본인확인
+	        //group에 초대하는 과정
+	        GroupMember gm = new GroupMember();
+	        gm.setBoardnum(menu.getBoard_num());
+	        gm.setNickname(n.getNickname_from()); 
+	        
+	       if(accept == 1) { 
+	        gmd.groupInsert(gm, 0);
+	        nd.noticeWriteAll(n.getNickname_from(), n.getNickname_to(), "text:스터디 초대 알림","\'"+ menu.getTitle()+"\' 스터디에 초대되었습니다.");
+	        nd.noticeDelete(noticeNum);
+	       } else  if(accept == 0) { 
+	           nd.noticeWriteAll(n.getNickname_from(), n.getNickname_to(), "text:스터디 거부 알림","\'"+ menu.getTitle()+"\' 스터디 초대가 거부되었습니다.");
+	           nd.noticeDelete(noticeNum);
+	       }
+	        msg = "등록되었습니다";
+	        url = "/studymember/notice";   
+	      }
+	  }
+    redirect.addFlashAttribute("msg", msg);  
     return "redirect:"+url;
   }
   
