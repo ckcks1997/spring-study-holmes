@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -160,7 +160,7 @@ a:hover {
 						</div>
 					
 						
-					<button class="btn btn-primary" id="donate">커피 사주기</button>
+					<button class="btn btn-sm btn-secondary" id="donate">커피 사주기(1,000원)</button>
 					
 					
 					<br>
@@ -174,6 +174,7 @@ a:hover {
 
 
 <script type="text/javascript">
+var val = "";
 $('#donate').click(function iamport(){
 	//가맹점 식별코드
 	IMP.init('imp70991296');
@@ -182,7 +183,7 @@ $('#donate').click(function iamport(){
 	    pay_method : 'card',
 	    merchant_uid : 'merchant_' + new Date().getTime(),
 	    name : '기부' , //결제창에서 보여질 이름
-	    amount : 100, //실제 결제되는 가격
+	    amount : 1000, //실제 결제되는 가격
 	    buyer_email : 'example@siot.do',
 	    buyer_name : '홍길동',
 	    buyer_tel : '010-1234-5678',
@@ -190,19 +191,24 @@ $('#donate').click(function iamport(){
 	    buyer_postcode : '123-456'
 	}, function(rsp) {
 		console.log(rsp);
-	    if ( rsp.success ) {
-	    	var msg = '결제가 완료되었습니다.';
-	        msg += '고유ID : ' + rsp.imp_uid;
-	        msg += '상점 거래ID : ' + rsp.merchant_uid;
-	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num;
-	    } else {
-	    	 var msg = '결제에 실패하였습니다.';
-	         msg += '에러내용 : ' + rsp.error_msg;
-	    }
-	    alert(msg);
+		$.ajax({
+        	type : "POST",
+        	headers: { "Content-Type": "application/json" },
+        	url : "<%=request.getContextPath()%>/iamport/verifyIamport/" + rsp.imp_uid 
+        }).done(function(data) {
+			console.log(data)
+			val= data;
+        	if(rsp.paid_amount == data.response.amount){
+	        	alert("결제 완료");
+        	} else {
+        		
+        		alert("관리자에게 문의하세요");
+        	}
+        })
+	    
 	});
 })
+
 </script>
 
 
