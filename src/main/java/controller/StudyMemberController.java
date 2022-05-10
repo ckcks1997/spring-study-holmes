@@ -166,10 +166,10 @@ public class StudyMemberController {
 	        
 	       if(accept == 1) { 
 	        gmd.groupInsert(gm, 0);
-	        nd.noticeWriteAll(n.getNickname_from(), n.getNickname_to(), "text:스터디 초대 알림","\'"+ menu.getTitle()+"\' 스터디에 초대되었습니다.");
+	        nd.noticeWriteAll(n.getNickname_from(), n.getNickname_to(), "text: 스터디 초대 알림","\'"+ menu.getTitle()+"\' 스터디에 초대되었습니다.");
 	        nd.noticeDelete(noticeNum);
 	       } else  if(accept == 0) { 
-	           nd.noticeWriteAll(n.getNickname_from(), n.getNickname_to(), "text:스터디 거부 알림","\'"+ menu.getTitle()+"\' 스터디 초대가 거부되었습니다.");
+	           nd.noticeWriteAll(n.getNickname_from(), n.getNickname_to(), "text: 스터디 거부 알림","\'"+ menu.getTitle()+"\' 스터디 초대가 거부되었습니다.");
 	           nd.noticeDelete(noticeNum);
 	       }
 	        msg = "등록되었습니다";

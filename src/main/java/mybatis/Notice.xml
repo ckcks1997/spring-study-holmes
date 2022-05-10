@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--스터디요청 알림  --> 
 	<insert id="noticeWrite" parameterType="map">
         insert into notice 
-        values(notice_seq.nextval, #{to}, #{from}, null, #{boardid}, 0, sysdate )
+        values(notice_seq.nextval, #{to}, #{from}, #{info}, #{boardid}, 0, sysdate )
 	</insert>
 		<insert id="noticeWriteAll" parameterType="map">
         insert into notice 
