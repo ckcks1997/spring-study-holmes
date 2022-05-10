@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.Community;
@@ -46,10 +48,11 @@ public class ReportController {
 		this.session = request.getSession();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "sendReport", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Report sendReport(@RequestBody Map<String, String> rep, Community com) {
 	
-	@RequestMapping("sendReport")
-	public String sendReport(@RequestBody Map<String, String> rep, Report report, Community com) {
-	
+	Report report = new Report();
 	int board_num = Integer.parseInt(rep.get("board_num"));
 	String memberNickname = (String) session.getAttribute("memberNickname");
 	
@@ -88,7 +91,7 @@ public class ReportController {
 			cbd.comBoardDelete(board_num); //삭제하기
 		} 
 		
-	return "single/num";
+	return report;
 		
 	}
 
