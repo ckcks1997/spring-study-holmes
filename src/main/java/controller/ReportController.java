@@ -85,7 +85,7 @@ public class ReportController {
 			String writer_nickname = com.getNickname();
 																	
 			String from = "관리자";
-			String info = "신고요청에 의한 게시물 삭제";
+			String info = "report: 신고요청에 의한 게시물 삭제";
 			//알림테이블에 등록하기
 			nd.noticeReportWrite(info, from, writer_nickname,board_num); 
 			cbd.comBoardDelete(board_num); //삭제하기

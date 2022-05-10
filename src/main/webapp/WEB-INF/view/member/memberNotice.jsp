@@ -62,12 +62,14 @@
 		                                     </div>
 	                                    </div>
 	                                    <div class="n_info">
-	                                    <c:if test="${i.info != null}">
+	                                  
+	                                    <c:if test="${fn:contains (i.info,':')}">
 	                                        내용: ${fn:substringAfter(i.info, ':')} 
 	                                    </c:if>
-	                                    <c:if test="${i.info == null}">
-	                                        내용: 스터디 초대요청 
+	                                    <c:if test="${not fn:contains (i.info,':')}">
+	                                        내용: ${i.info} 
 	                                    </c:if>
+	                                   
 	                                    </div>
                            			 </a>
                                     </div>

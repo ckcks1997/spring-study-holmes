@@ -44,12 +44,13 @@ public class NoticeDao {
 		return 0;
 	}
 
-	public int noticeWrite(int boardid, String from, String to) {
+	public int noticeWrite(int boardid, String from, String to, String info) {
 
 		map.clear();
 		map.put("boardid", boardid);
 		map.put("from", from);
 		map.put("to", to);
+		map.put("info", info);
 
 		return sqlSession.insert(NS + "noticeWrite", map);
 

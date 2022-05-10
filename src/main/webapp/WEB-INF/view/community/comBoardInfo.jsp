@@ -517,7 +517,7 @@ $("#sendReport").on("click",function(){
 				contentType: "application/json",
 				success : function(result) {
 					alert("신고되었습니다");
-						alert(report_reason); //option값 잘 들어오는지 확인
+						//alert(report_reason); //option값 잘 들어오는지 확인
 						let button = document.querySelector("#reportButton");
 						button.disabled = true;
 						
