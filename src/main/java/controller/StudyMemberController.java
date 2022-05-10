@@ -108,7 +108,7 @@ public class StudyMemberController {
       Notice n = nd.noticeGetByNoticeNum(noticeNum);
       if(n.getNickname_to().equals(id)) { //알림의 수신자와 현재 닉네임이 같으면
       
-    	  if(n.getInfo() == null) {//Info이 없으면 Info2 이용해서 title 채워보내기
+    	  if(n.getInfo().contains("study")) {//Info이 없으면 Info2 이용해서 title 채워보내기
     		   
     		  StudyMenu menu = mud.menuBoardOne(Integer.parseInt(n.getInfo2()));
     		  String title = menu.getTitle();  
