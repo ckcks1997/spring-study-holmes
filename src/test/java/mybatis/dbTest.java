@@ -2,6 +2,7 @@ package mybatis;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.sql.Connection;
 
@@ -33,8 +34,8 @@ public class dbTest {
 	StudyMemberDao smd;
 
 	@Test 
-	@Transactional 
-	public void testComBoardCount() throws Exception{
+	@Transactional //테스트 이후 데이터 rollabck
+	public void 회원데이터추가테스트() throws Exception{
 		StudyMember x = new StudyMember().builder()
 				.email("a111")
 				.password("111")
@@ -42,9 +43,10 @@ public class dbTest {
 				.name("test")
 				.tel("123")
 				.picture(" ").build();
-		log.info( x.getPassword()); 
+
 		int a = smd.insertStudyMember(x);
-		log.info(a); 
+		log.info("결과:"+a);
+		assertSame(1, a); 
 	}
 
 }

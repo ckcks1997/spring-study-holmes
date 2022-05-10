@@ -410,6 +410,8 @@ public class StudyMemberController {
     }
     
     md.changePic((String)session.getAttribute("memberNickname"), filename);
+    session.setAttribute("memberPicture", filename);
+    
     return "redirect:/studymember/mypage";
   }
   
