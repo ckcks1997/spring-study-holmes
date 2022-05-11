@@ -155,7 +155,7 @@ create table WEBCHAT2
     boardnum VARCHAR2(30),
     memberNickname  VARCHAR2(30),
     MESSAGE  VARCHAR2(3000),
-    file varchar2(1000)
+    file1 varchar2(1000)
 );
 
 --평가기록 테이블

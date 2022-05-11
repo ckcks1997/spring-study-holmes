@@ -45,6 +45,7 @@ public class dbTest {
 				.picture(" ").build();
 
 		int a = smd.insertStudyMember(x);
+		// a = smd.insertStudyMember(x);
 		log.info("결과:"+a);
 		assertSame(1, a); 
 	}

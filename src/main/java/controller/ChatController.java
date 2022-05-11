@@ -62,23 +62,28 @@ public class ChatController {
 
 	@ResponseBody
 	@RequestMapping("upload")
-	public String upload(@RequestParam("file") MultipartFile multipartFile) {
+	public String upload(@RequestParam("file1") MultipartFile multipartFile) {
 
 		String filename = "";
 		String path = request.getServletContext().getRealPath("/studyupload");
-
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdir();
+		}
 		if (!multipartFile.isEmpty()) {
-			File file = new File(path, multipartFile.getOriginalFilename());
+			file = new File(path, multipartFile.getOriginalFilename());
+			System.out.println(file+"-----");
 			try {
 				multipartFile.transferTo(file);
 				filename = multipartFile.getOriginalFilename();
+				System.out.println(filename);
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
+		System.out.println("==========");
 		return filename;
 	}
 }

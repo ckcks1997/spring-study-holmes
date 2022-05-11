@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
     <insert id="insertWebChat" parameterType="webchat" >
-        insert into webchat2 values(#{num},#{boardnum},#{memberNickname},#{message},#{file})
+        insert into webchat2 values(#{num},#{boardnum},#{memberNickname},#{message},#{file1})
     </insert>
     
     <select id="listWebChat"  parameterType="String" resultType="webchat">

@@ -151,27 +151,27 @@ max-width:100px;
 			<div id="messageWindow">
 				<c:forEach var="webchat" items="${li}">
 				    <c:if test="${webchat.memberNickname.equals(memberNickname) }">
-					    <c:if test='${webchat.file.equals("-") }'>
+					    <c:if test='${webchat.file1.equals("-") }'>
 						    <div class="right">
 						        <div id="me">나:${webchat.message}</div>
 						    </div>
 					    </c:if>
 					    <c:if test='${webchat.message.equals("-") }'>
                             <div class="right">
-                                <div id="me"><img src="<%=request.getContextPath()%>/upload/${webchat.file}" width='200px' > </div>
+                                <div id="me"><img src="<%=request.getContextPath()%>/studyupload/${webchat.file1}" width='200px' > </div>
                             </div>
                         </c:if>
 				    </c:if>
 				    
 				<c:if test="${!webchat.memberNickname.equals(memberNickname) }">
-                    <c:if test='${webchat.file.equals("-") }'>
+                    <c:if test='${webchat.file1.equals("-") }'>
                         <div class="left">
                             <div id="you">${webchat.memberNickname}:${webchat.message}</div>
                         </div>
                     </c:if>
                      <c:if test='${webchat.message.equals("-") }'>
                          <div class="left">
-                            <div id="you"><img src="<%=request.getContextPath()%>/upload/${webchat.file}" width='200px' > </div>
+                            <div id="you"><img src="<%=request.getContextPath()%>/upload/${webchat.file1}" width='200px' > </div>
                          </div>
                      </c:if>
                     
@@ -231,11 +231,11 @@ function onMessage(event) {
 	let json = JSON.parse(line)
 	
 	console.log("event.data: "+event.data)
-	console.log("vile: "+json.file)
-	if(json.file != "-"){
+	console.log("vile: "+json.file1)
+	if(json.file1 != "-"){
 		 
 		msgarea.innerHTML +="<div class='left'><div id='you'>" 
-			+"<img src='<%=request.getContextPath()%>/upload/"+ json.file +"'width='200px' />"
+			+"<img src='<%=request.getContextPath()%>/upload/"+ json.file1 +"'width='200px' />"
 				+" </div></div>"
 	}
 	else{  
@@ -285,7 +285,7 @@ function init(){
     	
     	let formData = new FormData(); //ajax는 같은주소로 두번 못보낸다. 랜덤함수가 필요..
     	
-    	formData.append("file", files[0]);
+    	formData.append("file1", files[0]);
     	formData.append("boardnum",' ${boardnum}');
     	formData.append("memberNickname", '${memberNickname}');
     	
