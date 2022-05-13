@@ -3,10 +3,8 @@ package controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.Community;
 import model.MainRecentStudy;
-import model.Notice;
-import model.StudyMenu;
 import service.CommunityBoardDao;
 import service.NoticeDao;
 import service.StudyMenuDao;
@@ -87,4 +83,3 @@ public class BoardController {
   }
   
 }
- 

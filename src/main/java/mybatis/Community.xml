@@ -135,8 +135,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 내가쓴 글 목록 -->
 	<select id = "comBoardmyList1" resultType = "community"  parameterType = "map">
-	select  * from (select rownum rnum, a.* from (
-	select * from community where nickname = #{nickname} order by board_num desc) a)
-	where rnum between #{start} and #{end}
+select  * from (select rownum rnum, a.* from (
+	select * from (select * from community where nickname= #{nickname} order by board_num desc) com
+  	left join (select nickname, picture from STUDY_MEMBER) study on com.nickname = study.nickname) a )
+  	where rnum between #{start} and #{end}
 </select> 
 </mapper>
