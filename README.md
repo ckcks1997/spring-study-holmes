@@ -4,7 +4,7 @@
  
 #### 프로젝트 이름(project name) : spring-study-holmes 
 
-#### 프로젝트 기간 : 2022.04.21 ~ 2022.05.04
+#### 프로젝트 기간 : 2022.04.21 ~ 2022.05.04 (버그 수정: 2022.05.05~)
 
 #### 프로젝트 인원 : 4명
 
@@ -31,12 +31,13 @@
 
 - 질문, 정보공유가 가능한 커뮤니티 게시판이 있습니다.
 
-* 더 자세한 기능 설명은 PPT를 참고해주세요.
+#### 더 자세한 기능 설명은 영상 혹은 PPT를 참고해주세요.
 
-  [PPT 링크](https://www.canva.com/design/DAE_Jgz1g40/Quzdh2Dn4AteLbHwDglliQ/view?utm_content=DAE_Jgz1g40&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+ - [프로젝트 설명 및 시연 영상 링크](https://youtu.be/C2RD07iu8tA)  <br/>
+ - [PPT 링크](https://www.canva.com/design/DAE_Jgz1g40/Quzdh2Dn4AteLbHwDglliQ/view?utm_content=DAE_Jgz1g40&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 
-Link
+기타 Link
 -------------
 
 [초기 프론트 모델링](https://www.figma.com/file/AJvPw9I1fnItPkgoqvgpc2/%EC%8A%A4%ED%84%B0%EB%94%94-%ED%99%88%EC%A6%88?node-id=0%3A1)
