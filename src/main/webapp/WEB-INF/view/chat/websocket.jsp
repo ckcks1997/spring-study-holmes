@@ -171,7 +171,7 @@ max-width:100px;
                     </c:if>
                      <c:if test='${webchat.message.equals("-") }'>
                          <div class="left">
-                            <div id="you"><img src="<%=request.getContextPath()%>/upload/${webchat.file1}" width='200px' > </div>
+                            <div id="you"><img src="<%=request.getContextPath()%>/studyupload/${webchat.file1}" width='200px' > </div>
                          </div>
                      </c:if>
                     
@@ -235,7 +235,7 @@ function onMessage(event) {
 	if(json.file1 != "-"){
 		 
 		msgarea.innerHTML +="<div class='left'><div id='you'>" 
-			+"<img src='<%=request.getContextPath()%>/upload/"+ json.file1 +"'width='200px' />"
+			+"<img src='<%=request.getContextPath()%>/studyupload/"+ json.file1 +"'width='200px' />"
 				+" </div></div>"
 	}
 	else{  
